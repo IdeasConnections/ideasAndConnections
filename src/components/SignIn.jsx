@@ -75,7 +75,7 @@ const SignIn = () => {
               color="black" /* Or any suitable dark color */
               style={{ backgroundColor: '#4cbb17' }}
               type="Submit">
-              Sign up
+              Sign in
           </Button>
           </div>
         </Form>

@@ -8,7 +8,7 @@ import { useUserAuth } from "../context/UserAuthContext";
 const menuItems = [
   {
     name: "Home",
-    href: "/",
+    href: "#",
   },
   {
     name: "My Network",
