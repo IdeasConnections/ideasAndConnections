@@ -8,11 +8,14 @@ import {
 } from "react-bootstrap";
 import { useUserAuth } from "../context/UserAuthContext.jsx";
 import logo from '../assets/logo.png'
+import {countries} from '../assets/countries.js'
+import { Container, Row, Col } from "react-bootstrap";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [countryCode, setCountryCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [country, setCountry] = useState("");
   const [error, setError] = useState("");
@@ -26,14 +29,12 @@ const SignUp = () => {
 
     try {
       await signUp(email, password);
-      // You can store additional user details in your application state or local storage here if needed
-      // (not directly linked to Firebase Authentication)
-      // e.g., localStorage.setItem("firstName", firstName)
       navigate("/");
     } catch (err) {
       setError(err.message);
     }
   };
+
 
   return (
     <>
@@ -47,11 +48,13 @@ const SignUp = () => {
             <Form.Label>Name</Form.Label>
             <div className="d-flex gap-2">
               <Form.Control
+                value={firstName}
                 type="text"
                 placeholder="First Name"
                 onChange={(e) => setFirstName(e.target.value)}
               />
               <Form.Control
+                value={lastName}
                 type="text"
                 placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
@@ -59,19 +62,47 @@ const SignUp = () => {
             </div>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Contact Information</Form.Label>
-            <div className="d-flex gap-2">
-              <Form.Control
-                type="tel"
-                placeholder="Phone number"
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
-              <Form.Control
-                type="text"
-                placeholder="Country"
-                onChange={(e) => setCountry(e.target.value)}
-              />
-            </div>
+      <Form.Label>Contact Information</Form.Label>
+      <div className="d-flex gap-2">
+        <Form.Select
+          value={country}
+          placeholder = "Country"
+          onChange={(e) => setCountry(e.target.value)}
+          style={{ flex: '1' }} // Country dropdown takes half of the space
+        >
+          <option value="" disabled hidden>Select country</option>
+          {countries.map((country) => (
+            <option key={country.id} value={country.name}>
+              {country.name}
+            </option>
+          ))}
+        </Form.Select>
+        <Row className="align-items-center">
+          <Col xs={3} > {/* Code dropdown takes little space */}
+          <Form.Select
+              value={countryCode} // Set the value to countryCode
+              onChange={(e) => setCountryCode(e.target.value)}
+              style={{ width: '100px' }}
+            >
+              {countries.map((country) => (
+                <option key={country.id} value={country.code}>
+                  {country.code}
+                </option>
+              
+              ))}
+              
+            </Form.Select>
+          </Col>
+          <Col> {/* Phone number input takes remaining space */}
+            <Form.Control
+              type="tel"
+              placeholder="Phone number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Col>
+        </Row>
+      </div>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Login Credentials</Form.Label>
