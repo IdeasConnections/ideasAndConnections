@@ -8,8 +8,10 @@ import {
 } from "react-bootstrap";
 import { useUserAuth } from "../context/UserAuthContext.jsx";
 import logo from '../assets/logo.png'
+import peopleImg from '../assets/people.png'
 import {countries} from '../assets/countries.js'
 import { Container, Row, Col } from "react-bootstrap";
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +22,7 @@ const SignUp = () => {
   const [country, setCountry] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
+  const [verificationMessage, setVerificationMessage] = useState("");
   const { signUp } = useUserAuth();
   let navigate = useNavigate();
 
@@ -28,8 +31,10 @@ const SignUp = () => {
     setError("");
 
     try {
-      await signUp(email, password);
-      navigate("/");
+      const fullPhoneNumber = `+${countryCode} ${phoneNumber}`;
+      await signUp(email, password, firstName, lastName, fullPhoneNumber, country);
+      setVerificationMessage("Please check your email for verification.");
+    
     } catch (err) {
       setError(err.message);
     }
@@ -38,11 +43,26 @@ const SignUp = () => {
 
   return (
     <>
+     <Container fluid className="p-0">
+        <Row className="m-0 align-items-center">
+          <Col xs={12} md={6} className="p-0">
+            <div className="img-people" style={{ height: "100vh", overflow: "hidden" }}>
+              <img src={peopleImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+          </Col>
+        <Col xs={12} md={5} className="offset-md-1" > 
+        <div className="mb-5 flex justify-center">
+            <span style={{ fontWeight: 'bold', fontSize: '24px' }}>
+              Grab your gig <span style={{ color: 'green' }}> regardless of your experience</span>
+            </span>
+        </div>
+
       <div className="p-4 box">
         <div className="mb-2 flex justify-center">
           <img width="80" src={logo} />
         </div>
         {error && <Alert variant="danger">{error}</Alert>}
+        {verificationMessage && <Alert variant="info">{verificationMessage}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
@@ -134,6 +154,10 @@ const SignUp = () => {
       <div className="p-4 box mt-3 text-center">
         Already have an account? <Link to="/">Log In</Link>
       </div>
+        </Col>
+      </Row>
+    </Container>
+
     </>
   );
 };

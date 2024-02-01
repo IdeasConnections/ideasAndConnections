@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { NavBar } from "./NavBar";
-import { FirstSideBar } from "./firstSideBar";
-import { ThirdSideBar } from "./ThirdSideBar";
-import UserProfile from "./UserProfile";
+import { NavBar } from "../NavBar";
+import { FirstSideBar } from "../firstSideBar";
+import { ThirdSideBar } from "../ThirdSideBar";
+import UserProfile from "../UserProfile";
 
 export default function HomePage() {
   const isprofileComplete = localStorage.getItem("profileComplete");

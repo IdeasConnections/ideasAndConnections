@@ -7,21 +7,56 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   FacebookAuthProvider,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  sendEmailVerification
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import {collection, doc, setDoc} from 'firebase/firestore'
+
 
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
+  const userRef = collection(db, "users");
   const [user, setUser] = useState({});
 
-  function logIn(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+  async function logIn(email, password) {
+    return signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        if (userCredential.user.emailVerified) {
+          return userCredential;
+        } else {
+          throw new Error("Email not verified");
+        }
+      });
   }
-  function signUp(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  
+  
+  async function signUp(email, password, firstName, lastName, fullPhoneNumber, country) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      // Send verification email and wait for confirmation
+      await sendEmailVerification(auth.currentUser);
+      if (user.emailVerified) {
+        // User is verified, now add details to Firestore
+        await setDoc(doc(userRef, user.uid), {
+          email,
+          firstName,
+          lastName,
+          phoneNumber: fullPhoneNumber,
+          country
+        });
+      } 
+  
+      return userCredential;
+    } catch (error) {
+      throw error;
+    }
   }
+  
+
   function logOut() {
     return signOut(auth);
   }
@@ -42,6 +77,10 @@ export function UserAuthContextProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       console.log("Auth", currentuser);
       setUser(currentuser);
+      if (currentuser && currentuser.emailVerified) {
+        // Redirect user to login page
+        navigate("/login");
+      }
     });
 
     return () => {
