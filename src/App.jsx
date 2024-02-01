@@ -11,10 +11,7 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 
 function App() {
   return (
-    <>
-      <Container>
-        <Row>
-          <Col>
+    <>   
           <UserAuthContextProvider>
               <Routes>
               <Route
@@ -31,10 +28,7 @@ function App() {
               <Route path="/editProfile"  element={<UserProfile />} />
             </Routes> 
             </UserAuthContextProvider>
-          </Col>
-        </Row>
-      </Container>
-
+   
     </>
   );
 }
