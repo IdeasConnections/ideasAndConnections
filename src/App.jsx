@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./components/SignUp";
-import HomePage from "./components/HomePage";
+import HomePage from "./components/home/HomePage";
 import ForgotPassword from "./components/ForgotPass";
 import UserProfile from "./components/UserProfile";
 import { Container, Row, Col } from "react-bootstrap";

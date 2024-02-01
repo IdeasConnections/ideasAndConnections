@@ -20,6 +20,7 @@ const SignUp = () => {
   const [country, setCountry] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
+  const [verificationMessage, setVerificationMessage] = useState("");
   const { signUp } = useUserAuth();
   let navigate = useNavigate();
 
@@ -28,8 +29,10 @@ const SignUp = () => {
     setError("");
 
     try {
-      await signUp(email, password);
-      navigate("/");
+      const fullPhoneNumber = `+${countryCode} ${phoneNumber}`;
+      await signUp(email, password, firstName, lastName, fullPhoneNumber, country);
+      setVerificationMessage("Please check your email for verification.");
+    
     } catch (err) {
       setError(err.message);
     }
@@ -43,6 +46,7 @@ const SignUp = () => {
           <img width="80" src={logo} />
         </div>
         {error && <Alert variant="danger">{error}</Alert>}
+        {verificationMessage && <Alert variant="info">{verificationMessage}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
