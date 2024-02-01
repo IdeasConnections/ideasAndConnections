@@ -3,27 +3,12 @@
 import React from "react";
 import logo from '../assets/logo.PNG'
 import { Menu, X } from "lucide-react";
-import { initializeApp } from "firebase/app";
-import { getAuth, signOut } from "firebase/auth";
-import { useHistory } from "react-router-dom";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCgodMJZ53j9eVSG40xvAU0MUOF9_1n48g",
-  authDomain: "ideasandconnection-fb0ec.firebaseapp.com",
-  projectId: "ideasandconnection-fb0ec",
-  storageBucket: "ideasandconnection-fb0ec.appspot.com",
-  messagingSenderId: "460079387463",
-  appId: "1:460079387463:web:08d6065a43b5121c6d7262",
-  measurementId: "G-XBSZRZ2441"
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
+import { useUserAuth } from "../context/UserAuthContext";
 
 const menuItems = [
   {
     name: "Home",
-    href: "/",
+    href: "#",
   },
   {
     name: "My Network",
@@ -53,21 +38,17 @@ export function NavBar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        console.log("User signed out successfully.");
-        history.push("/signin"); // Redirect to the sign-in page
-      })
-      .catch((error) => {
-        // An error happened.
-        console.error("Error signing out:", error);
-      });
+  const { logOut } = useUserAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
-  
-  // Inside your component
-  const history = useHistory();
+
   return (
     <div className="relative w-full bg-lime-300">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
@@ -105,9 +86,10 @@ export function NavBar() {
               </li>
               
             ))}
-             <button onClick={handleLogout}>Sign Out</button>
-          </ul>
+          
+          </ul>     
         </div>
+        <button style={{marginLeft: '1rem'}} onClick={handleLogout}>Sign Out</button>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
