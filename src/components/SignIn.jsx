@@ -68,7 +68,12 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
+              <div className="text-sm font-semibold text-300 hover:underline">
+                  <Link to="/forgotPass">Forgot Password?</Link>
+              </div>
+          </div>
+        
           <div className="d-grid gap-2  mt-3">
           <Button
               variant="primary"
