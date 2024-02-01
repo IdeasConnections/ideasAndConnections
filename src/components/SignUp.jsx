@@ -45,12 +45,12 @@ const SignUp = () => {
     <>
      <Container fluid className="p-0">
         <Row className="m-0 align-items-center">
-          <Col md={6} className="p-0">
+          <Col xs={12} md={6} className="p-0">
             <div className="img-people" style={{ height: "100vh", overflow: "hidden" }}>
               <img src={peopleImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
           </Col>
-        <Col md={5} className="offset-md-1" > 
+        <Col xs={12} md={5} className="offset-md-1" > 
         <div className="mb-5 flex justify-center">
             <span style={{ fontWeight: 'bold', fontSize: '24px' }}>
               Grab your gig <span style={{ color: 'green' }}> regardless of your experience</span>
