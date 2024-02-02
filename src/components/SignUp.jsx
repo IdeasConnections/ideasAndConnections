@@ -42,18 +42,8 @@ const SignUp = () => {
 
 
   return (
-    <>
-     <Container fluid className="p-0">
-        <Row className="m-0 align-items-center">
-        <Col xs={12} md={6} className="p-0 position-relative">
-              <div className="img-people" style={{ height: "100vh", overflow: "hidden" }}>
-                  <img src={peopleImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              </div>
-              <div className="logo-container position-absolute top-50 end-0" style={{ marginRight: "20px" }}>
-                  <img src={logo} alt="Logo" className="logo" />
-              </div>
-          </Col>
-        <Col xs={12} md={5}   > 
+      <div  className="signup-background">
+        <div className="p-4 box signup-container" >
         <div className="mb-1 flex justify-center">
             <span style={{ fontWeight: 'bold', fontSize: '40px' }}>
               Grab your gig <span style={{ color: 'green' }}> regardless of your experience</span>
@@ -165,11 +155,8 @@ const SignUp = () => {
       <div className="p-4 box mt-3 text-center">
         Already have an account? <Link to="/">Log In</Link>
       </div>
-        </Col>
-      </Row>
-    </Container>
-
-    </>
+   </div>
+   </div>
   );
 };
 

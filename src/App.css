@@ -31,16 +31,22 @@ body {
     width: 400px;
     height: auto;
   }
-
-  .logo-container {
-    z-index: 1; /* Ensure the logo appears above the image */
-    pointer-events: none; 
-   
+  .signup-container {
+    width: 600px;
+    height: auto;
   }
-  
-  .logo {
-    width: 200px; /* Adjust as needed */
-    height: auto; /* Maintain aspect ratio */
+
+  .signup-background {
+    background-image: url('./assets/people.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Vertically center content if needed */
+    min-height: 100vh; /* Ensure full-screen height on most browsers */
+  min-width: 100vw;
+   
   }
   
   
