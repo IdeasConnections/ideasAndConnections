@@ -53,7 +53,7 @@ const SignUp = () => {
                   <img src={logo} alt="Logo" className="logo" />
               </div>
           </Col>
-        <Col xs={12} md={5}  > 
+        <Col xs={12} md={5}   > 
         <div className="mb-1 flex justify-center">
             <span style={{ fontWeight: 'bold', fontSize: '40px' }}>
               Grab your gig <span style={{ color: 'green' }}> regardless of your experience</span>
