@@ -32,3 +32,15 @@ body {
     height: auto;
   }
 
+  .logo-container {
+    z-index: 1; /* Ensure the logo appears above the image */
+    pointer-events: none; 
+   
+  }
+  
+  .logo {
+    width: 200px; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  
