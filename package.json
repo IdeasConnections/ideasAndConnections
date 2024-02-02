@@ -19,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-google-button": "^0.7.2",
     "react-phone-number-input": "^3.3.9",
-    "react-router-dom": "^6.21.3"
+    "react-router-dom": "^6.21.3",
+    "react-social-icons": "^6.10.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

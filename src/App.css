@@ -30,12 +30,18 @@ body {
   .signin-container {
     width: 400px;
     height: auto;
+    
   }
   .signup-container {
     width: 600px;
     height: auto;
+    /* background-color: beige; */
   }
-
+  .rounded-control {
+    height: 60px;
+    border-radius: 20px; /* Adjust the value to change the roundness */
+  }
+  
   .background {
     background-image: url('./assets/people.png');
     background-size: cover;

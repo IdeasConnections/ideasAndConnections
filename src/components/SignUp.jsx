@@ -43,53 +43,55 @@ const SignUp = () => {
 
   return (
       <div  className="background">
-        <div className="p-4 box signup-container" >
-        <div className="mb-1 flex justify-center">
-            <span style={{ fontWeight: 'bold', fontSize: '40px' }}>
-              Grab your gig <span style={{ color: 'green' }}> regardless of your experience</span>
-            </span>
-        </div>
-        <div className="mb-5 flex justify-center" >
-           <span  style={{  fontSize: '20px' }}>
+        <div className="p-4 signup-container " >
+        <div className="mb-2 flex justify-center">
+                <img width="200" src={logo} />
+          </div>
+          <div className="mb-4 flex justify-center" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '40px', color: 'white' }}>
+                  Grab your gig <span style={{ color: '#2cf851' }}>regardless of your experience</span>
+              </span>
+          </div>
+          <div  className="mb-4 flex justify-center" style={{ display: 'flex', whiteSpace: 'nowrap' }} >
+           <span style={{color:'white', display:'block', textAlign:'center'}} >
               Hop onto ideas, A place the welcomes people with almost zero experiences to find their first job. 
-             <span>
-               It also helps people with similar experience to do wonderful tasks.
-             </span>
+              <br/>
+              It also helps people with similar experience to do wonderful tasks.
             </span>
         </div>
 
-      <div className="p-4 box">
-        <div className="mb-2 flex justify-center">
-          <img width="80" src={logo} />
-        </div>
+      <div className="p-4 ">
         {error && <Alert variant="danger">{error}</Alert>}
         {verificationMessage && <Alert variant="info">{verificationMessage}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>Name</Form.Label>
+            {/* <Form.Label>Name</Form.Label> */}
             <div className="d-flex gap-2">
               <Form.Control
                 value={firstName}
                 type="text"
                 placeholder="First Name"
                 onChange={(e) => setFirstName(e.target.value)}
+                className="rounded-control"
               />
               <Form.Control
                 value={lastName}
                 type="text"
                 placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
+                className="rounded-control"
               />
             </div>
           </Form.Group>
           <Form.Group className="mb-3">
-      <Form.Label>Contact Information</Form.Label>
+      {/* <Form.Label>Contact Information</Form.Label> */}
       <div className="d-flex gap-2">
         <Form.Select
           value={country}
           placeholder = "Country"
           onChange={(e) => setCountry(e.target.value)}
           style={{ flex: '1' }} // Country dropdown takes half of the space
+          className="rounded-control"
         >
           <option value="" disabled hidden>Select country</option>
           {countries.map((country) => (
@@ -103,7 +105,8 @@ const SignUp = () => {
           <Form.Select
               value={countryCode} // Set the value to countryCode
               onChange={(e) => setCountryCode(e.target.value)}
-              style={{ width: '100px' }}
+              style={{ width: '80px' }}
+              className="rounded-control"
             >
               {countries.map((country) => (
                 <option key={country.id} value={country.code}>
@@ -120,23 +123,26 @@ const SignUp = () => {
               placeholder="Phone number"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              className="rounded-control"
             />
           </Col>
         </Row>
       </div>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Login Credentials</Form.Label>
+            {/* <Form.Label>Login Credentials</Form.Label> */}
             <div className="d-flex gap-2">
               <Form.Control
                 type="email"
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
+                className="rounded-control"
               />
               <Form.Control
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                className="rounded-control"
               />
             </div>
           </Form.Group>
@@ -145,15 +151,17 @@ const SignUp = () => {
               variant="primary"
               color="black" /* Or any suitable dark color */
               style={{ backgroundColor: '#4cbb17' }}
+              className="rounded-control"
               type="Submit">
+                
               Sign up
           </Button>
 
           </div>
         </Form>
       </div>
-      <div className="p-4 box mt-3 text-center">
-        Already have an account? <Link to="/">Log In</Link>
+      <div className="p-4  mt-3 text-center rounded-control" style={{color:'white', fontWeight: 'bold'}}>
+        Already have an account? <Link to="/" style={{fontSize:'20px'}}>Log In</Link>
       </div>
    </div>
    </div>
