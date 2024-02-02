@@ -46,7 +46,7 @@ const SignIn = () => {
 
 
   return (
-    <>
+   <div className="background">
       <div className="p-4 box signin-container">
           <div className="mb-2 flex justify-center">
                 <img width="80" src={logo} />
@@ -115,7 +115,7 @@ const SignIn = () => {
       <div className="p-4 box mt-3 text-center">
         Don't have an account? <Link to="/signup">Sign up</Link>
       </div>
-    </>
+      </div>
   );
 };
 

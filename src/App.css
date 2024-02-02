@@ -36,7 +36,7 @@ body {
     height: auto;
   }
 
-  .signup-background {
+  .background {
     background-image: url('./assets/people.png');
     background-size: cover;
     background-position: center;
@@ -45,8 +45,8 @@ body {
     align-items: center;
     justify-content: center; /* Vertically center content if needed */
     min-height: 100vh; /* Ensure full-screen height on most browsers */
-  min-width: 100vw;
-   
+    min-width: 100vw;
+  
   }
   
   

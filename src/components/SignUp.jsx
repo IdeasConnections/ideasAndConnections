@@ -42,7 +42,7 @@ const SignUp = () => {
 
 
   return (
-      <div  className="signup-background">
+      <div  className="background">
         <div className="p-4 box signup-container" >
         <div className="mb-1 flex justify-center">
             <span style={{ fontWeight: 'bold', fontSize: '40px' }}>

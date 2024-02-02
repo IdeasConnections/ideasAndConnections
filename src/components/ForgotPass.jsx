@@ -29,7 +29,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <>
+    <div className="background">
       <div className="p-4 box signin-container">
         <div className="mb-2 flex justify-center">
           <img width="80" src={logo} alt="Logo" />
@@ -69,7 +69,7 @@ const ForgotPassword = () => {
           </div>
         </Form>
       </div>
-    </>
+      </div>
   );
 };
 
