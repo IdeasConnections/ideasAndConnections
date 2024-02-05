@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Alert } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import GoogleButton from "react-google-button";
-import { useUserAuth } from "../context/UserAuthContext";
-import logo from '../assets/logo.png'
+import { useUserAuth } from "../../context/UserAuthContext";
+import logo from '../../assets/logo.png';
+
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -58,7 +58,7 @@ const SignIn = () => {
           </div>
           <div  className="mb-4 flex justify-center" style={{ display: 'flex', whiteSpace: 'nowrap' }} >
            <span style={{color:'white', display:'block', textAlign:'center'}} >
-              Hop onto ideas, A place the welcomes people with almost zero experiences to find their first job. 
+              Hop onto ideas, A place that welcomes people with almost zero experiences to find their first job. 
               <br/>
               It also helps people with similar experience to do wonderful tasks.
             </span>

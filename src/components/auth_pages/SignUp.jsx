@@ -6,10 +6,9 @@ import {
   Button,
   FormControl,
 } from "react-bootstrap";
-import { useUserAuth } from "../context/UserAuthContext.jsx";
-import logo from '../assets/logo.png'
-import peopleImg from '../assets/people.png'
-import {countries} from '../assets/countries.js'
+import { useUserAuth } from "../../context/UserAuthContext.jsx";
+import logo from '../../assets/logo.png';
+import {countries} from '../../assets/countries.js'
 import { Container, Row, Col } from "react-bootstrap";
 
 
@@ -36,7 +35,11 @@ const SignUp = () => {
       setVerificationMessage("Please check your email for verification.");
     
     } catch (err) {
-      setError(err.message);
+      if (err.code === 'auth/email-already-in-use') {
+        setError('Email already in use');
+      } else {
+        setError(err.message); // Display other error messages
+      }
     }
   };
 
@@ -54,7 +57,7 @@ const SignUp = () => {
           </div>
           <div  className="mb-4 flex justify-center" style={{ display: 'flex', whiteSpace: 'nowrap' }} >
            <span style={{color:'white', display:'block', textAlign:'center'}} >
-              Hop onto ideas, A place the welcomes people with almost zero experiences to find their first job. 
+              Hop onto ideas, A place that welcomes people with almost zero experiences to find their first job. 
               <br/>
               It also helps people with similar experience to do wonderful tasks.
             </span>
@@ -104,10 +107,14 @@ const SignUp = () => {
           <Col xs={3} > {/* Code dropdown takes little space */}
           <Form.Select
               value={countryCode} // Set the value to countryCode
+              placeholder = "+91"
               onChange={(e) => setCountryCode(e.target.value)}
               style={{ width: '80px' }}
               className="rounded-control"
             >
+               <option value="" disabled hidden>
+                  +91
+                </option>
               {countries.map((country) => (
                 <option key={country.id} value={country.code}>
                   {country.code}

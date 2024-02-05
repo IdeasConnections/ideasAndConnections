@@ -1,10 +1,10 @@
-import SignIn from "./components/SignIn";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import ProtectedRoute from "./components/ProtectedRoute";
-import SignUp from "./components/SignUp";
+import ProtectedRoute from "./components/auth_pages/ProtectedRoute";
+import SignUp from "./components/auth_pages/SignUp";
+import SignIn from "./components/auth_pages/SignIn";
 import HomePage from "./components/home/HomePage";
-import ForgotPassword from "./components/ForgotPass";
+import ForgotPassword from "./components/auth_pages/ForgotPass";
 import UserProfile from "./components/UserProfile";
 import { Container, Row, Col } from "react-bootstrap";
 import { UserAuthContextProvider } from "./context/UserAuthContext";

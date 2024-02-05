@@ -28,7 +28,7 @@ const menuItems = [
   },
   {
     name: "My Profile",
-    href: "/editProfile",
+    href: "#",
   },
 ];
 
