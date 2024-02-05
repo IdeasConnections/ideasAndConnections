@@ -5,7 +5,7 @@ import {getFirestore} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCgodMJZ53j9eVSG40xvAU0MUOF9_1n48g",
-  authDomain: "ideasandconnection-fb0ec.firebaseapp.com",
+  authDomain: "ideasandconnection.com",
   projectId: "ideasandconnection-fb0ec",
   storageBucket: "ideasandconnection-fb0ec.appspot.com",
   messagingSenderId: "460079387463",

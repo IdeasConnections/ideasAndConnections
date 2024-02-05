@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form, Alert, Button, FormControl } from "react-bootstrap";
-import { useUserAuth } from "../context/UserAuthContext.jsx";
+import { useUserAuth } from "../../context/UserAuthContext.jsx";
 import { Link} from "react-router-dom";
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -30,6 +30,18 @@ const ForgotPassword = () => {
       <div className="p-4 signin-container">
         <div className="mb-5 flex justify-center">
           <img width="200" src={logo} alt="Logo" />
+        </div>
+        <div className="mb-4 flex justify-center" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '40px', color: 'white' }}>
+                  Grab your gig <span style={{ color: '#2cf851' }}>regardless of your experience</span>
+              </span>
+          </div>
+          <div  className="mb-4 flex justify-center" style={{ display: 'flex', whiteSpace: 'nowrap' }} >
+           <span style={{color:'white', display:'block', textAlign:'center'}} >
+              Hop onto ideas, A place that welcomes people with almost zero experiences to find their first job. 
+              <br/>
+              It also helps people with similar experience to do wonderful tasks.
+            </span>
         </div>
         {error && <Alert variant="danger">{error}</Alert>}
         {success && <Alert variant="success">{success}</Alert>}
