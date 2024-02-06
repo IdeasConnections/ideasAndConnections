@@ -12,6 +12,7 @@ nav{
     top: 0;
     backdrop-filter: blur(10px); /* Apply blur effect */
     z-index: 1000; /* Ensure navbar is on top */
+  
 }
 .nav.dark-mode nav  {
     color: #ffffff; /* Dark mode text color for the title */

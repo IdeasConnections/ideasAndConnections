@@ -11,10 +11,6 @@ body {
     color: #0000;
   }
 
-  body.dark-mode{
-    background-color: #0000;
-  }
-
   .box {
     padding: 50px;
     border: 1px solid #dfdfdf;
