@@ -43,8 +43,7 @@ const Navbar = () => {
     }
 
     return (
-        <div  className={`nav ${darkMode ? 'dark-mode' : ''}`}>
-        <nav>   
+        <nav  className={`nav ${darkMode ? 'dark-mode' : ''}`} >   
             <div style={{display:'flex'}}>
             <img width={80} src={logo} />
             {showSearch && (
@@ -127,7 +126,6 @@ const Navbar = () => {
                
             </ul>
         </nav>
-        </div>
     );
 }
 
