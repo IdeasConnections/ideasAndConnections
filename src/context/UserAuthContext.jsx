@@ -19,6 +19,7 @@ const userAuthContext = createContext();
 export function UserAuthContextProvider({ children }) {
   const userRef = collection(db, "users");
   const [user, setUser] = useState({});
+  const [darkMode, setDarkMode] = useState(false);
 
   async function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
@@ -71,6 +72,9 @@ export function UserAuthContextProvider({ children }) {
   function forgotPassword(email) {
     return sendPasswordResetEmail(auth, email);
   }
+  function toggleDarkMode() { // Function to toggle dark mode
+    setDarkMode(prevMode => !prevMode);
+  }
 
 
   useEffect(() => {
@@ -90,7 +94,7 @@ export function UserAuthContextProvider({ children }) {
 
   return (
     <userAuthContext.Provider
-      value={{ user, logIn, signUp, logOut, googleSignIn, facebookSignIn, forgotPassword }}
+      value={{ user, logIn, signUp, logOut, googleSignIn, facebookSignIn, forgotPassword , darkMode, toggleDarkMode}}
     >
       {children}
     </userAuthContext.Provider>

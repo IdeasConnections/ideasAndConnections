@@ -10,14 +10,15 @@ import { FiUsers } from "react-icons/fi";
 import { MdOutlineNotifications } from "react-icons/md";
 import { PiSuitcaseSimpleLight } from "react-icons/pi";
 import { MdOutlineMessage } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
+import { FaRegUser, FaMoon, FaSun } from "react-icons/fa";
+
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [showSearch, setShowSearch] = useState(true);
     const navigate = useNavigate()
-    const { logOut } = useUserAuth();
+    const { logOut, darkMode, toggleDarkMode } = useUserAuth();
 
     const handleLogout = async () => {
         try {
@@ -42,7 +43,7 @@ const Navbar = () => {
     }
 
     return (
-        <div className="nav">
+        <div  className={`nav ${darkMode ? 'dark-mode' : ''}`}>
         <nav>   
             <div style={{display:'flex'}}>
             <img width={80} src={logo} />
@@ -117,6 +118,11 @@ const Navbar = () => {
             
                 <li className="icon-with-text">
                     <AiOutlinePoweroff size={30} onClick={handleLogout}/>
+                </li>
+                <li>
+                <button className="dark-mode-toggle" onClick={toggleDarkMode}>
+                    {darkMode ? <FaSun size={30} color="#ffffff"/> : <FaMoon size={30}/>}
+                </button>
                 </li>
                
             </ul>

@@ -6,19 +6,25 @@ nav{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #0f172a;
+    background-color: #ffffff; /* Light mode background color */
+    color: #000000; /* Light mode text color */
     position: sticky;
     top: 0;
     backdrop-filter: blur(10px); /* Apply blur effect */
     z-index: 1000; /* Ensure navbar is on top */
 }
+.nav.dark-mode nav  {
+    color: #ffffff; /* Dark mode text color for the title */
+    background-color: #2e414e;
+}
 
- 
+
   .nav {
     width: 100%;
     height: 100vh; /* 100% of the viewport height */
     display: flex; /* Use flexbox for layout */
     flex-direction: column; /* Arrange children vertically */
+    
   }
 
 nav .title{
@@ -26,7 +32,7 @@ nav .title{
     margin: 1rem;
     font-weight: bold;
     text-decoration: none;
-    color: #fff;
+    color: #000000;
     
 }
 
@@ -41,7 +47,7 @@ nav ul li {
 nav ul li a {
     display: block;
     text-decoration: none;
-    color: white;
+    color: #000000;
     padding: 0.5rem;
     margin: 0.5rem;
     border-radius: 0.5rem;
@@ -49,19 +55,52 @@ nav ul li a {
 nav ul li {
     display: block;
     text-decoration: none;
-    color: white;
+    color: #000000;
     padding: 0.5rem;
     margin: 0.5rem;
     border-radius: 0.5rem;
 }
 
+.nav.dark-mode {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.nav.dark-mode ul li a,
+.nav.dark-mode ul li {
+    color: #ffffff; 
+}
+
+
+.dark-mode-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #100e0e; /* Light mode text color */
+}
+
+.dark-mode-toggle:hover {
+    color: #1d1a1a; /* Light mode text color on hover */
+}
+
+.dark-mode-toggle.dark-mode {
+    color: #ffffff; /* Dark mode text color */
+}
+
+.dark-mode-toggle.dark-mode:hover {
+    color: #cccccc; /* Dark mode text color on hover */
+}
 
 nav ul li a:not(.active):hover{
-    background-color: #8de79e ;
+    background-color: #59625a ;
 }
 
 nav ul li:not(.active):hover{
-    background-color: #8de79e ;
+    background-color: #59625a ;
 }
 
 
