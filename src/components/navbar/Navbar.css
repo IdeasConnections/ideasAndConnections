@@ -143,13 +143,15 @@ nav .menu span{
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.icon-with-text p {
-    margin-top: 1px; /* Adjust margin as needed */
-    font-size: 14px; /* Adjust font size as needed */
+    justify-content: center; /* Add this */
+  }
+  
+  .icon-with-text p {
+    margin-top: 5px; /* Adjust as needed */
+    font-size: 14px;
     text-align: center;
-}
+  }
+  
 
 
 @media (max-width: 480px){

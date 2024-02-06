@@ -74,49 +74,37 @@ const Navbar = () => {
             </div>
             <ul className={menuOpen ? 'open' : ''}>
             <li className="icon-with-text" onClick={()=> goToRouter('/home')}>
-                <div>
                     <AiOutlineHome size={30} />
-                    <p>Home</p>
-                </div>
+                    <p>Home</p>     
             </li>
             <li className="icon-with-text">
-                    <div>
                        <FiUsers size={30}/>  
                        <p>Connections</p>
-                    </div>
                    
                 </li>
                 <li className="icon-with-text">
-                    <div>
                        <PiSuitcaseSimpleLight size={30}/>  
-                       <p>Jobs</p>
-                    </div>
+                       <p>Jobs</p> 
                    
                 </li>
-                <li className="icon-with-text">
-                    <div>
+                <li className="icon-with-text">   
                        <MdOutlineMessage size={30}/>  
                        <p>Messages</p>
-                    </div>
-                   
                 </li>
                 <li className="icon-with-text">
-                    <div>
                        <MdOutlineNotifications size={30}/>  
                        <p>Notifications</p>
-                    </div>
                    
                 </li>
                 <li className="icon-with-text">
-                    <div>
                        <FaRegUser size={30} onClick={()=> goToRouter('/profile')}/>  
                        <p>My Profile</p>
-                    </div>
                    
                 </li>
             
                 <li className="icon-with-text">
                     <AiOutlinePoweroff size={30} onClick={handleLogout}/>
+                    <p>Log out</p>
                 </li>
                 <li>
                 <button className="dark-mode-toggle" onClick={toggleDarkMode}>
