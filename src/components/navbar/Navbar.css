@@ -3,7 +3,6 @@
 }
 
 nav{
-    
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -14,7 +13,13 @@ nav{
     z-index: 1000; /* Ensure navbar is on top */
 }
 
-
+ 
+  .nav {
+    width: 100%;
+    height: 100vh; /* 100% of the viewport height */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Arrange children vertically */
+  }
 
 nav .title{
     font-size: 1.5rem;
@@ -27,7 +32,6 @@ nav .title{
 
 nav ul {
     display: flex;
-    margin-top: 0.5rem;
 }
 
 nav ul li {
@@ -78,6 +82,33 @@ nav .menu span{
     background-color: #fff;
     border-radius: 0.2rem;
 }
+.search-box input {
+    padding: 20px;
+    margin: 2px;
+    height: 40px; /* Adjust the height as needed */
+    width: 300px; /* Adjust the width as needed */
+    font-size: 1em; /* Adjust the font size as needed */
+    border: 1px solid #ccc; /* Add border for better visibility */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    outline: none; /* Remove default outline */
+}
+
+.search-box input:focus {
+    border-color: #007bff; /* Change border color when input is focused */
+}
+
+.icon-with-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-with-text p {
+    margin-top: 1px; /* Adjust margin as needed */
+    font-size: 14px; /* Adjust font size as needed */
+    text-align: center;
+}
+
 
 @media (max-width: 480px){
     nav .menu{

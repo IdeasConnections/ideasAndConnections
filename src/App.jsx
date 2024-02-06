@@ -13,23 +13,29 @@ function App() {
   return (
     <>   
           <UserAuthContextProvider>
-            <div className="nav">
-            <NavBar />
-            </div>
            
               <Routes>
               <Route
                 path="/home"
                 element={
                   <ProtectedRoute>
+                      <NavBar />     
                     <HomePage />
+                  </ProtectedRoute>
+                }
+              />
+               <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                      <NavBar />     
+                    <Profile />
                   </ProtectedRoute>
                 }
               />
               <Route path="/" element={<SignIn />} />
               <Route path="/signUp" element={<SignUp />} />
               <Route path="/forgotPass" element={<ForgotPassword />} />
-              <Route path="/profile" element={<Profile />} />
             </Routes> 
             </UserAuthContextProvider>
    
