@@ -1,0 +1,6 @@
+.home{
+    color: rgb(198, 11, 11);
+}
+.home.dark-mode{
+    color: black;
+}

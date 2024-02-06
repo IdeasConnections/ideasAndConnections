@@ -6,8 +6,8 @@ nav{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #ffffff; /* Light mode background color */
-    color: #000000; /* Light mode text color */
+    background-color: #2e414e; /* Light mode background color */
+    color: #ffff; /* Light mode text color */
     position: sticky;
     top: 0;
     backdrop-filter: blur(10px); /* Apply blur effect */
@@ -15,7 +15,7 @@ nav{
 }
 .nav.dark-mode nav  {
     color: #ffffff; /* Dark mode text color for the title */
-    background-color: #2e414e;
+    background-color: #1d272e;
 }
 
 
@@ -34,7 +34,7 @@ nav .title{
     margin: 1rem;
     font-weight: bold;
     text-decoration: none;
-    color: #000000;
+    color: #fdfdfd;
     
 }
 
@@ -50,7 +50,7 @@ nav ul li {
 nav ul li a {
     display: block;
     text-decoration: none;
-    color: #000000;
+    color: #ffff;
     padding: 0.5rem;
     margin: 0.5rem;
     border-radius: 0.5rem;
@@ -58,14 +58,14 @@ nav ul li a {
 nav ul li {
     display: block;
     text-decoration: none;
-    color: #000000;
+    color: #ffff;
     padding: 0.5rem;
     margin: 0.5rem;
     border-radius: 0.5rem;
 }
 
 .nav.dark-mode {
-    background-color: #1a2d4c;
+    background-color: #14223a;
     color: #ffffff;
 }
 
@@ -83,7 +83,7 @@ nav ul li {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #100e0e; /* Light mode text color */
+   
 }
 
 .dark-mode-toggle:hover {
@@ -140,18 +140,18 @@ nav .menu span{
 }
 
 .icon-with-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Add this */
-  }
-  
-  .icon-with-text p {
-    margin-top: 5px; /* Adjust as needed */
-    font-size: 14px;
-    text-align: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Add this */
+}
+
+.icon-with-text p {
+  margin-top: 5px; /* Adjust as needed */
+  font-size: 14px;
+  text-align: center;
+}
+
 
 
 @media (max-width: 480px){

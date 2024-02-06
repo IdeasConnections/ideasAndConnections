@@ -1,5 +1,5 @@
 body {
-    background-color: #fafafa;
+    background-color: #ffff;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -8,8 +8,13 @@ body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    color: #0000;
   }
-  
+
+  body.dark-mode{
+    background-color: #0000;
+  }
+
   .box {
     padding: 50px;
     border: 1px solid #dfdfdf;
