@@ -1,24 +1,14 @@
 import React, { useState } from "react";
-import { NavBar } from "../NavBar";
-import UserProfile from "../UserProfile";
+
+import './Home.css'
 
 export default function HomePage() {
-  const isprofileComplete = localStorage.getItem("profileComplete");
-  const [profileComplete, setprofileComplete] = useState(false);
-  if (isprofileComplete == true) {
-    setprofileComplete(true);
-  }
+
   return (
-    <>
-      {profileComplete ? (
-        <UserProfile></UserProfile>
-      ) : (
-        <>
-          <NavBar />
-          <div className="flex flex-col items-center  lg:flex-row justify-around mt-4">
-          </div>
-        </>
-      )}
-    </>
+    <div className="home-page">
+     
+    Home
+      {/* Add other content here */}
+    </div>
   );
 }

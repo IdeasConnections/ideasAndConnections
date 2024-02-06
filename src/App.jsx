@@ -5,14 +5,18 @@ import SignUp from "./components/auth_pages/SignUp";
 import SignIn from "./components/auth_pages/SignIn";
 import HomePage from "./components/home/HomePage";
 import ForgotPassword from "./components/auth_pages/ForgotPass";
-import UserProfile from "./components/UserProfile";
-import { Container, Row, Col } from "react-bootstrap";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
+import Profile from "./components/navbar/pages/profile/Profile";
+import NavBar from './components/navbar/NavBar'
 
 function App() {
   return (
     <>   
           <UserAuthContextProvider>
+            <div className="nav">
+            <NavBar />
+            </div>
+           
               <Routes>
               <Route
                 path="/home"
@@ -25,7 +29,7 @@ function App() {
               <Route path="/" element={<SignIn />} />
               <Route path="/signUp" element={<SignUp />} />
               <Route path="/forgotPass" element={<ForgotPassword />} />
-              <Route path="/editProfile"  element={<UserProfile />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes> 
             </UserAuthContextProvider>
    
