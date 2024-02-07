@@ -41,6 +41,10 @@ const Navbar = () => {
         setSearchTerm(event.target.value);
         // Here you can perform any search-related functionality
     }
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    }
+
 
     return (
         <nav  className={`nav ${darkMode ? 'dark-mode' : ''}`} >   
@@ -67,7 +71,7 @@ const Navbar = () => {
   
             </div>
             
-            <div className="menu" onClick={() => { setMenuOpen(!menuOpen) }}>
+            <div className="menu" onClick={toggleMenu}>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -109,7 +113,9 @@ const Navbar = () => {
                 <li>
                 <button className="dark-mode-toggle" onClick={toggleDarkMode}>
                     {darkMode ? <FaSun size={30} color="#ffffff"/> : <FaMoon size={30}/>}
+                   
                 </button>
+                <p>Mode</p>
                 </li>
                
             </ul>
