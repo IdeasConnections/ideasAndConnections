@@ -37,19 +37,19 @@ export function UserAuthContextProvider({ children }) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
-      // Send verification email and wait for confirmation
       await sendEmailVerification(auth.currentUser);
-      if (user.emailVerified) {
-        // User is verified, now add details to Firestore
-        await setDoc(doc(userRef, user.uid), {
-          email,
-          firstName,
-          lastName,
-          phoneNumber: fullPhoneNumber,
-          country
-        });
-      } 
+        try {
+          await setDoc(doc(userRef, user.uid), {
+            email,
+            firstName,
+            lastName,
+            phoneNumber: fullPhoneNumber,
+            country
+          });
+        } catch (error) {
+          console.error("Error adding user data to Firestore:", error);
+          // Additional error handling, e.g., displaying an error message to the user
+        }     
   
       return userCredential;
     } catch (error) {
@@ -83,10 +83,23 @@ export function UserAuthContextProvider({ children }) {
       setUser(currentuser);
       if (currentuser && currentuser.emailVerified) {
         // Redirect user to login page
-        navigate("/login");
+        navigate("/");
+      }
+  
+      // Save user details to local storage
+      if (currentuser) {
+        localStorage.setItem("user", JSON.stringify(currentuser));
+      } else {
+        localStorage.removeItem("user");
       }
     });
-
+  
+    // Retrieve user details from local storage if available
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  
     return () => {
       unsubscribe();
     };
