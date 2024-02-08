@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,15 +12,20 @@ import {
   sendEmailVerification
 } from "firebase/auth";
 import { auth, db } from "../firebase";
-import {collection, doc, setDoc} from 'firebase/firestore'
+import {collection, doc, setDoc, updateDoc} from 'firebase/firestore'
 
 
 const userAuthContext = createContext();
 
+
 export function UserAuthContextProvider({ children }) {
-  const userRef = collection(db, "users");
+
+  const navigate = useNavigate()
+
   const [user, setUser] = useState({});
   const [darkMode, setDarkMode] = useState(false);
+
+  const userRef = collection(db, "users");
 
   async function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
@@ -31,7 +37,6 @@ export function UserAuthContextProvider({ children }) {
         }
       });
   }
-  
   
   async function signUp(email, password, firstName, lastName, fullPhoneNumber, country) {
     try {
@@ -55,59 +60,67 @@ export function UserAuthContextProvider({ children }) {
     } catch (error) {
       throw error;
     }
-  }
-  
+  } 
 
   function logOut() {
     return signOut(auth);
   }
+
   function googleSignIn() {
     const googleAuthProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleAuthProvider);
   }
+
   function facebookSignIn() {
     const facebookAuthProvider = new FacebookAuthProvider();
     return signInWithPopup(auth, facebookAuthProvider);
   }
+
   function forgotPassword(email) {
     return sendPasswordResetEmail(auth, email);
   }
+
   function toggleDarkMode() { // Function to toggle dark mode
     setDarkMode(prevMode => !prevMode);
   }
 
+  async function editProfile (userID, payload){
+    let userToEdit = doc(userRef, userID)
+    await updateDoc(userToEdit, payload)
+    .then(()=> {
+      console.log("profile updated")
+      setUser(prevUser => ({ ...prevUser, ...payload }));
+     })
+    .catch((err)=> console.log(err))
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       console.log("Auth", currentuser);
       setUser(currentuser);
       if (currentuser && currentuser.emailVerified) {
-        // Redirect user to login page
         navigate("/");
       }
-  
-      // Save user details to local storage
-      if (currentuser) {
-        localStorage.setItem("user", JSON.stringify(currentuser));
-      } else {
-        localStorage.removeItem("user");
-      }
     });
-  
-    // Retrieve user details from local storage if available
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  
-    return () => {
+   return () => {
       unsubscribe();
     };
   }, []);
 
   return (
     <userAuthContext.Provider
-      value={{ user, logIn, signUp, logOut, googleSignIn, facebookSignIn, forgotPassword , darkMode, toggleDarkMode}}
+      value={{ 
+        user, 
+        logIn, 
+        signUp, 
+        logOut,
+        googleSignIn, 
+        facebookSignIn, 
+        forgotPassword , 
+        darkMode, 
+        toggleDarkMode,
+        editProfile
+      }}
     >
       {children}
     </userAuthContext.Provider>

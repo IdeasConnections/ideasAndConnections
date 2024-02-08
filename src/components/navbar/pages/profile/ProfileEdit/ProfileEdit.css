@@ -1,7 +1,7 @@
 .profileEdit{
     background-color: white;
     color: black;
-    min-height: 40vh;
+    min-height: 80vh;
     min-width: 95vw;
 }
 .profileEdit.dark-mode{
@@ -21,8 +21,15 @@
     display: grid;
     gap: 10px;
 }
-.edit-input{
+.edit-input {
     height: 40px;
     border: 1px solid rgb(122, 118, 118);
     border-radius: 4px;
+}
+.textarea-input {
+    border: 1px solid rgb(122, 118, 118);
+    border-radius: 4px;
+    padding: 8px; /* Add padding for better spacing */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+    /* Add any additional styling specific to textareas */
 }

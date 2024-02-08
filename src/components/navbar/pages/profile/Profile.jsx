@@ -6,21 +6,11 @@ import ProfileEdit from './ProfileEdit/ProfileEdit';
 
 const Profile = () => {
   const { darkMode, user } = useUserAuth();
-  const [userDetails, setUserDetails] = useState(null);
   const [isEdit, setIsEdit] = useState(false)
-
-  useEffect(() => {
-    // Retrieve user details from local storage
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUserDetails(JSON.parse(storedUser));
-    }
-  }, []);
 
   const toggleEdit = () => {
     setIsEdit(!isEdit);
   };
-
 
   return (
     <>
@@ -33,7 +23,9 @@ const Profile = () => {
           <div className='edit-btn'>
             <button onClick={toggleEdit}>Edit</button>
           </div>
-          <Card.Title>{userDetails?.displayName}</Card.Title>
+          <Card.Title>{user?.firstName}</Card.Title>
+          <Card.Title>{user?.lastName}</Card.Title>
+          <Card.Title>{user?.headline}</Card.Title>
           <Card.Text></Card.Text>
         </Card.Body>
       </Card>   
