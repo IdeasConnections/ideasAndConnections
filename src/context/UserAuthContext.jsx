@@ -12,7 +12,7 @@ import {
   sendEmailVerification
 } from "firebase/auth";
 import { auth, db } from "../firebase";
-import {collection, doc, setDoc, updateDoc} from 'firebase/firestore'
+import {collection, doc, setDoc, updateDoc, getDoc} from 'firebase/firestore'
 
 
 const userAuthContext = createContext();
@@ -95,12 +95,27 @@ export function UserAuthContextProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
       console.log("Auth", currentuser);
       setUser(currentuser);
       if (currentuser && currentuser.emailVerified) {
         navigate("/");
       }
+      if (currentuser) {
+        const userDocRef = doc(userRef, currentuser.uid);
+        try {
+          const userDocSnapshot = await getDoc(userDocRef);
+          if (userDocSnapshot.exists()) {
+            const userData = userDocSnapshot.data();
+            setUser(prevUser => ({ ...prevUser, ...userData }));
+          } else {
+            console.log("User document does not exist in Firestore");
+          }
+        } catch (error) {
+          console.error("Error fetching user data from Firestore:", error);
+        }
+      }
+
     });
    return () => {
       unsubscribe();
