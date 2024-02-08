@@ -2,7 +2,7 @@
     background-color: white;
     color: black;
     min-height: 80vh;
-    min-width: 95vw;
+    min-width: 80vw;
 }
 .profile.dark-mode{
     background-color: #14223a;
@@ -16,4 +16,31 @@
     position: absolute;
     right: 20px;
     cursor: pointer;
+}
+.user-name{
+    font-weight: bold;
+    font-size: 20px;
+    color: 0000;
+}
+.headline{
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 400px;
+    width: 350px;
+    line-height: 20px;
+}
+.location{
+    font-size: 16px;
+    color: #6c747f;
+}
+.profile-info{
+    display: flex;
+    justify-content: space-between;
+}
+.right-info{
+    margin-top: 30px;
+    margin-right: 40px;
+    font-weight: 400px;
+    line-height: 30px;
+    font-size: 18px;
 }

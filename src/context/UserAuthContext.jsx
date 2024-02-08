@@ -66,10 +66,28 @@ export function UserAuthContextProvider({ children }) {
     return signOut(auth);
   }
 
-  function googleSignIn() {
+  async function googleSignIn() {
     const googleAuthProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleAuthProvider);
+    try {
+      const result = await signInWithPopup(auth, googleAuthProvider);
+      const user = result.user;
+      console.log('test', user)
+   // Extract user data
+      const { displayName, email } = user;
+    // Write user data to Firestore
+      await setDoc(doc(userRef, user.uid), {
+        displayName,
+        email,
+        // Any other data you want to store
+      });
+      return result;
+    } catch (error) {
+      // Handle sign-in errors
+      console.error("Google sign-in error:", error);
+      throw error;
+    }
   }
+  
 
   function facebookSignIn() {
     const facebookAuthProvider = new FacebookAuthProvider();

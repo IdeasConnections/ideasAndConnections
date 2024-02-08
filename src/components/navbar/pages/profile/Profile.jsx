@@ -32,14 +32,23 @@ const Profile = () => {
             <button onClick={toggleEdit}>Edit</button>
           </div>
           {userData && ( // Render user data only if it's available
-                <>
-                  <Card.Title>{userData.email}</Card.Title>
-                  <Card.Title>{userData.firstName}</Card.Title>
-                  <Card.Title>{userData.lastName}</Card.Title>
-                  <Card.Title>{userData.headline}</Card.Title>
-                </>
+          <div className='profile-info'>
+            <div>
+               <div style={{display:'flex', gap:'4px'}}>
+                   <h3 className='user-name'>{userData.firstName}</h3>
+                   <h3 className='user-name'>{userData.lastName}</h3>
+                </div>
+                   <p className='headline'>{userData.headline}</p>
+                   <p className='location'>{userData.location}</p>
+              </div>
+              <div className='right-info'>
+                   <p className=''>{userData.education}</p>
+                   <p className=''>{userData.industry}</p>
+              </div>        
+          </div>
+              
+            
               )}
-          <Card.Text></Card.Text>
         </Card.Body>
       </Card>   
     </div>)

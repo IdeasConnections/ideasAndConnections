@@ -40,7 +40,7 @@ const ProfileEdit = ({goBack }) =>{
                         
                     />
                 </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
                         <label htmlFor="lastName">Last Name</label>
                         <input 
                             className="edit-input" 
@@ -51,7 +51,7 @@ const ProfileEdit = ({goBack }) =>{
                             onChange={getInput} 
                            
                         />
-                    </div>
+                </div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
@@ -63,8 +63,32 @@ const ProfileEdit = ({goBack }) =>{
                             onChange={getInput} 
                             rows={3}
                         />
-                    </div>
-            </div>  
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="education">Education</label>
+                        <input 
+                            className="edit-input" 
+                            type="text" 
+                            id="education"
+                            // placeholder="Last Name"
+                            name="education"
+                            onChange={getInput} 
+                           
+                        />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="industry">Industry</label>
+                        <input 
+                            className="edit-input" 
+                            type="text" 
+                            id="industry"
+                            // placeholder="Last Name"
+                            name="industry"
+                            onChange={getInput} 
+                           
+                        />
+                </div>
+                </div>  
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
                     variant="primary"
