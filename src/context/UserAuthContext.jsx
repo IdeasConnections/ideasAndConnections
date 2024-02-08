@@ -11,8 +11,10 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification
 } from "firebase/auth";
-import { auth, db } from "../firebase";
+import { auth, db, storage } from "../firebase";
 import {collection, doc, setDoc, updateDoc, getDoc} from 'firebase/firestore'
+import {ref, getDownloadURL, uploadBytesResumable} from 'firebase/storage'
+
 
 
 const userAuthContext = createContext();
@@ -26,6 +28,7 @@ export function UserAuthContextProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
 
   const userRef = collection(db, "users");
+
 
   async function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
@@ -112,6 +115,27 @@ export function UserAuthContextProvider({ children }) {
     .catch((err)=> console.log(err))
   }
 
+  async function uploadImage (file){
+   const profilePicsRef = ref(storage, `files/${file.name}`)
+   const uploadTask = uploadBytesResumable(profilePicsRef, file )
+   uploadTask.on("state_changed",
+      (snapshot) => {
+        const progress =
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgresspercent(progress);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImgUrl(downloadURL)
+        });
+      }
+    );
+  }
+
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
       console.log("Auth", currentuser);
@@ -152,7 +176,8 @@ export function UserAuthContextProvider({ children }) {
         forgotPassword , 
         darkMode, 
         toggleDarkMode,
-        editProfile
+        editProfile,
+        uploadImage
       }}
     >
       {children}

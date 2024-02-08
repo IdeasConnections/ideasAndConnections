@@ -4,8 +4,9 @@ import { Card, Button } from 'react-bootstrap';
 import { useUserAuth } from "../../../../../context/UserAuthContext";
 
 const ProfileEdit = ({goBack }) =>{
-    const { darkMode, user, editProfile } = useUserAuth();
+    const { darkMode, user, editProfile, uploadImage} = useUserAuth();
     const [editInputs, setEditInputs] = useState({})
+    const [currentImage, setCurrentImage] = useState({})
 
     const getInput = (event)=>{
         const {name, value} = event.target
@@ -15,6 +16,13 @@ const ProfileEdit = ({goBack }) =>{
 
     const updateProfileData = () =>{
        editProfile(user?.uid, editInputs)
+    }
+
+    const getImage = (event) =>{
+        setCurrentImage(event.target.files[0])
+    }
+    const uploadImageTostorage = () =>{
+        uploadImage(currentImage)
     }
 
     return(
@@ -27,6 +35,11 @@ const ProfileEdit = ({goBack }) =>{
             <Card.Title>Profile Edit</Card.Title>
          
             <div className="profile-edit-input">
+
+                <div>
+                    <input type="file" onChange={getImage} />
+                    <Button onClick={uploadImageTostorage}>Upload</Button>
+                </div>
             <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
                     <label htmlFor="firstName">First Name</label>
@@ -62,6 +75,18 @@ const ProfileEdit = ({goBack }) =>{
                             name="headline"
                             onChange={getInput} 
                             rows={3}
+                        />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="location">Location</label>
+                        <input 
+                            className="edit-input" 
+                            type="text" 
+                            id="location"
+                            // placeholder="Last Name"
+                            name="location"
+                            onChange={getInput} 
+                           
                         />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
