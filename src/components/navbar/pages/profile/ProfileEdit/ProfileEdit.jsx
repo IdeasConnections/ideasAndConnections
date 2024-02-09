@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './ProfileEdit.css'
 import { Card, Button } from 'react-bootstrap';
 import { useUserAuth } from "../../../../../context/UserAuthContext";
@@ -22,7 +22,7 @@ const ProfileEdit = ({goBack }) =>{
         setCurrentImage(event.target.files[0])
     }
     const uploadImageTostorage = () =>{
-        uploadImage(currentImage)
+        uploadImage(currentImage, user?.uid)
     }
 
     return(
@@ -38,7 +38,12 @@ const ProfileEdit = ({goBack }) =>{
 
                 <div>
                     <input type="file" onChange={getImage} />
-                    <Button onClick={uploadImageTostorage}>Upload</Button>
+                    <Button 
+                    onClick={uploadImageTostorage}
+                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold' }}
+                    >
+                        Upload
+                  </Button>
                 </div>
             <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>

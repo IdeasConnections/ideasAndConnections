@@ -44,3 +44,8 @@
     line-height: 30px;
     font-size: 18px;
 }
+.profile-img{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}

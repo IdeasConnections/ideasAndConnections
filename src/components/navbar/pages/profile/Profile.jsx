@@ -32,7 +32,9 @@ const Profile = () => {
             <button onClick={toggleEdit}>Edit</button>
           </div>
           {userData && ( // Render user data only if it's available
-          <div className='profile-info'>
+          <div>
+            <img className='profile-img' src={user?.imageLink} alt='profile image'/>
+             <div className='profile-info'>
             <div>
                <div style={{display:'flex', gap:'4px'}}>
                    <h3 className='user-name'>{userData.firstName}</h3>
@@ -48,6 +50,8 @@ const Profile = () => {
           </div>
               
             
+          </div>
+         
               )}
         </Card.Body>
       </Card>   
