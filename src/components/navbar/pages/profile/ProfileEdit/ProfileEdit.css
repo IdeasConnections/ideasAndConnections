@@ -3,6 +3,7 @@
     color: black;
     min-height: 80vh;
     min-width: 95vw;
+    margin-top: 50px;
 }
 .profileEdit.dark-mode{
     background-color: #14223a;
@@ -32,4 +33,38 @@
     padding: 8px; /* Add padding for better spacing */
     box-sizing: border-box; /* Ensure padding is included in the width */
     /* Add any additional styling specific to textareas */
+}
+
+
+.profile-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 2px solid #cacaca;
+    padding: 5px;
+}
+
+.edit-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.profile-img{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 2px solid #cacaca;
+    padding: 5px;
 }
