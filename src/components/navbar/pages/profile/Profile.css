@@ -1,0 +1,55 @@
+.profile{
+    background-color: white;
+    color: black;
+    min-height: 80vh;
+    min-width: 80vw;
+}
+.profile.dark-mode{
+    background-color: #14223a;
+    color: white;
+}
+.profile.mt-10 {
+    margin-top: 24.5rem;
+    margin-bottom: 0.75rem; /* Update the margin-top value */
+}
+.edit-btn{
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+}
+.user-name{
+    font-weight: bold;
+    font-size: 20px;
+    color: 0000;
+}
+.headline{
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 400px;
+    width: 350px;
+    line-height: 20px;
+}
+.location{
+    font-size: 16px;
+    color: #6c747f;
+}
+.profile-info{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.right-info{
+    margin-top: 30px;
+    margin-right: 40px;
+    font-weight: 400px;
+    line-height: 30px;
+    font-size: 18px;
+}
+.profile-img{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 2px solid #cacaca;
+    padding: 5px;
+    cursor: pointer;
+}
