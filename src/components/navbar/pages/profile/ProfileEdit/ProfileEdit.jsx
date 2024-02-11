@@ -4,6 +4,9 @@ import { Card, Button } from 'react-bootstrap';
 import { useUserAuth } from "../../../../../context/UserAuthContext";
 import FileUploadModal from "./FileUploadModal";
 import { FaPencilAlt } from 'react-icons/fa';
+import { toast, ToastContainer  } from 'react-toastify';
+import defaultProfile from '../../../../../assets/profile.png'
+
 
 const ProfileEdit = ({goBack }) =>{
     const { darkMode, user, editProfile, uploadImage} = useUserAuth();
@@ -30,6 +33,7 @@ const ProfileEdit = ({goBack }) =>{
 
     const updateProfileData = () =>{
        editProfile(user?.uid, editInputs)
+       toast.success("Profile updated successfully");
     }
 
     const getImage = (event) =>{
@@ -51,7 +55,7 @@ const ProfileEdit = ({goBack }) =>{
          
             <div className="profile-edit-input">
             <div style={{ position: 'relative' }}>
-                    <img className='profile-img' src={user?.imageLink} alt='profile image' onClick={() => setModalOpen(true)} />
+                    <img className='profile-img'  src={user?.imageLink || defaultProfile} alt='profile image' onClick={() => setModalOpen(true)} />
                     <div style={{ position: 'absolute', top: '192px', left: '200px' }}>
                         <div style={{ backgroundColor: 'white', borderRadius: '50%', padding: '5px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)' }}>
                             <FaPencilAlt className='pencil-icon' style={{ color: 'black', fontSize: '24px', cursor: 'pointer' }}  onClick={() => setModalOpen(true)}/>
@@ -175,6 +179,7 @@ const ProfileEdit = ({goBack }) =>{
                 </div>
                 </div>  
             <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ToastContainer />
                 <Button
                     variant="primary"
                     style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}

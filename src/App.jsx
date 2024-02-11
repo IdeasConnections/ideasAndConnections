@@ -8,6 +8,7 @@ import ForgotPassword from "./components/auth_pages/ForgotPass";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import Profile from "./components/navbar/pages/profile/Profile";
 import NavBar from './components/navbar/NavBar'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

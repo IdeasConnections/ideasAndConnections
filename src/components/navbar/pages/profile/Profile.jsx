@@ -3,6 +3,7 @@ import { useUserAuth } from '../../../../context/UserAuthContext';
 import { Card } from 'react-bootstrap';
 import './Profile.css';
 import ProfileEdit from './ProfileEdit/ProfileEdit';
+import defaultProfile from '../../../../assets/profile.png'
 
 const Profile = () => {
   const { darkMode, user } = useUserAuth();
@@ -33,7 +34,7 @@ const Profile = () => {
           </div>
           {userData && ( // Render user data only if it's available
           <div>
-            <img className='profile-img' src={user?.imageLink} alt='profile image'/>
+            <img className='profile-img' src={user?.imageLink || defaultProfile} alt='profile image'/>
              <div className='profile-info'>
             <div>
                <div style={{display:'flex', gap:'4px'}}>
