@@ -115,14 +115,15 @@ export function UserAuthContextProvider({ children }) {
     .catch((err)=> console.log(err))
   }
 
-  async function uploadImage (file, id){
+  async function uploadImage (file, id, setModalOpen, setProgress){
+   
    const profilePicsRef = ref(storage, `profileImages/${file.name}`)
    const uploadTask = uploadBytesResumable(profilePicsRef, file )
    uploadTask.on("state_changed",
       (snapshot) => {
         const progress =
          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-         console.log(progress)
+        setProgress(progress)
       },
       (error) => {
         alert(error);
@@ -130,6 +131,7 @@ export function UserAuthContextProvider({ children }) {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((response) => {
           editProfile(id, {imageLink:response})
+          setModalOpen(false)
         });
       }
     );

@@ -1,0 +1,33 @@
+.custom-modal {
+    background-color: white; /* Set background color to white */
+    color: black; /* Set text color to black */
+}
+
+.custom-modal-header {
+    background-color: #f8f9fa; /* Set header background color to a light gray shade */
+    color: black; /* Set header text color to black */
+}
+
+.custom-modal-footer .custom-button {
+    background-color: #007bff; /* Set button background color to Bootstrap primary color */
+    color: white; /* Set button text color to white */
+    border: none; /* Remove button border */
+}
+
+.custom-modal-footer .custom-button:hover {
+    background-color: #0056b3; /* Set button background color on hover */
+    color: white; /* Set button text color on hover */
+}
+.upload-btn{
+     border: 1px solid #212121;
+     padding: 5px;
+     cursor: pointer;
+}
+.image-upload-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    margin-bottom: 2px;
+}
