@@ -48,11 +48,20 @@ const ProfileEdit = ({goBack }) =>{
         <FileUploadModal progress={progress} currentImage= {currentImage} modalOpen={modalOpen} setModalOpen={setModalOpen} getImage={getImage} uploadImageTostorage={uploadImageTostorage}/>  
         <Card className={`profileEdit ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>
+           
+            <Card.Title> Edit Profile</Card.Title>
+            <div className="cover-photo-container"> {/* Container for cover photo */}
             <div className='edit-btn'>
               <button onClick={goBack}>Go Back</button>
             </div>
-            <Card.Title> Edit Profile</Card.Title>
-         
+            <img className='cover-photo' src={defaultProfile} alt='cover photo'/>
+            <div style={{ position: 'absolute', top: '95%', right: '0%', transform: 'translate(-50%, -50%)' }}> {/* Position pencil icon */}
+                <div style={{ backgroundColor: 'white', borderRadius: '50%', padding: '5px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)' }}>
+                    <FaPencilAlt className='pencil-icon' style={{ color: 'black', fontSize: '24px', cursor: 'pointer' }}/>
+                </div>
+            </div>
+        </div>
+
             <div className="profile-edit-input">
             <div style={{ position: 'relative' }}>
                     <img className='profile-img'  src={user?.imageLink || defaultProfile} alt='profile image' onClick={() => setModalOpen(true)} />

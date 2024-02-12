@@ -2,7 +2,7 @@
     background-color: white;
     color: black;
     min-height: 80vh;
-    min-width: 95vw;
+    min-width: 85vw;
     margin-top: 180px;
 }
 .profileEdit.dark-mode{
@@ -70,6 +70,20 @@
 }
 .edit-btn{
     position: absolute;
-    right: 20px;
+    right: 10px;
     cursor: pointer;
+}
+.cover-photo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    z-index: 0; /* Set z-index to position behind other content */
+}
+
+.cover-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
