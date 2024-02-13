@@ -47,12 +47,11 @@ const ProfileEdit = ({goBack }) =>{
         <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex">
         <FileUploadModal progress={progress} currentImage= {currentImage} modalOpen={modalOpen} setModalOpen={setModalOpen} getImage={getImage} uploadImageTostorage={uploadImageTostorage}/>  
         <Card className={`profileEdit ${darkMode ? 'dark-mode' : ''} `}>
-          <Card.Body>
-            <div className='edit-btn'>
+          <Card.Body>  
+          <div className='edit-btn'>
               <button onClick={goBack}>Go Back</button>
-            </div>
-            <Card.Title> Edit Profile</Card.Title>
-         
+            </div>        
+            <Card.Title> Edit Profile</Card.Title>   
             <div className="profile-edit-input">
             <div style={{ position: 'relative' }}>
                     <img className='profile-img'  src={user?.imageLink || defaultProfile} alt='profile image' onClick={() => setModalOpen(true)} />
@@ -113,18 +112,7 @@ const ProfileEdit = ({goBack }) =>{
                             value={editInputs.position}
                         />
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="education">Education</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="education"
-                            // placeholder="Last Name"
-                            name="education"
-                            onChange={getInput} 
-                            value={editInputs.education}
-                        />
-                </div>
+             
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
                         <label htmlFor="country">Country</label>
                         <input 
@@ -164,7 +152,59 @@ const ProfileEdit = ({goBack }) =>{
                 </div>
                 
                 </div>
-              
+                </div>  
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ToastContainer />
+                <Button
+                    variant="primary"
+                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
+                    type="Submit"
+                    onClick={updateProfileData}
+                >
+                    Save
+                </Button>
+            </div>
+           
+          </Card.Body>
+        </Card>   
+        <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
+          <Card.Body>          
+            <Card.Title> Edit Education</Card.Title>   
+            <div className="profile-edit-input">
+               
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="education">Education</label>
+                        <input 
+                            className="edit-input" 
+                            type="text" 
+                            id="education"
+                            // placeholder="Last Name"
+                            name="education"
+                            onChange={getInput} 
+                            value={editInputs.education}
+                        />
+                </div>
+             
+                </div>  
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ToastContainer />
+                <Button
+                    variant="primary"
+                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
+                    type="Submit"
+                    onClick={updateProfileData}
+                >
+                    Save
+                </Button>
+            </div>
+           
+          </Card.Body>
+        </Card>   
+        <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
+          <Card.Body>          
+            <Card.Title>Edit Experiance</Card.Title>   
+            <div className="profile-edit-input">
+             
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
                         <label htmlFor="industry">Industry</label>
                         <input 
@@ -175,6 +215,18 @@ const ProfileEdit = ({goBack }) =>{
                             name="industry"
                             onChange={getInput} 
                            value={editInputs.industry}
+                        />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="currentPosition">Current Position</label>
+                        <input 
+                            className="edit-input" 
+                            type="text" 
+                            id="position"
+                            // placeholder="Last Name"
+                            name="position"
+                            onChange={getInput} 
+                            value={editInputs.position}
                         />
                 </div>
                 </div>  
@@ -191,7 +243,37 @@ const ProfileEdit = ({goBack }) =>{
             </div>
            
           </Card.Body>
-        </Card>   
+        </Card>  
+        <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
+          <Card.Body>          
+            <Card.Title>Edit Skills</Card.Title>   
+            <div className="profile-edit-input">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="skills">Skills</label>
+                        <textarea
+                            className="textarea-input"
+                            id="skills"
+                            name="skills"
+                            onChange={getInput} 
+                            rows={3}
+                            value={editInputs.skills}
+                        />
+                </div>
+                </div>  
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ToastContainer />
+                <Button
+                    variant="primary"
+                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
+                    type="Submit"
+                    onClick={updateProfileData}
+                >
+                    Save
+                </Button>
+            </div>
+           
+          </Card.Body>
+        </Card>  
       </div>
     )
 
