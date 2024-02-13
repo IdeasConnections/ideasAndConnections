@@ -3,6 +3,16 @@
     color: black;
     min-height: 80vh;
     min-width: 80vw;
+    margin-top: 500px;
+    border: 1px solid #000;
+}
+.profile1{
+    background-color: white;
+    color: black;
+    min-height: 10vh;
+    min-width: 82vw;
+    margin-top: 20px;
+    border: 1px solid #000;
 }
 .profile.dark-mode{
     background-color: #14223a;
@@ -29,6 +39,16 @@
     width: 350px;
     line-height: 20px;
 }
+.card-title{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.about-data {
+    word-wrap: break-word; /* Allow long words to break and wrap onto the next line */
+    width: 100%; /* Make sure the text takes the full width of its container */
+    max-width: 80vw;
+ }
 .location{
     font-size: 16px;
     color: #6c747f;
@@ -39,11 +59,10 @@
     margin-top: 20px;
 }
 .right-info{
-    margin-top: 30px;
-    margin-right: 40px;
-    font-weight: 400px;
+    margin-top: 20px;
+    margin-right: 150px;
     line-height: 30px;
-    font-size: 18px;
+    font-size: 15px;
 }
 .profile-img{
     width: 250px;

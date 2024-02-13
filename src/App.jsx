@@ -29,7 +29,7 @@ function App() {
                 path="/profile"
                 element={
                   <ProtectedRoute>
-                      <NavBar />     
+                      <NavBar />    
                         <Profile /> 
                   </ProtectedRoute>
                 }
