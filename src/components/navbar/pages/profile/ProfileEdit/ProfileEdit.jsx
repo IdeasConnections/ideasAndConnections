@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import './ProfileEdit.css'
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button , Badge} from 'react-bootstrap';
 import { useUserAuth } from "../../../../../context/UserAuthContext";
 import FileUploadModal from "./FileUploadModal";
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
 
@@ -23,18 +23,41 @@ const ProfileEdit = ({goBack }) =>{
         company: user?.company || '',
         email: user?.email || '',
         phoneNumber: user?.phoneNumber || '',
-        about: user?.about || ''
+        about: user?.about || '',
+        skills: user?.skills || []
     })
     const [currentImage, setCurrentImage] = useState({})
     const [modalOpen, setModalOpen] = useState(false)
     const [progress, setProgress] = useState(0)
+    const [newSkill, setNewSkill] = useState("");
 
-   
-    const getInput = (event)=>{
-        const {name, value} = event.target
-        let input = { [name]: value}
-        setEditInputs({...editInputs, ...input})
-    }
+    const getInput = (event) => {
+        const { name, value } = event.target;
+        if (name === "skills") {
+          setNewSkill(value);
+        } else {
+          setEditInputs({ ...editInputs, [name]: value });
+        }
+      };
+    
+      const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          if (newSkill.trim() !== "") {
+            setEditInputs({
+              ...editInputs,
+              skills: [...editInputs.skills, newSkill.trim()],
+            });
+            setNewSkill("");
+          }
+        }
+      };
+    
+      const handleRemoveSkill = (index) => {
+        const updatedSkills = [...editInputs.skills];
+        updatedSkills.splice(index, 1);
+        setEditInputs({ ...editInputs, skills: updatedSkills });
+      };
 
     const updateProfileData = () =>{
        editProfile(user?.uid, editInputs)
@@ -255,17 +278,27 @@ const ProfileEdit = ({goBack }) =>{
           <Card.Body>          
             <Card.Title>Edit Skills</Card.Title>   
             <div className="profile-edit-input">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="skills">Skills</label>
-                        <textarea
-                            className="textarea-input"
-                            id="skills"
-                            name="skills"
-                            onChange={getInput} 
-                            rows={3}
-                            value={editInputs.skills}
-                        />
-                </div>
+            <div>
+              <label htmlFor="skills">Skills</label>
+              <div>
+                {editInputs.skills.map((skill, index) => (
+                  <Badge key={index} pill variant="primary" className="mr-1" onClick={() => handleRemoveSkill(index)}>
+                    {skill}
+                    <FaTimes className="ml-1" onClick={() => handleRemoveSkill(index)} style={{ cursor: 'pointer' }} />
+                  </Badge>
+                ))}
+              </div>
+              <input
+                className="edit-input"
+                type="text"
+                id="skills"
+                name="skills"
+                onChange={getInput}
+                onKeyDown={handleKeyDown}
+                value={newSkill}
+                placeholder="Enter new skill and press Enter"
+              />
+            </div>
                 </div>  
            
           </Card.Body>

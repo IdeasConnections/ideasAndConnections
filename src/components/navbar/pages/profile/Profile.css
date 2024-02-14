@@ -1,16 +1,16 @@
 .profile{
     background-color: white;
     color: black;
-    min-height: 80vh;
+    min-height: fit-content;
     min-width: 80vw;
-    margin-top: 500px;
+    margin-top: 300px;
     border: 1px solid #000;
 }
 .profile1{
     background-color: white;
     color: black;
     min-height: 10vh;
-    min-width: 82vw;
+    min-width: 80vw;
     margin-top: 20px;
     border: 1px solid #000;
 }
@@ -47,7 +47,7 @@
 .about-data {
     word-wrap: break-word; /* Allow long words to break and wrap onto the next line */
     width: 100%; /* Make sure the text takes the full width of its container */
-    max-width: 80vw;
+    max-width: 70vw;
  }
 .location{
     font-size: 16px;

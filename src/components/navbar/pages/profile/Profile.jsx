@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useUserAuth } from '../../../../context/UserAuthContext';
-import { Card } from 'react-bootstrap';
+import { Card , Badge} from 'react-bootstrap';
 import './Profile.css';
 import ProfileEdit from './ProfileEdit/ProfileEdit';
 import defaultProfile from '../../../../assets/profile.png'
@@ -103,8 +103,14 @@ const Profile = () => {
           {userData && ( // Render user data only if it's available
           <div>
               <div>
-                   <p className='card-title'>Experiance</p>
-                   <p className='education'>{userData.company}</p>           
+                   <p className='card-title'>Skills</p>
+                   <div>
+                   {userData.skills && userData.skills.map((skill, index) => (
+                  <Badge key={index} pill variant="primary" className="mr-1 bg-success">
+                    {skill}
+                  </Badge>
+                ))}
+              </div>      
               </div>            
           </div>
          
