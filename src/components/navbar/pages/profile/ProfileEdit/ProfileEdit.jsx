@@ -74,7 +74,7 @@ const ProfileEdit = ({goBack }) =>{
     }
 
     return(
-        <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex">
+        <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex " >
         <FileUploadModal progress={progress} currentImage= {currentImage} modalOpen={modalOpen} setModalOpen={setModalOpen} getImage={getImage} uploadImageTostorage={uploadImageTostorage}/>  
         <Card className={`profileEdit ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>  
