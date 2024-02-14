@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useUserAuth } from '../../../../context/UserAuthContext';
-import { Card } from 'react-bootstrap';
+import { Card , Badge} from 'react-bootstrap';
 import './Profile.css';
 import ProfileEdit from './ProfileEdit/ProfileEdit';
 import defaultProfile from '../../../../assets/profile.png'
@@ -42,15 +42,92 @@ const Profile = () => {
                    <h3 className='user-name'>{userData.lastName}</h3>
                 </div>
                    <p className='headline'>{userData.headline}</p>
-                   <p className='location'>{userData.location}</p>
+                   <div style={{display: 'flex', gap:'4px'}}>
+                    <p className='location'>{`${userData.location},  `}</p>
+                    <p className='location'>{userData.country}</p>
+                   </div>
+                 
               </div>
               <div className='right-info'>
-                   <p className=''>{userData.education}</p>
-                   <p className=''>{userData.industry}</p>
+                   <p className='education'>{userData.education}</p>
+                   <p className='company'>{userData.company}</p>
               </div>        
           </div>
-              
-            
+              <hr style={{marginTop: '10px', marginBottom:'10px'}}/>
+            <div>
+              <p className='card-title'>About</p>
+              <p className='about-data'>{userData.about}</p>
+            </div>
+          </div>
+         
+              )}
+        </Card.Body>
+      </Card>   
+      <Card className={`profile1 ${darkMode ? 'dark-mode' : ''}`}>
+        <Card.Body>
+          <div className='edit-btn'>
+            <button onClick={toggleEdit}>Edit</button>
+          </div>
+          {userData && ( // Render user data only if it's available
+          <div>
+              <div>
+                   <p className='card-title'>Education</p>
+                   <p className='education'>{userData.education}</p>           
+              </div>            
+          </div>
+         
+              )}
+        </Card.Body>
+      </Card>   
+      <Card className={`profile1 ${darkMode ? 'dark-mode' : ''}`}>
+        <Card.Body>
+          <div className='edit-btn'>
+            <button onClick={toggleEdit}>Edit</button>
+          </div>
+          {userData && ( // Render user data only if it's available
+          <div>
+              <div>
+                   <p className='card-title'>Experiance</p>
+                   <p className='education'>{userData.company}</p>           
+              </div>            
+          </div>
+         
+              )}
+        </Card.Body>
+      </Card>   
+      <Card className={`profile1 ${darkMode ? 'dark-mode' : ''}`}>
+        <Card.Body>
+          <div className='edit-btn'>
+            <button onClick={toggleEdit}>Edit</button>
+          </div>
+          {userData && ( // Render user data only if it's available
+          <div>
+              <div>
+                   <p className='card-title'>Skills</p>
+                   <div>
+                   {userData.skills && userData.skills.map((skill, index) => (
+                  <Badge key={index} pill variant="primary" className="mr-1 bg-success">
+                    {skill}
+                  </Badge>
+                ))}
+              </div>      
+              </div>            
+          </div>
+         
+              )}
+        </Card.Body>
+      </Card>   
+      <Card className={`profile1 ${darkMode ? 'dark-mode' : ''}`}>
+        <Card.Body>
+          <div className='edit-btn'>
+            <button onClick={toggleEdit}>Edit</button>
+          </div>
+          {userData && ( // Render user data only if it's available
+          <div>
+              <div>
+                   <p className='card-title'>Experiance</p>
+                   <p className='education'>{userData.company}</p>           
+              </div>            
           </div>
          
               )}

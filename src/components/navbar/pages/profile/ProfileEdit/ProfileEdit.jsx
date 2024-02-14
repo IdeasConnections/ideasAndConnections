@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import './ProfileEdit.css'
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button , Badge} from 'react-bootstrap';
 import { useUserAuth } from "../../../../../context/UserAuthContext";
 import FileUploadModal from "./FileUploadModal";
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
+
 
 
 const ProfileEdit = ({goBack }) =>{
@@ -19,21 +20,50 @@ const ProfileEdit = ({goBack }) =>{
         country: user?.country || '',
         postalCode: user?.postalCode || '',
         location: user?.location || '',
-        industry: user?.industry || ''
+        company: user?.company || '',
+        email: user?.email || '',
+        phoneNumber: user?.phoneNumber || '',
+        about: user?.about || '',
+        skills: user?.skills || []
     })
     const [currentImage, setCurrentImage] = useState({})
     const [modalOpen, setModalOpen] = useState(false)
     const [progress, setProgress] = useState(0)
+    const [newSkill, setNewSkill] = useState("");
 
-    const getInput = (event)=>{
-        const {name, value} = event.target
-        let input = { [name]: value}
-        setEditInputs({...editInputs, ...input})
-    }
+    const getInput = (event) => {
+        const { name, value } = event.target;
+        if (name === "skills") {
+          setNewSkill(value);
+        } else {
+          setEditInputs({ ...editInputs, [name]: value });
+        }
+      };
+    
+      const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          if (newSkill.trim() !== "") {
+            setEditInputs({
+              ...editInputs,
+              skills: [...editInputs.skills, newSkill.trim()],
+            });
+            setNewSkill("");
+          }
+        }
+      };
+    
+      const handleRemoveSkill = (index) => {
+        const updatedSkills = [...editInputs.skills];
+        updatedSkills.splice(index, 1);
+        setEditInputs({ ...editInputs, skills: updatedSkills });
+      };
 
     const updateProfileData = () =>{
        editProfile(user?.uid, editInputs)
        toast.success("Profile updated successfully");
+       setTimeout(goBack, 1000)
+       
     }
 
     const getImage = (event) =>{
@@ -100,19 +130,32 @@ const ProfileEdit = ({goBack }) =>{
                             value={editInputs.headline}
                         />
                 </div>
+                <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="currentPosition">Current Position</label>
+                    <label htmlFor="email">Email</label>
+                    <input 
+                        className="edit-input" 
+                        type="email" 
+                        id="email"
+                        // placeholder="First Name"
+                        name="email"
+                        onChange={getInput} 
+                        value={editInputs.email}
+                    />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="phoneNumber">Phone Number</label>
                         <input 
                             className="edit-input" 
                             type="text" 
-                            id="position"
+                            id="phoneNumber"
                             // placeholder="Last Name"
-                            name="position"
+                            name="phoneNumber"
                             onChange={getInput} 
-                            value={editInputs.position}
+                            value={editInputs.phoneNumber}
                         />
                 </div>
-             
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
                         <label htmlFor="country">Country</label>
                         <input 
@@ -153,20 +196,28 @@ const ProfileEdit = ({goBack }) =>{
                 
                 </div>
                 </div>  
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ToastContainer />
-                <Button
-                    variant="primary"
-                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
-                    type="Submit"
-                    onClick={updateProfileData}
-                >
-                    Save
-                </Button>
-            </div>
+          
+          </Card.Body>
+        </Card>  
+        <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
+          <Card.Body>          
+            <Card.Title>Edit About</Card.Title>   
+            <div className="profile-edit-input">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                        <label htmlFor="about">About</label>
+                        <textarea
+                            className="textarea-input"
+                            id="about"
+                            name="about"
+                            onChange={getInput} 
+                            rows={3}
+                            value={editInputs.about}
+                        />
+                </div>
+                </div>  
            
           </Card.Body>
-        </Card>   
+        </Card>        
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>          
             <Card.Title> Edit Education</Card.Title>   
@@ -186,18 +237,7 @@ const ProfileEdit = ({goBack }) =>{
                 </div>
              
                 </div>  
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ToastContainer />
-                <Button
-                    variant="primary"
-                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
-                    type="Submit"
-                    onClick={updateProfileData}
-                >
-                    Save
-                </Button>
-            </div>
-           
+          
           </Card.Body>
         </Card>   
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
@@ -206,15 +246,15 @@ const ProfileEdit = ({goBack }) =>{
             <div className="profile-edit-input">
              
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="industry">Industry</label>
+                        <label htmlFor="company">Company</label>
                         <input 
                             className="edit-input" 
                             type="text" 
-                            id="industry"
+                            id="company"
                             // placeholder="Last Name"
-                            name="industry"
+                            name="company"
                             onChange={getInput} 
-                           value={editInputs.industry}
+                           value={editInputs.company}
                         />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
@@ -230,17 +270,7 @@ const ProfileEdit = ({goBack }) =>{
                         />
                 </div>
                 </div>  
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ToastContainer />
-                <Button
-                    variant="primary"
-                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
-                    type="Submit"
-                    onClick={updateProfileData}
-                >
-                    Save
-                </Button>
-            </div>
+         
            
           </Card.Body>
         </Card>  
@@ -248,32 +278,43 @@ const ProfileEdit = ({goBack }) =>{
           <Card.Body>          
             <Card.Title>Edit Skills</Card.Title>   
             <div className="profile-edit-input">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="skills">Skills</label>
-                        <textarea
-                            className="textarea-input"
-                            id="skills"
-                            name="skills"
-                            onChange={getInput} 
-                            rows={3}
-                            value={editInputs.skills}
-                        />
-                </div>
+            <div>
+              <label htmlFor="skills">Skills</label>
+              <div>
+                {editInputs.skills.map((skill, index) => (
+                  <Badge key={index} pill variant="primary" className="mr-1" onClick={() => handleRemoveSkill(index)}>
+                    {skill}
+                    <FaTimes className="ml-1" onClick={() => handleRemoveSkill(index)} style={{ cursor: 'pointer' }} />
+                  </Badge>
+                ))}
+              </div>
+              <input
+                className="edit-input"
+                type="text"
+                id="skills"
+                name="skills"
+                onChange={getInput}
+                onKeyDown={handleKeyDown}
+                value={newSkill}
+                placeholder="Enter new skill and press Enter"
+              />
+            </div>
                 </div>  
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ToastContainer />
+           
+          </Card.Body>
+        </Card>       
+        <ToastContainer/>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
                     variant="primary"
                     style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
                     type="Submit"
                     onClick={updateProfileData}
+                    className="sticky-save-button"
                 >
                     Save
                 </Button>
-            </div>
-           
-          </Card.Body>
-        </Card>  
+            </div>             
       </div>
     )
 
