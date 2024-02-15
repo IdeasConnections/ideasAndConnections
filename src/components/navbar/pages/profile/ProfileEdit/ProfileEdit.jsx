@@ -283,8 +283,11 @@ const ProfileEdit = ({goBack }) =>{
               <div>
                 {editInputs.skills.map((skill, index) => (
                   <Badge key={index} pill variant="primary" className="mr-1" onClick={() => handleRemoveSkill(index)}>
+                    <div style={{display:'flex'}}>
                     {skill}
                     <FaTimes className="ml-1" onClick={() => handleRemoveSkill(index)} style={{ cursor: 'pointer' }} />
+                    </div>
+                   
                   </Badge>
                 ))}
               </div>
@@ -304,17 +307,25 @@ const ProfileEdit = ({goBack }) =>{
           </Card.Body>
         </Card>       
         <ToastContainer/>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+        
                 <Button
                     variant="primary"
-                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
+                    style={{
+                      backgroundColor: 'white',
+                      color: 'black',
+                      fontWeight: 'bold',
+                      marginTop: '10px',
+                      display: 'flex', // Add display: flex
+                      justifyContent: 'center', // Add justifyContent: center
+                      alignItems: 'center', // Add alignItems: center
+                    }}
                     type="Submit"
                     onClick={updateProfileData}
                     className="sticky-save-button"
                 >
                     Save
                 </Button>
-            </div>             
+                       
       </div>
     )
 

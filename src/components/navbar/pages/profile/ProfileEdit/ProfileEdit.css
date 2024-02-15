@@ -3,7 +3,7 @@
     color: black;
     min-height: 80vh;
     min-width: 80vw;
-    margin-top: 1000px;
+    margin-top: 1100px;
     border: 1px solid #000;
 }
 .profileEdit1{
@@ -103,8 +103,9 @@
 .sticky-save-button {
     position: fixed;
     bottom: 10px; /* Adjust this value as needed */
-    width: 70px; /* Adjust width and left for centering */
-    transform: translateX(-50%);
+    width: 300px; /* Adjust width and left for centering */
+    height: 30px;
+    transform: translateX(0%);
     z-index: 999; /* Ensure it's above other content */
     background-color: white; /* Optionally, add a background color */
     padding: 10px; /* Add padding for better visibility */
