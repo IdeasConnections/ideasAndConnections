@@ -282,7 +282,7 @@ const ProfileEdit = ({goBack }) =>{
               <label htmlFor="skills">Skills</label>
               <div>
                 {editInputs.skills.map((skill, index) => (
-                  <Badge key={index} pill variant="primary" className="mr-1" onClick={() => handleRemoveSkill(index)}>
+                  <Badge key={index} pill variant="primary" className="mr-1 mb-2" onClick={() => handleRemoveSkill(index)}>
                     <div style={{display:'flex'}}>
                     {skill}
                     <FaTimes className="ml-1" onClick={() => handleRemoveSkill(index)} style={{ cursor: 'pointer' }} />
