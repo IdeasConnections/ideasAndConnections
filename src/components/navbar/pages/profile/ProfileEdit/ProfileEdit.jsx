@@ -30,6 +30,8 @@ const ProfileEdit = ({goBack }) =>{
     const [modalOpen, setModalOpen] = useState(false)
     const [progress, setProgress] = useState(0)
     const [newSkill, setNewSkill] = useState("");
+    const [countryCode, setCountryCode] = useState("");
+
 
     const getInput = (event) => {
         const { name, value } = event.target;
@@ -59,12 +61,14 @@ const ProfileEdit = ({goBack }) =>{
         setEditInputs({ ...editInputs, skills: updatedSkills });
       };
 
-    const updateProfileData = () =>{
-       editProfile(user?.uid, editInputs)
-       toast.success("Profile updated successfully");
-       setTimeout(goBack, 1000)
-       
-    }
+      const updateProfileData = () => {
+        const fullPhoneNumber = `${countryCode} ${editInputs.phoneNumber}`; // Include the country code
+        const updatedInputs = { ...editInputs, phoneNumber: fullPhoneNumber };
+        editProfile(user?.uid, updatedInputs);
+        toast.success("Profile updated successfully");
+        setTimeout(goBack, 1000);
+    };
+    
 
     const getImage = (event) =>{
         setCurrentImage(event.target.files[0])
@@ -143,18 +147,37 @@ const ProfileEdit = ({goBack }) =>{
                         value={editInputs.email}
                     />
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="phoneNumber">Phone Number</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="phoneNumber"
-                            // placeholder="Last Name"
-                            name="phoneNumber"
-                            onChange={getInput} 
-                            value={editInputs.phoneNumber}
-                        />
-                </div>
+                <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                                <label htmlFor="phoneNumber">Phone Number</label>
+                                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                    <select
+                                        className="edit-input"
+                                        value={countryCode}
+                                        onChange={(e) => setCountryCode(e.target.value)}
+                                        style={{ width: '60px', marginRight: '5px' }}
+                                    >
+                                        <option value="" disabled hidden>
+                                          +91
+                                        </option>
+                                        {countries.map((country) => (
+                                            <option key={country.id} value={country.code}>
+                                                {country.code}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <input
+                                        className="edit-input"
+                                        type="tel"
+                                        id="phoneNumber"
+                                        name="phoneNumber"
+                                        onChange={getInput}
+                                        value={editInputs.phoneNumber}
+                                        style={{ flex: '1' }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
                             <label htmlFor="country">Country</label>
