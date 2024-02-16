@@ -6,7 +6,7 @@ import FileUploadModal from "./FileUploadModal";
 import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
-
+import { countries } from "../../../../../assets/countries";
 
 
 const ProfileEdit = ({goBack }) =>{
@@ -157,17 +157,20 @@ const ProfileEdit = ({goBack }) =>{
                 </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="country">Country</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="country"
-                            // placeholder="Last Name"
-                            name="country"
-                            onChange={getInput} 
-                           value={editInputs.country}
-                        />
-                </div>
+                            <label htmlFor="country">Country</label>
+                            <select
+                                className="edit-input"
+                                id="country"
+                                name="country"
+                                onChange={getInput}
+                                value={editInputs.country}
+                            >
+                                <option value="" disabled hidden>Select country</option>
+                                {countries.map((country, index) => (
+                                    <option key={index} value={country.name}>{country.name}</option>
+                                ))}
+                            </select>
+                        </div>
                 <div style={{display:'flex', gap: '20px'}}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '40%' }}>
                     <label htmlFor="postalCode">Postal Code</label>
