@@ -3,7 +3,7 @@ import "./App.css";
 import ProtectedRoute from "./components/auth_pages/ProtectedRoute";
 import SignUp from "./components/auth_pages/SignUp";
 import SignIn from "./components/auth_pages/SignIn";
-import HomePage from "./components/home/HomePage";
+import HomePage from "./components/navbar/pages/home/HomePage";
 import ForgotPassword from "./components/auth_pages/ForgotPass";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import Profile from "./components/navbar/pages/profile/Profile";
