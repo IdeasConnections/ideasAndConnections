@@ -100,20 +100,19 @@ const Navbar = () => {
                        <p>Notifications</p>
                    
                 </li>
-                <li className="icon-with-text">
-                       <FaRegUser size={30} onClick={()=> goToRouter('/profile')}/>  
+                <li className="icon-with-text" onClick={()=> goToRouter('/profile')}>
+                       <FaRegUser size={30} />  
                        <p>My Profile</p>
                    
                 </li>
             
-                <li className="icon-with-text">
-                    <AiOutlinePoweroff size={30} onClick={handleLogout}/>
+                <li className="icon-with-text" onClick={handleLogout}>
+                    <AiOutlinePoweroff size={30} />
                     <p>Log out</p>
                 </li>
                 <li>
                 <button className="dark-mode-toggle" onClick={toggleDarkMode}>
-                    {darkMode ? <FaSun size={30} color="#ffffff"/> : <FaMoon size={30}/>}
-                   
+                    {darkMode ? <FaSun size={30} color="#ffffff"/> : <FaMoon size={30}/>}     
                 </button>
                 <p>Mode</p>
                 </li>
