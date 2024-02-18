@@ -6,7 +6,9 @@ import FileUploadModal from "./FileUploadModal";
 import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
-
+import { countries } from "../../../../../assets/countries";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const ProfileEdit = ({goBack }) =>{
@@ -30,15 +32,17 @@ const ProfileEdit = ({goBack }) =>{
     const [modalOpen, setModalOpen] = useState(false)
     const [progress, setProgress] = useState(0)
     const [newSkill, setNewSkill] = useState("");
+    const [countryCode, setCountryCode] = useState("");
+
 
     const getInput = (event) => {
-        const { name, value } = event.target;
-        if (name === "skills") {
+      const { name, value } = event.target;
+      if (name === "skills") {
           setNewSkill(value);
-        } else {
+            } else {
           setEditInputs({ ...editInputs, [name]: value });
-        }
-      };
+      }
+  };
     
       const handleKeyDown = (event) => {
         if (event.key === "Enter") {
@@ -59,12 +63,14 @@ const ProfileEdit = ({goBack }) =>{
         setEditInputs({ ...editInputs, skills: updatedSkills });
       };
 
-    const updateProfileData = () =>{
-       editProfile(user?.uid, editInputs)
-       toast.success("Profile updated successfully");
-       setTimeout(goBack, 1000)
-       
-    }
+      const updateProfileData = () => {
+        const fullPhoneNumber = `${countryCode} ${editInputs.phoneNumber}`; // Include the country code
+        const updatedInputs = { ...editInputs, phoneNumber: fullPhoneNumber };
+    editProfile(user?.uid, updatedInputs);
+        toast.success("Profile updated successfully");
+        setTimeout(goBack, 1000);
+    };
+    
 
     const getImage = (event) =>{
         setCurrentImage(event.target.files[0])
@@ -74,7 +80,7 @@ const ProfileEdit = ({goBack }) =>{
     }
 
     return(
-        <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex">
+        <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex " >
         <FileUploadModal progress={progress} currentImage= {currentImage} modalOpen={modalOpen} setModalOpen={setModalOpen} getImage={getImage} uploadImageTostorage={uploadImageTostorage}/>  
         <Card className={`profileEdit ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>  
@@ -94,7 +100,7 @@ const ProfileEdit = ({goBack }) =>{
                         
             <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                    <label htmlFor="firstName">First Name</label>
+                    <label htmlFor="firstName">First Name *</label>
                     <input 
                         className="edit-input" 
                         type="text" 
@@ -106,7 +112,7 @@ const ProfileEdit = ({goBack }) =>{
                     />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="lastName">Last Name</label>
+                        <label htmlFor="lastName">Last Name *</label>
                         <input 
                             className="edit-input" 
                             type="text" 
@@ -120,7 +126,7 @@ const ProfileEdit = ({goBack }) =>{
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="headline">Headline</label>
+                        <label htmlFor="headline">Headline *</label>
                         <textarea
                             className="textarea-input"
                             id="headline"
@@ -132,7 +138,7 @@ const ProfileEdit = ({goBack }) =>{
                 </div>
                 <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">Email *</label>
                     <input 
                         className="edit-input" 
                         type="email" 
@@ -143,31 +149,53 @@ const ProfileEdit = ({goBack }) =>{
                         value={editInputs.email}
                     />
                 </div>
+                <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                                <label htmlFor="phoneNumber">Phone Number *</label>
+                                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                    <select
+                                        className="edit-input"
+                                        value={countryCode}
+                                        onChange={(e) => setCountryCode(e.target.value)}
+                                        style={{ width: '60px', marginRight: '5px' }}
+                                    >
+                                        <option value="" disabled hidden>
+                                          +91
+                                        </option>
+                                        {countries.map((country) => (
+                                            <option key={country.id} value={country.code}>
+                                                {country.code}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <input
+                                        className="edit-input"
+                                        type="tel"
+                                        id="phoneNumber"
+                                        name="phoneNumber"
+                                        onChange={getInput}
+                                        value={editInputs.phoneNumber}
+                                        style={{ flex: '1' }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="phoneNumber">Phone Number</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="phoneNumber"
-                            // placeholder="Last Name"
-                            name="phoneNumber"
-                            onChange={getInput} 
-                            value={editInputs.phoneNumber}
-                        />
-                </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="country">Country</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="country"
-                            // placeholder="Last Name"
-                            name="country"
-                            onChange={getInput} 
-                           value={editInputs.country}
-                        />
-                </div>
+                            <label htmlFor="country">Country</label>
+                            <select
+                                className="edit-input"
+                                id="country"
+                                name="country"
+                                onChange={getInput}
+                                value={editInputs.country}
+                            >
+                                <option value="" disabled hidden>Select country</option>
+                                {countries.map((country, index) => (
+                                    <option key={index} value={country.name}>{country.name}</option>
+                                ))}
+                            </select>
+                        </div>
                 <div style={{display:'flex', gap: '20px'}}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '40%' }}>
                     <label htmlFor="postalCode">Postal Code</label>
@@ -222,22 +250,22 @@ const ProfileEdit = ({goBack }) =>{
           <Card.Body>          
             <Card.Title> Edit Education</Card.Title>   
             <div className="profile-edit-input">
-               
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="education">Education</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="education"
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
+                <label htmlFor="education">Education</label>
+                                    <input
+                        className="edit-input"
+                        type="text"
+                        id="education"
                             // placeholder="Last Name"
                             name="education"
-                            onChange={getInput} 
-                            value={editInputs.education}
-                        />
+                        onChange={getInput}
+                        value={editInputs.education}
+                    />
                 </div>
-             
-                </div>  
-          
+            
+        </div>
+
           </Card.Body>
         </Card>   
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
@@ -282,9 +310,12 @@ const ProfileEdit = ({goBack }) =>{
               <label htmlFor="skills">Skills</label>
               <div>
                 {editInputs.skills.map((skill, index) => (
-                  <Badge key={index} pill variant="primary" className="mr-1" onClick={() => handleRemoveSkill(index)}>
+                  <Badge key={index} pill variant="primary" className="mr-1 mb-2" onClick={() => handleRemoveSkill(index)}>
+                    <div style={{display:'flex'}}>
                     {skill}
                     <FaTimes className="ml-1" onClick={() => handleRemoveSkill(index)} style={{ cursor: 'pointer' }} />
+                    </div>
+                   
                   </Badge>
                 ))}
               </div>
@@ -304,17 +335,25 @@ const ProfileEdit = ({goBack }) =>{
           </Card.Body>
         </Card>       
         <ToastContainer/>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+        
                 <Button
                     variant="primary"
-                    style={{ backgroundColor: 'white', color: 'black', fontWeight: 'bold', marginTop: '10px' }}
+                    style={{
+                      backgroundColor: 'white',
+                      color: 'black',
+                      fontWeight: 'bold',
+                      marginTop: '10px',
+                      display: 'flex', // Add display: flex
+                      justifyContent: 'center', // Add justifyContent: center
+                      alignItems: 'center', // Add alignItems: center
+                    }}
                     type="Submit"
                     onClick={updateProfileData}
                     className="sticky-save-button"
                 >
                     Save
                 </Button>
-            </div>             
+                       
       </div>
     )
 

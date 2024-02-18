@@ -68,26 +68,39 @@ export function UserAuthContextProvider({ children }) {
   function logOut() {
     return signOut(auth);
   }
-
   async function googleSignIn() {
     const googleAuthProvider = new GoogleAuthProvider();
+  
     try {
       const result = await signInWithPopup(auth, googleAuthProvider);
       const user = result.user;
-      console.log('test', user)
-   // Extract user data
-      const { displayName, email } = user;
-    // Write user data to Firestore
-      await setDoc(doc(userRef, user.uid), {
-        displayName,
-        email,
-        // Any other data you want to store
-      });
+  
+      const userDocRef = doc(userRef, user.uid);
+  
+      // Check if the user document exists in Firestore before writing data
+      try {
+        const userDocSnapshot = await getDoc(userDocRef);
+  
+        if (!userDocSnapshot.exists()) {
+          // User document doesn't exist, create it with extracted data
+          await setDoc(userDocRef, {
+            displayName: user.displayName,
+            email: user.email,
+            // Add any other relevant user data you want to store
+          });
+        } else {
+          console.log('User document already exists in Firestore, data not re-written.');
+        }
+      } catch (error) {
+        console.error('Error fetching user document:', error);
+        throw error; // Re-throw the error to be handled appropriately
+      }
+  
       return result;
     } catch (error) {
-      // Handle sign-in errors
-      console.error("Google sign-in error:", error);
-      throw error;
+      // Handle Google sign-in errors here
+      console.error('Google sign-in error:', error);
+      throw error; // Re-throw the error for centralized handling
     }
   }
   
@@ -151,6 +164,7 @@ export function UserAuthContextProvider({ children }) {
           const userDocSnapshot = await getDoc(userDocRef);
           if (userDocSnapshot.exists()) {
             const userData = userDocSnapshot.data();
+            console.log('uuuuuu', userData)
             setUser(prevUser => ({ ...prevUser, ...userData }));
           } else {
             console.log("User document does not exist in Firestore");
