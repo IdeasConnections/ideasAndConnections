@@ -7,6 +7,8 @@ import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
 import { countries } from "../../../../../assets/countries";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 
@@ -20,8 +22,8 @@ const ProfileEdit = ({goBack }) =>{
         education: user?.education || {  // Initialize education with existing data or an empty object if no data is present
           fieldOfStudy: '',
           degree: '',
-          startDate: '',
-          endDate: ''
+          startDate: null,
+          endDate: null
       },
         country: user?.country || '',
         postalCode: user?.postalCode || '',
@@ -55,6 +57,19 @@ const ProfileEdit = ({goBack }) =>{
           setEditInputs({ ...editInputs, [name]: value });
       }
   };
+
+  const handleDateChange = (date, field) => {
+    // Extract only the date portion from the selected date
+    const selectedDate = date ? new Date(date.setUTCHours(0, 0, 0, 0)) : null;
+    setEditInputs((prevState) => ({
+        ...prevState,
+        education: {
+            ...prevState.education,
+            [field]: selectedDate,
+        },
+    }));
+};
+
     
       const handleKeyDown = (event) => {
         if (event.key === "Enter") {
@@ -285,27 +300,28 @@ const ProfileEdit = ({goBack }) =>{
                 />
             </div>
             <div className="profile-edit-input">
-                <label htmlFor="startDate">Start Date</label>
-                <input
-                    className="edit-input"
-                    type="text"
-                    id="startDate"
-                    name="education.startDate"
-                    onChange={getInput}
-                    value={editInputs.education.startDate}
-                />
-            </div>
-            <div className="profile-edit-input">
-                <label htmlFor="endDate">End Date</label>
-                <input
-                    className="edit-input"
-                    type="text"
-                    id="endDate"
-                    name="education.endDate"
-                    onChange={getInput}
-                    value={editInputs.education.endDate}
-                />
-            </div>
+                        <label htmlFor="startDate">Start Date</label>
+                        <DatePicker
+                            id="startDate"
+                            selected={editInputs.education.startDate}
+                            onChange={(date) => handleDateChange(date, "startDate")}
+                            dateFormat="dd/MM/yyyy" // Customize date format as needed
+                            className="edit-input"
+                            placeholderText="Select Start Date"
+                        />
+                    </div>
+                    <div className="profile-edit-input">
+                        <label htmlFor="endDate">End Date</label>
+                        <DatePicker
+                            id="endDate"
+                            selected={editInputs.education.endDate}
+                            onChange={(date) => handleDateChange(date, "endDate")}
+                            dateFormat="dd/MM/yyyy" // Customize date format as needed
+                            className="edit-input"
+                            placeholderText="Select End Date"
+                        />
+                    </div>
+
           </Card.Body>
         </Card>   
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
