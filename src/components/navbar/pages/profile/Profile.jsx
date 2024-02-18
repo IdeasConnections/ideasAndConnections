@@ -4,11 +4,16 @@ import { Card , Badge} from 'react-bootstrap';
 import './Profile.css';
 import ProfileEdit from './ProfileEdit/ProfileEdit';
 import defaultProfile from '../../../../assets/profile.png'
+import FileUploadModal from './ProfileEdit/FileUploadModal';
+import { FaPencilAlt  } from 'react-icons/fa';
 
 const Profile = () => {
-  const { darkMode, user } = useUserAuth();
+  const { darkMode, user, uploadCoverPhoto } = useUserAuth();
   const [isEdit, setIsEdit] = useState(false)
   const [userData, setUserData] = useState(null);
+  const [currentImage, setCurrentImage] = useState({})
+  const [progress, setProgress] = useState(0)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const toggleEdit = () => {
     setIsEdit(!isEdit);
@@ -21,16 +26,33 @@ const Profile = () => {
     console.log('data fromprofile', user)
   }, [user]);
 
+  const getImage = (event) =>{
+    setCurrentImage(event.target.files[0])
+}
+const uploadImageTostorage = () =>{
+  uploadCoverPhoto(currentImage, user?.uid, setModalOpen, setProgress)
+}
+
+
   return (
     <>
     { isEdit ? 
     (<ProfileEdit goBack={toggleEdit}/>)
      :
     ( <div className="profile-card-container d-flex flex-column justify-content-center align-items-center flex">
+       <FileUploadModal progress={progress} currentImage= {currentImage} modalOpen={modalOpen} setModalOpen={setModalOpen} getImage={getImage} uploadImageTostorage={uploadImageTostorage}/>  
       <Card className={`profile ${darkMode ? 'dark-mode' : ''}`}>
         <Card.Body>
+        <div className="cover-photo-container">
+            <img className='cover-photo' src={user?.coverPhotoLink || defaultProfile} alt='cover photo'/>
+            <div style={{ position: 'absolute', top: '80%', right: '0%', transform: 'translate(-50%, -50%)' }}> {/* Position pencil icon */}
+                <div style={{ backgroundColor: 'white', borderRadius: '50%', padding: '5px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)'  }}>
+                    <FaPencilAlt className='pencil-icon' style={{ color: 'black', fontSize: '24px', cursor: 'pointer' }} onClick={() => setModalOpen(true)} />
+                </div>
+            </div>
+            </div>
           <div className='edit-btn'>
-            <button onClick={toggleEdit}>Edit</button>
+            <button onClick={toggleEdit}>Edit Profile</button>
           </div>
           {userData && ( // Render user data only if it's available
           <div>

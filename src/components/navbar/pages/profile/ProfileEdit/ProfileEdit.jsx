@@ -7,8 +7,7 @@ import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
 import { countries } from "../../../../../assets/countries";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 
 
 const ProfileEdit = ({goBack }) =>{
@@ -89,14 +88,15 @@ const ProfileEdit = ({goBack }) =>{
             </div>        
             <Card.Title> Edit Profile</Card.Title>   
             <div className="profile-edit-input">
-            <div style={{ position: 'relative' }}>
-                    <img className='profile-img'  src={user?.imageLink || defaultProfile} alt='profile image' onClick={() => setModalOpen(true)} />
-                    <div style={{ position: 'absolute', top: '192px', left: '200px' }}>
-                        <div style={{ backgroundColor: 'white', borderRadius: '50%', padding: '5px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)' }}>
-                            <FaPencilAlt className='pencil-icon' style={{ color: 'black', fontSize: '24px', cursor: 'pointer' }}  onClick={() => setModalOpen(true)}/>
-                        </div>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+                <img className='profile-img' src={user?.imageLink || defaultProfile} alt='profile image' />
+                <div style={{ position: 'absolute', top: '200px', left: '200px', transform: 'translate(25%, 80%)', zIndex: '1' }}>
+                    <div style={{ backgroundColor: 'white', borderRadius: '50%', padding: '5px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)' }}>
+                        <FaPencilAlt className='pencil-icon' style={{ color: 'black', fontSize: '24px', cursor: 'pointer' }} onClick={() => setModalOpen(true)} />
                     </div>
                 </div>
+            </div>
+
                         
             <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
