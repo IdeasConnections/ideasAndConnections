@@ -287,8 +287,8 @@ const ProfileEdit = ({goBack }) =>{
                     onChange={getInput}
                     value={editInputs.education.fieldOfStudy}
                 />
-            </div>
-            <div className="profile-edit-input">
+          
+          
                 <label htmlFor="degree">Degree</label>
                 <input
                     className="edit-input"
@@ -297,29 +297,33 @@ const ProfileEdit = ({goBack }) =>{
                     name="education.degree"
                     onChange={getInput}
                     value={editInputs.education.degree}
-                />
-            </div>
-            <div className="profile-edit-input">
-                        <label htmlFor="startDate">Start Date</label>
-                        <DatePicker
-                            id="startDate"
-                            selected={editInputs.education.startDate}
-                            onChange={(date) => handleDateChange(date, "startDate")}
-                            dateFormat="dd/MM/yyyy" // Customize date format as needed
-                            className="edit-input"
-                            placeholderText="Select Start Date"
-                        />
-                    </div>
-                    <div className="profile-edit-input">
-                        <label htmlFor="endDate">End Date</label>
-                        <DatePicker
-                            id="endDate"
-                            selected={editInputs.education.endDate}
-                            onChange={(date) => handleDateChange(date, "endDate")}
-                            dateFormat="dd/MM/yyyy" // Customize date format as needed
-                            className="edit-input"
-                            placeholderText="Select End Date"
-                        />
+                />  
+           
+           <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
+                          <label htmlFor="startDate">Start Date</label>
+                          <DatePicker
+                              id="startDate"
+                              selected={editInputs.education.startDate}
+                              onChange={(date) => handleDateChange(date, "startDate")}
+                              dateFormat="dd/MM/yyyy" // Customize date format as needed
+                              className="edit-input"
+                              placeholderText="Select Start Date"
+                          />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <label htmlFor="endDate">End Date</label>
+                          <DatePicker
+                              id="endDate"
+                              selected={editInputs.education.endDate}
+                              onChange={(date) => handleDateChange(date, "endDate")}
+                              dateFormat="dd/MM/yyyy" // Customize date format as needed
+                              className="edit-input"
+                              placeholderText="Select End Date"
+                          />
+                      </div>
+                  </div>
+
                     </div>
 
           </Card.Body>
