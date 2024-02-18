@@ -17,7 +17,12 @@ const ProfileEdit = ({goBack }) =>{
         lastName: user?.lastName || '',
         headline: user?.headline || '',
         position: user?.position || '',
-        education: user?.education || '',
+        education: user?.education || {  // Initialize education with existing data or an empty object if no data is present
+          fieldOfStudy: '',
+          degree: '',
+          startDate: '',
+          endDate: ''
+      },
         country: user?.country || '',
         postalCode: user?.postalCode || '',
         location: user?.location || '',
@@ -33,12 +38,20 @@ const ProfileEdit = ({goBack }) =>{
     const [newSkill, setNewSkill] = useState("");
     const [countryCode, setCountryCode] = useState("");
 
-
     const getInput = (event) => {
       const { name, value } = event.target;
       if (name === "skills") {
           setNewSkill(value);
-            } else {
+      } else if (name.startsWith("education.")) {
+          const [fieldName, subFieldName] = name.split(".");
+          setEditInputs(prevState => ({
+              ...prevState,
+              education: {
+                  ...prevState.education,
+                  [subFieldName]: value
+              }
+          }));
+      } else {
           setEditInputs({ ...editInputs, [name]: value });
       }
   };
@@ -250,22 +263,49 @@ const ProfileEdit = ({goBack }) =>{
           <Card.Body>          
             <Card.Title> Edit Education</Card.Title>   
             <div className="profile-edit-input">
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                <label htmlFor="education">Education</label>
-                                    <input
-                        className="edit-input"
-                        type="text"
-                        id="education"
-                            // placeholder="Last Name"
-                            name="education"
-                        onChange={getInput}
-                        value={editInputs.education}
-                    />
-                </div>
-            
-        </div>
-
+                <label htmlFor="fieldOfStudy">Field of Study</label>
+                <input
+                    className="edit-input"
+                    type="text"
+                    id="fieldOfStudy"
+                    name="education.fieldOfStudy"
+                    onChange={getInput}
+                    value={editInputs.education.fieldOfStudy}
+                />
+            </div>
+            <div className="profile-edit-input">
+                <label htmlFor="degree">Degree</label>
+                <input
+                    className="edit-input"
+                    type="text"
+                    id="degree"
+                    name="education.degree"
+                    onChange={getInput}
+                    value={editInputs.education.degree}
+                />
+            </div>
+            <div className="profile-edit-input">
+                <label htmlFor="startDate">Start Date</label>
+                <input
+                    className="edit-input"
+                    type="text"
+                    id="startDate"
+                    name="education.startDate"
+                    onChange={getInput}
+                    value={editInputs.education.startDate}
+                />
+            </div>
+            <div className="profile-edit-input">
+                <label htmlFor="endDate">End Date</label>
+                <input
+                    className="edit-input"
+                    type="text"
+                    id="endDate"
+                    name="education.endDate"
+                    onChange={getInput}
+                    value={editInputs.education.endDate}
+                />
+            </div>
           </Card.Body>
         </Card>   
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>

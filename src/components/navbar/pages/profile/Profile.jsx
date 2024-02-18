@@ -71,7 +71,7 @@ const uploadImageTostorage = () =>{
                  
               </div>
               <div className='right-info'>
-                   <p className='education'>{userData.education}</p>
+                   {/* <p className='education'>{userData.education}</p> */}
                    <p className='company'>{userData.company}</p>
               </div>        
           </div>
@@ -94,7 +94,7 @@ const uploadImageTostorage = () =>{
           <div>
               <div>
                    <p className='card-title'>Education</p>
-                   <p className='education'>{userData.education}</p>           
+                   {/* <p className='education'>{userData.education}</p>            */}
               </div>            
           </div>
          
