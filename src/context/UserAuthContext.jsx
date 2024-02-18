@@ -150,6 +150,28 @@ export function UserAuthContextProvider({ children }) {
     );
   }
 
+  async function uploadCoverPhoto (file, id, setModalOpen, setProgress){
+   
+    const profilePicsRef = ref(storage, `coverImages/${file.name}`)
+    const uploadTask = uploadBytesResumable(profilePicsRef, file )
+    uploadTask.on("state_changed",
+       (snapshot) => {
+         const progress =
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+         setProgress(progress)
+       },
+       (error) => {
+         alert(error);
+       },
+       () => {
+         getDownloadURL(uploadTask.snapshot.ref).then((response) => {
+           editProfile(id, {coverPhotoLink:response})
+           setModalOpen(false)
+         });
+       }
+     );
+   }
+ 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
@@ -193,7 +215,8 @@ export function UserAuthContextProvider({ children }) {
         darkMode, 
         toggleDarkMode,
         editProfile,
-        uploadImage
+        uploadImage,
+        uploadCoverPhoto
       }}
     >
       {children}
