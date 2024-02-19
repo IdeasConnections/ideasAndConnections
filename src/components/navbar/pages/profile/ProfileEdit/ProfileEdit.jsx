@@ -19,12 +19,12 @@ const ProfileEdit = ({goBack }) =>{
         lastName: user?.lastName || '',
         headline: user?.headline || '',
         position: user?.position || '',
-        education: user?.education || {  // Initialize education with existing data or an empty object if no data is present
-          fieldOfStudy: '',
-          degree: '',
-          startDate: '',
-          endDate: ''
-      },
+        educations: user?.educations || [{ // Initialize with existing data or an empty array
+            fieldOfStudy: '',
+            degree: '',
+            startDate: '',
+            endDate: ''
+        }],
         country: user?.country || '',
         postalCode: user?.postalCode || '',
         location: user?.location || '',
@@ -93,6 +93,32 @@ const ProfileEdit = ({goBack }) =>{
     const uploadImageTostorage = () =>{
         uploadImage(currentImage, user?.uid, setModalOpen, setProgress)
     }
+
+
+    const handleEducationChange = (event, index) => {
+        const { name, value } = event.target;
+        const updatedEducations = [...editInputs.educations];
+        updatedEducations[index] = {
+            ...updatedEducations[index],
+            [name]: value
+        };
+        setEditInputs({ ...editInputs, educations: updatedEducations });
+    };
+
+    // Function to add a new education entry
+    const addEducation = () => {
+        setEditInputs({
+            ...editInputs,
+            educations: [...editInputs.educations, { fieldOfStudy: '', degree: '', startDate: '', endDate: '' }]
+        });
+    };
+
+    // Function to remove an education entry
+    const removeEducation = (index) => {
+        const updatedEducations = [...editInputs.educations];
+        updatedEducations.splice(index, 1);
+        setEditInputs({ ...editInputs, educations: updatedEducations });
+    };
 
     return(
         <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex " >
@@ -265,55 +291,59 @@ const ProfileEdit = ({goBack }) =>{
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>          
             <Card.Title> Edit Education</Card.Title>   
-            <div className="profile-edit-input">
-                <label htmlFor="fieldOfStudy">Field of Study</label>
-                <input
-                    className="edit-input"
-                    type="text"
-                    id="fieldOfStudy"
-                    name="education.fieldOfStudy"
-                    onChange={getInput}
-                    value={editInputs.education.fieldOfStudy}
-                />
-          
-          
-                <label htmlFor="degree">Degree</label>
-                <input
-                    className="edit-input"
-                    type="text"
-                    id="degree"
-                    name="education.degree"
-                    onChange={getInput}
-                    value={editInputs.education.degree}
-                />  
-           
-           <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
-                          <label htmlFor="startDate">Start Date</label>
-                          <input
-                    className="edit-input"
-                    type="text"
-                    id="startDate"
-                    name="education.startDate"
-                    onChange={getInput}
-                    value={editInputs.education.startDate}
-                />  
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <label htmlFor="endDate">End Date</label>
-                          <input
-                    className="edit-input"
-                    type="text"
-                    id="endDate"
-                    name="education.endDate"
-                    onChange={getInput}
-                    value={editInputs.education.endDate}
-                />  
-                      </div>
-                  </div>
-
-                    </div>
-
+            {editInputs.educations.map((education, index) => (
+                <Card key={index} className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
+                    <Card.Body>
+                        <Card.Title>Edit Education {index + 1}</Card.Title>
+                        <div className="profile-edit-input">
+                            <label htmlFor={`fieldOfStudy${index}`}>Field of Study</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`fieldOfStudy${index}`}
+                                name={`fieldOfStudy`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.fieldOfStudy}
+                            />
+                            <label htmlFor={`degree${index}`}>Degree</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`degree${index}`}
+                                name={`degree`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.degree}
+                            />
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
+                                    <label htmlFor={`startDate${index}`}>Start Date</label>
+                                    <input
+                                        className="edit-input"
+                                        type="text"
+                                        id={`startDate${index}`}
+                                        name={`startDate`}
+                                        onChange={(event) => handleEducationChange(event, index)}
+                                        value={education.startDate}
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <label htmlFor={`endDate${index}`}>End Date</label>
+                                    <input
+                                        className="edit-input"
+                                        type="text"
+                                        id={`endDate${index}`}
+                                        name={`endDate`}
+                                        onChange={(event) => handleEducationChange(event, index)}
+                                        value={education.endDate}
+                                    />
+                                </div>
+                            </div>
+                            <button onClick={() => removeEducation(index)}>Remove</button>
+                        </div>
+                    </Card.Body>
+                </Card>
+            ))}
+            <Button onClick={addEducation} style={{backgroundColor:'white', color:'black', marginTop:'5px'}}>Add Education</Button>
           </Card.Body>
         </Card>   
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
