@@ -7,6 +7,8 @@ import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
 import { countries } from "../../../../../assets/countries";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 
@@ -17,7 +19,12 @@ const ProfileEdit = ({goBack }) =>{
         lastName: user?.lastName || '',
         headline: user?.headline || '',
         position: user?.position || '',
-        education: user?.education || '',
+        educations: user?.educations || [{ // Initialize with existing data or an empty array
+            fieldOfStudy: '',
+            degree: '',
+            startDate: '',
+            endDate: ''
+        }],
         country: user?.country || '',
         postalCode: user?.postalCode || '',
         location: user?.location || '',
@@ -33,16 +40,25 @@ const ProfileEdit = ({goBack }) =>{
     const [newSkill, setNewSkill] = useState("");
     const [countryCode, setCountryCode] = useState("");
 
-
     const getInput = (event) => {
       const { name, value } = event.target;
       if (name === "skills") {
           setNewSkill(value);
-            } else {
+      } else if (name.startsWith("education.")) {
+          const [fieldName, subFieldName] = name.split(".");
+          setEditInputs(prevState => ({
+              ...prevState,
+              education: {
+                  ...prevState.education,
+                  [subFieldName]: value
+              }
+          }));
+      } else {
           setEditInputs({ ...editInputs, [name]: value });
       }
   };
-    
+
+
       const handleKeyDown = (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
@@ -65,7 +81,7 @@ const ProfileEdit = ({goBack }) =>{
       const updateProfileData = () => {
         const fullPhoneNumber = `${countryCode} ${editInputs.phoneNumber}`; // Include the country code
         const updatedInputs = { ...editInputs, phoneNumber: fullPhoneNumber };
-    editProfile(user?.uid, updatedInputs);
+        editProfile(user?.uid, updatedInputs);
         toast.success("Profile updated successfully");
         setTimeout(goBack, 1000);
     };
@@ -77,6 +93,32 @@ const ProfileEdit = ({goBack }) =>{
     const uploadImageTostorage = () =>{
         uploadImage(currentImage, user?.uid, setModalOpen, setProgress)
     }
+
+
+    const handleEducationChange = (event, index) => {
+        const { name, value } = event.target;
+        const updatedEducations = [...editInputs.educations];
+        updatedEducations[index] = {
+            ...updatedEducations[index],
+            [name]: value
+        };
+        setEditInputs({ ...editInputs, educations: updatedEducations });
+    };
+
+    // Function to add a new education entry
+    const addEducation = () => {
+        setEditInputs({
+            ...editInputs,
+            educations: [...editInputs.educations, { fieldOfStudy: '', degree: '', startDate: '', endDate: '' }]
+        });
+    };
+
+    // Function to remove an education entry
+    const removeEducation = (index) => {
+        const updatedEducations = [...editInputs.educations];
+        updatedEducations.splice(index, 1);
+        setEditInputs({ ...editInputs, educations: updatedEducations });
+    };
 
     return(
         <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex " >
@@ -249,23 +291,59 @@ const ProfileEdit = ({goBack }) =>{
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>          
             <Card.Title> Edit Education</Card.Title>   
-            <div className="profile-edit-input">
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                <label htmlFor="education">Education</label>
+            {editInputs.educations.map((education, index) => (
+                <Card key={index} className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
+                    <Card.Body>
+                        <Card.Title>Edit Education {index + 1}</Card.Title>
+                        <div className="profile-edit-input">
+                            <label htmlFor={`fieldOfStudy${index}`}>Field of Study</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`fieldOfStudy${index}`}
+                                name={`fieldOfStudy`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.fieldOfStudy}
+                            />
+                            <label htmlFor={`degree${index}`}>Degree</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`degree${index}`}
+                                name={`degree`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.degree}
+                            />
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
+                                    <label htmlFor={`startDate${index}`}>Start Date</label>
                                     <input
-                        className="edit-input"
-                        type="text"
-                        id="education"
-                            // placeholder="Last Name"
-                            name="education"
-                        onChange={getInput}
-                        value={editInputs.education}
-                    />
-                </div>
-            
-        </div>
-
+                                        className="edit-input"
+                                        type="text"
+                                        id={`startDate${index}`}
+                                        name={`startDate`}
+                                        onChange={(event) => handleEducationChange(event, index)}
+                                        value={education.startDate}
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <label htmlFor={`endDate${index}`}>End Date</label>
+                                    <input
+                                        className="edit-input"
+                                        type="text"
+                                        id={`endDate${index}`}
+                                        name={`endDate`}
+                                        onChange={(event) => handleEducationChange(event, index)}
+                                        value={education.endDate}
+                                    />
+                                </div>
+                            </div>
+                            <button onClick={() => removeEducation(index)}>Remove</button>
+                        </div>
+                    </Card.Body>
+                </Card>
+            ))}
+            <Button onClick={addEducation} style={{backgroundColor:'white', color:'black', marginTop:'5px'}}>Add Education</Button>
           </Card.Body>
         </Card>   
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
