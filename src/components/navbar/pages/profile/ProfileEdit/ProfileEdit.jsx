@@ -22,8 +22,8 @@ const ProfileEdit = ({goBack }) =>{
         education: user?.education || {  // Initialize education with existing data or an empty object if no data is present
           fieldOfStudy: '',
           degree: '',
-          startDate: null,
-          endDate: null
+          startDate: '',
+          endDate: ''
       },
         country: user?.country || '',
         postalCode: user?.postalCode || '',
@@ -58,19 +58,7 @@ const ProfileEdit = ({goBack }) =>{
       }
   };
 
-  const handleDateChange = (date, field) => {
-    // Extract only the date portion from the selected date
-    const selectedDate = date ? new Date(date.setUTCHours(0, 0, 0, 0)) : null;
-    setEditInputs((prevState) => ({
-        ...prevState,
-        education: {
-            ...prevState.education,
-            [field]: selectedDate,
-        },
-    }));
-};
 
-    
       const handleKeyDown = (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
@@ -93,7 +81,7 @@ const ProfileEdit = ({goBack }) =>{
       const updateProfileData = () => {
         const fullPhoneNumber = `${countryCode} ${editInputs.phoneNumber}`; // Include the country code
         const updatedInputs = { ...editInputs, phoneNumber: fullPhoneNumber };
-    editProfile(user?.uid, updatedInputs);
+        editProfile(user?.uid, updatedInputs);
         toast.success("Profile updated successfully");
         setTimeout(goBack, 1000);
     };
@@ -302,25 +290,25 @@ const ProfileEdit = ({goBack }) =>{
            <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
                           <label htmlFor="startDate">Start Date</label>
-                          <DatePicker
-                              id="startDate"
-                              selected={editInputs.education.startDate}
-                              onChange={(date) => handleDateChange(date, "startDate")}
-                              dateFormat="dd/MM/yyyy" // Customize date format as needed
-                              className="edit-input"
-                              placeholderText="Select Start Date"
-                          />
+                          <input
+                    className="edit-input"
+                    type="text"
+                    id="startDate"
+                    name="education.startDate"
+                    onChange={getInput}
+                    value={editInputs.education.startDate}
+                />  
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
                           <label htmlFor="endDate">End Date</label>
-                          <DatePicker
-                              id="endDate"
-                              selected={editInputs.education.endDate}
-                              onChange={(date) => handleDateChange(date, "endDate")}
-                              dateFormat="dd/MM/yyyy" // Customize date format as needed
-                              className="edit-input"
-                              placeholderText="Select End Date"
-                          />
+                          <input
+                    className="edit-input"
+                    type="text"
+                    id="endDate"
+                    name="education.endDate"
+                    onChange={getInput}
+                    value={editInputs.education.endDate}
+                />  
                       </div>
                   </div>
 
