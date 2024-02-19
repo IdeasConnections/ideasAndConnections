@@ -3,7 +3,7 @@
     color: black;
     min-height: 80vh;
     min-width: 80vw;
-    margin-top: 2300px;
+    margin-top: 2500px;
     border: 1px solid #000;
 }
 .profileEdit1{
@@ -16,6 +16,7 @@
 }
 .profileEdit-card-container{
     background-color: white;
+    
 }
 /* .profileEdit.dark-mode{
     background-color: #14223a;
@@ -28,6 +29,7 @@
 .profile-edit-input{
     display: grid;
     gap: 10px;
+
 }
 .edit-input {
     height: 40px;
