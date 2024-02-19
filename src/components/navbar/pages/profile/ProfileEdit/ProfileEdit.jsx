@@ -20,10 +20,13 @@ const ProfileEdit = ({goBack }) =>{
         headline: user?.headline || '',
         position: user?.position || '',
         educations: user?.educations || [{ // Initialize with existing data or an empty array
+            school:'',
             fieldOfStudy: '',
             degree: '',
             startDate: '',
-            endDate: ''
+            endDate: '',
+            description: '',
+            activities:''
         }],
         country: user?.country || '',
         postalCode: user?.postalCode || '',
@@ -109,7 +112,7 @@ const ProfileEdit = ({goBack }) =>{
     const addEducation = () => {
         setEditInputs({
             ...editInputs,
-            educations: [...editInputs.educations, { fieldOfStudy: '', degree: '', startDate: '', endDate: '' }]
+            educations: [...editInputs.educations, { school: '', fieldOfStudy: '', degree: '', startDate: '', endDate: '', description: '', activities: '' }]
         });
     };
 
@@ -296,6 +299,15 @@ const ProfileEdit = ({goBack }) =>{
                     <Card.Body>
                         <Card.Title>Edit Education {index + 1}</Card.Title>
                         <div className="profile-edit-input">
+                        <label htmlFor={`school${index}`}>School</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`school${index}`}
+                                name={`school`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.school}
+                            />
                             <label htmlFor={`fieldOfStudy${index}`}>Field of Study</label>
                             <input
                                 className="edit-input"
@@ -313,6 +325,15 @@ const ProfileEdit = ({goBack }) =>{
                                 name={`degree`}
                                 onChange={(event) => handleEducationChange(event, index)}
                                 value={education.degree}
+                            />
+                             <label htmlFor={`activities${index}`}>Activities & Societies</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`activities${index}`}
+                                name={`activities`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.activities}
                             />
                             <div style={{ display: 'flex', flexDirection: 'row' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
@@ -338,6 +359,16 @@ const ProfileEdit = ({goBack }) =>{
                                     />
                                 </div>
                             </div>
+                            <label htmlFor={`description${index}`}>Description</label>
+                            <textarea
+                                className="textarea-input"
+                                type="text"
+                                id={`description${index}`}
+                                name={`description`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.description}
+                                rows={3}
+                            />
                             <button onClick={() => removeEducation(index)}>Remove</button>
                         </div>
                     </Card.Body>
