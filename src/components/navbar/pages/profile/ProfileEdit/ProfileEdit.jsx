@@ -20,15 +20,25 @@ const ProfileEdit = ({goBack }) =>{
         headline: user?.headline || '',
         position: user?.position || '',
         educations: user?.educations || [{ // Initialize with existing data or an empty array
+            school:'',
             fieldOfStudy: '',
             degree: '',
             startDate: '',
-            endDate: ''
+            endDate: '',
+            description: '',
+            activities:''
         }],
         country: user?.country || '',
         postalCode: user?.postalCode || '',
         location: user?.location || '',
-        company: user?.company || '',
+        companies: user?.companies || [{ // Initialize with existing data or an empty array
+            companyName:'',
+            designation: '',
+            joinDate: '',
+            leaveDate: '',
+            country: '',
+            description: '',
+        }],
         email: user?.email || '',
         phoneNumber: user?.phoneNumber || '',
         about: user?.about || '',
@@ -109,7 +119,7 @@ const ProfileEdit = ({goBack }) =>{
     const addEducation = () => {
         setEditInputs({
             ...editInputs,
-            educations: [...editInputs.educations, { fieldOfStudy: '', degree: '', startDate: '', endDate: '' }]
+            educations: [...editInputs.educations, { school: '', fieldOfStudy: '', degree: '', startDate: '', endDate: '', description: '', activities: '' }]
         });
     };
 
@@ -120,12 +130,38 @@ const ProfileEdit = ({goBack }) =>{
         setEditInputs({ ...editInputs, educations: updatedEducations });
     };
 
+    
+    const handleCompanyChange = (event, index) => {
+        const { name, value } = event.target;
+        const updatedCompanies = [...editInputs.companies];
+        updatedCompanies[index] = {
+            ...updatedCompanies[index],
+            [name]: value
+        };
+        setEditInputs({ ...editInputs, companies: updatedCompanies });
+    };
+
+    // Function to add a new education entry
+    const addCompany = () => {
+        setEditInputs({
+            ...editInputs,
+            companies: [...editInputs.companies, { companyName: '', designation: '', joinDate: '', leaveDate: '', country: '', description: '' }]
+        });
+    };
+
+    // Function to remove an education entry
+    const removeCompany = (index) => {
+        const updatedCompanies = [...editInputs.companies];
+        updatedCompanies.splice(index, 1);
+        setEditInputs({ ...editInputs, companies: updatedCompanies });
+    };
+
     return(
         <div className="profileEdit-card-container d-flex flex-column justify-content-center align-items-center flex " >
         <FileUploadModal progress={progress} currentImage= {currentImage} modalOpen={modalOpen} setModalOpen={setModalOpen} getImage={getImage} uploadImageTostorage={uploadImageTostorage}/>  
         <Card className={`profileEdit ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>  
-          <div className='edit-btn'>
+            <div className='edit-btn'>
               <button onClick={goBack}>Go Back</button>
             </div>        
             <Card.Title> Edit Profile</Card.Title>   
@@ -296,6 +332,15 @@ const ProfileEdit = ({goBack }) =>{
                     <Card.Body>
                         <Card.Title>Edit Education {index + 1}</Card.Title>
                         <div className="profile-edit-input">
+                        <label htmlFor={`school${index}`}>School</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`school${index}`}
+                                name={`school`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.school}
+                            />
                             <label htmlFor={`fieldOfStudy${index}`}>Field of Study</label>
                             <input
                                 className="edit-input"
@@ -313,6 +358,15 @@ const ProfileEdit = ({goBack }) =>{
                                 name={`degree`}
                                 onChange={(event) => handleEducationChange(event, index)}
                                 value={education.degree}
+                            />
+                             <label htmlFor={`activities${index}`}>Activities & Societies</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`activities${index}`}
+                                name={`activities`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.activities}
                             />
                             <div style={{ display: 'flex', flexDirection: 'row' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
@@ -338,6 +392,16 @@ const ProfileEdit = ({goBack }) =>{
                                     />
                                 </div>
                             </div>
+                            <label htmlFor={`description${index}`}>Description</label>
+                            <textarea
+                                className="textarea-input"
+                                type="text"
+                                id={`description${index}`}
+                                name={`description`}
+                                onChange={(event) => handleEducationChange(event, index)}
+                                value={education.description}
+                                rows={3}
+                            />
                             <button onClick={() => removeEducation(index)}>Remove</button>
                         </div>
                     </Card.Body>
@@ -349,35 +413,80 @@ const ProfileEdit = ({goBack }) =>{
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
           <Card.Body>          
             <Card.Title>Edit Experiance</Card.Title>   
-            <div className="profile-edit-input">
-             
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="company">Company</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="company"
-                            // placeholder="Last Name"
-                            name="company"
-                            onChange={getInput} 
-                           value={editInputs.company}
-                        />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', width: '100%' }}>
-                        <label htmlFor="currentPosition">Current Position</label>
-                        <input 
-                            className="edit-input" 
-                            type="text" 
-                            id="position"
-                            // placeholder="Last Name"
-                            name="position"
-                            onChange={getInput} 
-                            value={editInputs.position}
-                        />
-                </div>
-                </div>  
-         
-           
+            {editInputs.companies.map((company, index) => (
+                <Card key={index} className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
+                    <Card.Body>
+                        <Card.Title>Edit Experiance {index + 1}</Card.Title>
+                        <div className="profile-edit-input">
+                        <label htmlFor={`companyName${index}`}>Company Name</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`companyName${index}`}
+                                name={`companyName`}
+                                onChange={(event) => handleCompanyChange(event, index)}
+                                value={company.companyName}
+                            />
+                            <label htmlFor={`designation${index}`}>Designation</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`designation${index}`}
+                                name={`designation`}
+                                onChange={(event) => handleCompanyChange(event, index)}
+                                value={company.designation}
+                            />
+                           
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
+                                    <label htmlFor={`joinDate${index}`}>Join Date</label>
+                                    <input
+                                        className="edit-input"
+                                        type="text"
+                                        id={`joinDate${index}`}
+                                        name={`joinDate`}
+                                        onChange={(event) => handleCompanyChange(event, index)}
+                                        value={company.joinDate}
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <label htmlFor={`leaveDate${index}`}>End Date</label>
+                                    <input
+                                        className="edit-input"
+                                        type="text"
+                                        id={`leaveDate${index}`}
+                                        name={`leaveDate`}
+                                        onChange={(event) => handleCompanyChange(event, index)}
+                                        value={company.leaveDate}
+                                    />
+                                </div>
+                            </div>
+                            <label htmlFor={`country${index}`}>Country</label>
+                            <input
+                                className="edit-input"
+                                type="text"
+                                id={`country${index}`}
+                                name={`country`}
+                                onChange={(event) => handleCompanyChange(event, index)}
+                                value={company.country}
+                            />
+                          
+                            <label htmlFor={`description${index}`}>Description</label>
+                            <textarea
+                                className="textarea-input"
+                                type="text"
+                                id={`description${index}`}
+                                name={`description`}
+                                onChange={(event) => handleCompanyChange(event, index)}
+                                value={company.description}
+                                rows={3}
+                            />
+                            <button onClick={() => removeCompany(index)}>Remove</button>
+                        </div>
+                    </Card.Body>
+                </Card>
+            ))}
+            <Button onClick={addCompany} style={{backgroundColor:'white', color:'black', marginTop:'5px'}}>Add Company</Button>
           </Card.Body>
         </Card>  
         <Card className={`profileEdit1 ${darkMode ? 'dark-mode' : ''} `}>
