@@ -104,7 +104,7 @@ const uploadImageTostorage = () =>{
             {education.fieldOfStudy && <p className='edu-info'>{`${education.fieldOfStudy}`}</p>}
           </div> 
           <div>
-          {education.startDate && education.endDate && <p className='year-act'>{`${education.startDate} - ${education.endDate}  `}</p>}
+          {education.startDate && education.leaveDate && <p className='year-act'>{`${education.startDate} - ${education.endDate}  `}</p>}
            
           </div>
           <div>
@@ -125,15 +125,31 @@ const uploadImageTostorage = () =>{
           <div className='edit-btn'>
             <button onClick={toggleEdit}>Edit</button>
           </div>
-          {userData && ( // Render user data only if it's available
+          {userData && userData.companies && (
+      <div>
+         <p className='card-title'>Company</p>
+      {userData.companies.map((company, index) => (
+        <div key={index}>
           <div>
-              <div>
-                   <p className='card-title'>Experiance</p>
-                   <p className='education'>{userData.company}</p>           
-              </div>            
+            <p className='education'>{company.companyName}</p>           
+          </div> 
+          <div style={{display: 'flex' , gap:'4px'}}>  
+            {company.designation && <p className='edu-info'>{`${company.designation}`}</p>}
+            {company.designation && company.country && <p className='edu-info'>, </p>}
+            {company.country && <p className='edu-info'>{`${company.country}`}</p>}
+          </div> 
+          <div>
+          {company.joinDate && company.leaveDate && <p className='year-act'>{`${company.joinDate} - ${company.leaveDate}  `}</p>}
+           
           </div>
-         
-              )}
+          <div style={{marginTop:'10px'}}>
+            <p className='description-data'>{`${company.description} `}</p>
+          </div>
+          {index !== userData.companies.length - 1 && <hr style={{marginTop: '10px', marginBottom:'10px'}} />} 
+        </div>
+      ))}
+      </div>
+    )}
         </Card.Body>
       </Card>   
       <Card className={`profile1 ${darkMode ? 'dark-mode' : ''}`}>
