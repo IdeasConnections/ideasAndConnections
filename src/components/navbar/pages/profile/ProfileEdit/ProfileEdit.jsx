@@ -7,8 +7,7 @@ import { FaPencilAlt, FaTimes  } from 'react-icons/fa';
 import { toast, ToastContainer  } from 'react-toastify';
 import defaultProfile from '../../../../../assets/profile.png'
 import { countries } from "../../../../../assets/countries";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 
 
 
