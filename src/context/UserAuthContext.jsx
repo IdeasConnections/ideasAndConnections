@@ -12,7 +12,7 @@ import {
   sendEmailVerification
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
-import {collection, doc, setDoc, updateDoc, getDoc} from 'firebase/firestore'
+import {collection, doc, setDoc, updateDoc, getDoc, getDocs} from 'firebase/firestore'
 import {ref, getDownloadURL, uploadBytesResumable} from 'firebase/storage'
 
 
@@ -28,6 +28,7 @@ export function UserAuthContextProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
 
   const userRef = collection(db, "users");
+  const connectionRef = collection(db, "connections");
 
 
   async function logIn(email, password) {
@@ -172,6 +173,30 @@ export function UserAuthContextProvider({ children }) {
      );
    }
  
+   async function getAllUsers() {
+    try {
+      const usersSnapshot = await getDocs(userRef);
+      const users = [];
+      usersSnapshot.forEach((doc) => {
+        users.push({ id: doc.id, ...doc.data() });
+      });
+      return users;
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      throw error;
+    }
+  }
+
+  async function addConnection(userId, targetId){
+    try{
+      let userToConnect = doc(connectionRef, `${userId}_${targetId}`)
+      setDoc(userToConnect,{userId, targetId})
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
@@ -216,7 +241,9 @@ export function UserAuthContextProvider({ children }) {
         toggleDarkMode,
         editProfile,
         uploadImage,
-        uploadCoverPhoto
+        uploadCoverPhoto,
+        getAllUsers,
+        addConnection
       }}
     >
       {children}

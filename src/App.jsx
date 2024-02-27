@@ -7,6 +7,7 @@ import HomePage from "./components/navbar/pages/home/HomePage";
 import ForgotPassword from "./components/auth_pages/ForgotPass";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import Profile from "./components/navbar/pages/profile/Profile";
+import Connections from './components/navbar/pages/connections/Connections'
 import NavBar from './components/navbar/NavBar'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,6 +32,15 @@ function App() {
                   <ProtectedRoute>
                       <NavBar />    
                         <Profile /> 
+                  </ProtectedRoute>
+                }
+              />
+               <Route
+                path="/connections"
+                element={
+                  <ProtectedRoute>
+                      <NavBar />    
+                        <Connections /> 
                   </ProtectedRoute>
                 }
               />

@@ -82,7 +82,7 @@ const Navbar = () => {
                     <p>Home</p>     
             </li>
             <li className="icon-with-text">
-                       <FiUsers size={30}/>  
+                       <FiUsers size={30} onClick={()=> goToRouter('/connections')}/>  
                        <p>Connections</p>
                    
                 </li>
