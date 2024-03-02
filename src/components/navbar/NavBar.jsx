@@ -78,41 +78,41 @@ const Navbar = () => {
             </div>
             <ul className={menuOpen ? 'open' : ''}>
             <li className="icon-with-text" onClick={()=> goToRouter('/home')}>
-                    <AiOutlineHome size={30} />
+                    <AiOutlineHome size={20} />
                     <p>Home</p>     
             </li>
             <li className="icon-with-text">
-                       <FiUsers size={30} onClick={()=> goToRouter('/connections')}/>  
+                       <FiUsers size={20} onClick={()=> goToRouter('/connections')}/>  
                        <p>Connections</p>
                    
                 </li>
                 <li className="icon-with-text">
-                       <PiSuitcaseSimpleLight size={30}/>  
+                       <PiSuitcaseSimpleLight size={20}/>  
                        <p>Jobs</p> 
                    
                 </li>
                 <li className="icon-with-text">   
-                       <MdOutlineMessage size={30}/>  
+                       <MdOutlineMessage size={20}/>  
                        <p>Messages</p>
                 </li>
                 <li className="icon-with-text">
-                       <MdOutlineNotifications size={30}/>  
+                       <MdOutlineNotifications size={20}/>  
                        <p>Notifications</p>
                    
                 </li>
                 <li className="icon-with-text" onClick={()=> goToRouter('/profile')}>
-                       <FaRegUser size={30} />  
+                       <FaRegUser size={20} />  
                        <p>My Profile</p>
                    
                 </li>
             
                 <li className="icon-with-text" onClick={handleLogout}>
-                    <AiOutlinePoweroff size={30} />
+                    <AiOutlinePoweroff size={20} />
                     <p>Log out</p>
                 </li>
                 <li>
                 <button className="dark-mode-toggle" onClick={toggleDarkMode}>
-                    {darkMode ? <FaSun size={30} color="#ffffff"/> : <FaMoon size={30}/>}     
+                    {darkMode ? <FaSun size={20} color="#ffffff"/> : <FaMoon size={20}/>}     
                 </button>
                 <p>Mode</p>
                 </li>
