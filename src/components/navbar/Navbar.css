@@ -139,6 +139,36 @@ nav .menu span{
 .search-box input:focus {
     border-color: #007bff; /* Change border color when input is focused */
 }
+.search-results{
+    position: absolute;
+    left: 400px;
+    top: 70px;
+    width: 300px;
+    height: auto;
+    background-color: rgb(255, 251, 251);
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.search-inner {
+  display: flex;
+  color: black;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.search-inner img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.search-inner:hover{
+    background-color: #bbbbbb;
+   
+}
 
 .icon-with-text {
   display: flex;
