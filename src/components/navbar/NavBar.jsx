@@ -58,6 +58,10 @@ const Navbar = () => {
     return () => clearTimeout(debounce);
   }, [searchInput]);
 
+  // const openUser = () =>{
+  //   navigate(`/profile`)
+  // }
+
   const handleLogout = async () => {
     try {
       await logOut();
@@ -136,7 +140,7 @@ const Navbar = () => {
             <div className="search-inner">No Data</div>
           ):
          ( filteredUsers.map((users) => (
-            <div className="search-inner">
+            <div className="search-inner" >
               <img src={users.imageLink || defaultProfile} />
               {users.firstName && users.lastName ? (
                 <>
