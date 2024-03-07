@@ -1,9 +1,8 @@
 .home{
-    background-color: white;
+    background-color: whitesmoke;
     color: black;
     min-height: 90vh;
     min-width: 80vw;
-    margin-top: 100px;
     border: 1px solid #000;
   
 }
