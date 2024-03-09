@@ -20,7 +20,10 @@ import {
   getDoc,
   getDocs,
   addDoc,
-  onSnapshot
+  onSnapshot,
+  query,
+  where,
+  deleteDoc
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
@@ -35,6 +38,8 @@ export function UserAuthContextProvider({ children }) {
   const userRef = collection(db, "users");
   const connectionRef = collection(db, "connections");
   const postRef = collection(db, "posts");
+  const likeRef = collection(db, "likes");
+
 
   async function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password).then(
@@ -217,10 +222,7 @@ export function UserAuthContextProvider({ children }) {
     }
   }
 
-  async function postStatus(status) {
-    let obj = {
-      status: status,
-    };
+  async function postStatus(obj) {
     addDoc(postRef, obj)
       .then((res) => {
         console.log("Document added");
@@ -237,6 +239,38 @@ export function UserAuthContextProvider({ children }) {
       }))
     })
   }
+  async function likePost (userId, postId, liked){
+    try{
+      let docToLike = doc(likeRef, `${userId}_${postId}`);
+      if(liked){
+         deleteDoc(docToLike);
+      }
+      else{
+        setDoc(docToLike, {userId, postId})
+      }
+ 
+    }
+    catch(err){
+      console.log(err)
+    }
+
+  }
+  async function getLikesByUser(userId, postId, setLikesCount, setLiked) {
+    try {
+        let likeQuery = query(likeRef, where('postId', '==', postId));
+        onSnapshot(likeQuery, (res) => {
+            let likes = res.docs.map((doc) => doc.data());
+            let likesCount = likes?.length;
+            const isLiked = likes.some((like) => like.userId === userId);
+            setLikesCount(likesCount);
+            setLiked(isLiked);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
@@ -284,7 +318,9 @@ export function UserAuthContextProvider({ children }) {
         getAllUsers,
         addConnection,
         postStatus,
-        getStatus
+        getStatus,
+        likePost,
+        getLikesByUser
       }}
     >
       {children}
