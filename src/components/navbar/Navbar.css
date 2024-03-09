@@ -184,7 +184,7 @@ nav .menu span{
   text-align: center;
 }
 
-@media (max-width: 1500px){
+@media (max-width: 1000px){
     nav .menu{
         display: flex; /* Ensure the menu button is displayed */
         flex-direction: row;

@@ -23,15 +23,7 @@
     padding: 10px 80px; /* Adjust the padding accordingly */
     margin: 10px;
     border-radius: 30px;
+    border: 1px solid black;
   }
   
-  
-  .post-list {
-    width: 60%; /* Adjust the width as needed */
-    margin: auto; /* Add this line to center the element horizontally */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
-  }
   

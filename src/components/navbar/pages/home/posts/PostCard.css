@@ -1,0 +1,18 @@
+.posts-list {
+    width: 1000px; /* Adjust the width as needed */
+    margin: auto; /* Add this line to center the element horizontally */
+    display: flex;
+    align-items: left;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    min-height: auto;
+  }
+.timestamp{
+    font-size: 12px;
+    font-weight: 400;
+  
+}
+.userName{
+  font-size: 18px;
+}
