@@ -11,6 +11,8 @@
 .timestamp{
     font-size: 12px;
     font-weight: 400;
+    margin-bottom: 12px;
+    color: #636262bb;
   
 }
 .userName{

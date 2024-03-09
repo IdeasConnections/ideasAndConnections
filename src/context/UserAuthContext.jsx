@@ -23,7 +23,7 @@ import {
   onSnapshot,
   query,
   where,
-  deleteDoc
+  deleteDoc,
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
@@ -39,7 +39,7 @@ export function UserAuthContextProvider({ children }) {
   const connectionRef = collection(db, "connections");
   const postRef = collection(db, "posts");
   const likeRef = collection(db, "likes");
-
+  const commentRef = collection(db, "comments");
 
   async function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password).then(
@@ -233,44 +233,70 @@ export function UserAuthContextProvider({ children }) {
   }
 
   async function getStatus(setAllStatus) {
-    onSnapshot(postRef, (response)=>{
-      setAllStatus(response.docs.map((docs) => {
-        return {...docs.data(), id: docs.id}
-      }))
-    })
+    onSnapshot(postRef, (response) => {
+      setAllStatus(
+        response.docs.map((docs) => {
+          return { ...docs.data(), id: docs.id };
+        })
+      );
+    });
   }
-  async function likePost (userId, postId, liked){
-    try{
+  async function likePost(userId, postId, liked) {
+    try {
       let docToLike = doc(likeRef, `${userId}_${postId}`);
-      if(liked){
-         deleteDoc(docToLike);
+      if (liked) {
+        deleteDoc(docToLike);
+      } else {
+        setDoc(docToLike, { userId, postId });
       }
-      else{
-        setDoc(docToLike, {userId, postId})
-      }
- 
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
-    }
-
   }
   async function getLikesByUser(userId, postId, setLikesCount, setLiked) {
     try {
-        let likeQuery = query(likeRef, where('postId', '==', postId));
-        onSnapshot(likeQuery, (res) => {
-            let likes = res.docs.map((doc) => doc.data());
-            let likesCount = likes?.length;
-            const isLiked = likes.some((like) => like.userId === userId);
-            setLikesCount(likesCount);
-            setLiked(isLiked);
-        });
+      let likeQuery = query(likeRef, where("postId", "==", postId));
+      onSnapshot(likeQuery, (res) => {
+        let likes = res.docs.map((doc) => doc.data());
+        let likesCount = likes?.length;
+        const isLiked = likes.some((like) => like.userId === userId);
+        setLikesCount(likesCount);
+        setLiked(isLiked);
+      });
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-}
+  }
+  async function postComment(postId, comment, timeStamp, userName) {
+    try {
+      addDoc(commentRef, {
+        postId,
+        comment,
+        timeStamp,
+        userName
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-
+  async function getComments(postId, setCommentList) {
+    try{
+      let singlePostQuery = query(commentRef, where('postId', '==', postId))
+      onSnapshot(singlePostQuery, (res)=> {
+        const comments = res.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data()
+          }
+        })
+        setCommentList(comments);
+      })
+    }
+    catch(err) {
+      console.log(err)
+    }
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
@@ -320,7 +346,9 @@ export function UserAuthContextProvider({ children }) {
         postStatus,
         getStatus,
         likePost,
-        getLikesByUser
+        getLikesByUser,
+        postComment,
+        getComments
       }}
     >
       {children}
