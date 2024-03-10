@@ -96,8 +96,8 @@ const Navbar = () => {
           <AiOutlineHome size={20} />
           <p>Home</p>
         </li>
-        <li className="icon-with-text">
-          <FiUsers size={20} onClick={() => goToRouter("/connections")} />
+        <li className="icon-with-text" onClick={() => goToRouter("/connections")} > 
+          <FiUsers size={20} />
           <p>Connections</p>
         </li>
         <li className="icon-with-text">

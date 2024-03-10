@@ -1,62 +1,59 @@
 body {
-    background-color: whitesmoke;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    width: 100%;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    color: #0000;
-  }
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: #0000;
+  overflow-y: auto;
+}
 
-  .box {
-    padding: 50px;
-    border: 1px solid #dfdfdf;
-    background-color: #fff;
-  }
-  
-  .g-btn {
-    width: 100% !important;
-    height: 40px !important;
-    line-height: 40px !important;
-    font-size: 15px !important;
-  }
-  .g-btn > div,
-  .g-btn > div > svg {
-    width: 40px !important;
-    height: 38px !important;
-  }
+.box {
+  padding: 50px;
+  border: 1px solid #dfdfdf;
+  background-color: #fff;
+}
 
+.g-btn {
+  width: 100% !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  font-size: 15px !important;
+}
+.g-btn > div,
+.g-btn > div > svg {
+  width: 40px !important;
+  height: 38px !important;
+}
 
-  .signin-container {
-    width: 400px;
-    height: auto;
-    
-  }
-  .signup-container {
-    width: 600px;
-    height: auto;
-    /* background-color: beige; */
-  }
-  .rounded-control {
-    height: 60px;
-    border-radius: 20px; /* Adjust the value to change the roundness */
-  }
-  
-  .background {
-    background-image: url('./assets/people.png');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Vertically center content if needed */
-    min-height: 80vh; /* Ensure full-screen height on most browsers */
-    min-width: 90vw;
-    border-radius: 20px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5); /* Black shadow from all sides */
-  }
- 
-  
+.signin-container {
+  width: 400px;
+  height: auto;
+}
+.signup-container {
+  width: 600px;
+  height: auto;
+  /* background-color: beige; */
+}
+.rounded-control {
+  height: 60px;
+  border-radius: 20px; /* Adjust the value to change the roundness */
+}
+
+.background {
+  background-image: url("./assets/people.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Vertically center content if needed */
+  min-height: 80vh; /* Ensure full-screen height on most browsers */
+  min-width: 90vw;
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5); /* Black shadow from all sides */
+}
