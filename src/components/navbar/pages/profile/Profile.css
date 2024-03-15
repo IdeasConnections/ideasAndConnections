@@ -3,8 +3,9 @@
     color: black;
     min-height: fit-content;
     min-width: 80vw;
-    margin-top: 1000px;
+    /* margin-top: 1000px; */
     border: 1px solid #000;
+    margin-top: 10px;
   
 }
 .profile1{
