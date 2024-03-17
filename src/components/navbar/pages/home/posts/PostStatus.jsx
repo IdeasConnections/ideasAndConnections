@@ -21,7 +21,8 @@ export default function PostStatus() {
       status: status,
       timeStamp: getCurrentDateTimeStamp('LLL'),
       userName: userName,
-      postID: getUniqueID()
+      postID: getUniqueID(),
+      userId: user?.uid
     }
     await postStatus(obj);
     setModalOpen(false);

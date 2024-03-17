@@ -60,14 +60,14 @@
     position: relative;
 }
 .name{
-    color: #212121;
-    font-size: 15px;
-    margin: 10px;
+    color: #636262;
+    font-size: 13px;
+    margin: 5px;
 }
 .comment{
-    margin-left: 8px;
-   color: rgb(73, 73, 73);
-   margin-left: 15px;
+  margin-left: 8px;
+   color: rgb(0, 0, 0);
+   margin-left: 20px;
 }
 .timestampPost {
     position: absolute;
@@ -77,4 +77,20 @@
     font-weight: 400;
     margin-bottom: 12px;
     color: #636262bb;
+  }
+  .comment-img{
+    width: 25px;
+    border-radius: 50%;
+    object-fit: contain;
+    height: 25px;
+    border: 1px solid rgb(168, 167, 167);
+    margin: 5px;
+  }
+  .comment-img-wrapper{
+    display: flex;
+
+  }
+  .like-comment-count{
+    display: flex;
+    gap: 5px;
   }

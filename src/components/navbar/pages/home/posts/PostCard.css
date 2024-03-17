@@ -18,3 +18,14 @@
 .userName{
   font-size: 18px;
 }
+.post-img{
+  width: 45px;
+  border-radius: 50%;
+  object-fit: contain;
+  height: 45px;
+  border: 1px solid rgb(168, 167, 167);
+}
+.post-img-wrapper{
+  display: flex;
+  gap: 15px;
+}
