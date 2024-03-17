@@ -267,30 +267,33 @@ export function UserAuthContextProvider({ children }) {
       console.log(err);
     }
   }
-  async function postComment(postId, comment, timeStamp, userName) {
+  async function postComment(postId, comment, timeStamp, userName, useruid) {
     try {
       addDoc(commentRef, {
         postId,
         comment,
         timeStamp,
-        userName
+        userName,
+        useruid
       });
     } catch (err) {
       console.log(err);
     }
   }
 
-  async function getComments(postId, setCommentList) {
+  async function getComments(postId, setCommentList, setCommentCount) {
     try{
       let singlePostQuery = query(commentRef, where('postId', '==', postId))
       onSnapshot(singlePostQuery, (res)=> {
         const comments = res.docs.map((doc) => {
           return {
             id: doc.id,
-            ...doc.data()
+            ...doc.data(),
+           
           }
         })
         setCommentList(comments);
+        setCommentCount(comments.length); // Set the comment count
       })
     }
     catch(err) {
