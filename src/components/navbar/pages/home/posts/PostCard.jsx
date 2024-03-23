@@ -3,10 +3,12 @@ import "./PostCard.css";
 import { Card, CardBody } from "react-bootstrap";
 import LikeButton from "./likesButton/LikeButton";
 import { useUserAuth } from "../../../../../context/UserAuthContext";
-import defaultProfile from '../../../../../assets/profile.png'
+import defaultProfile from "../../../../../assets/profile.png";
+import { BsPencil, BsTrash } from "react-icons/bs";
+import { toast, ToastContainer  } from 'react-toastify';
 
-export default function PostCard({ posts }) {
-  const { user, getAllUsers } = useUserAuth();
+export default function PostCard({ posts, getEditData }) {
+  const { user, getAllUsers, deletePost } = useUserAuth();
   const [usersList, setUsersList] = useState([]);
 
   useEffect(() => {
@@ -22,6 +24,14 @@ export default function PostCard({ posts }) {
     fetchUsers();
   }, [getAllUsers]);
 
+  const deletePosts = () =>{
+    deletePost(posts.id)
+    toast.success("Post deleted successfully");
+  }
+
+  console.log("uaerrrid", user?.uid);
+  console.log("uerwhdeid", posts?.userId);
+
   const filteredImages = usersList
     .filter((item) => item.uid === posts.userId)
     .map((item) => item.imageLink);
@@ -32,7 +42,22 @@ export default function PostCard({ posts }) {
       <CardBody>
         <div>
           <div className="post-img-wrapper">
-           <img src={filteredImages[2] || defaultProfile } className="post-img"/>
+            {user?.uid === posts.userId ? (
+              <div className="action-container">
+                <BsPencil
+                  size={20}
+                  className="action-icon"
+                  onClick={() => getEditData(posts)}
+                />
+                <BsTrash size={20} className="action-icon" onClick={()=>deletePosts()} />
+              </div>
+            ) : (
+              <></>
+            )}
+            <img
+              src={filteredImages[2] || defaultProfile}
+              className="post-img"
+            />
             <p className="userName">{posts.userName}</p>
           </div>
           <p className="timestamp">{posts.timeStamp}</p>

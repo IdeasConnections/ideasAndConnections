@@ -29,3 +29,12 @@
   display: flex;
   gap: 15px;
 }
+.action-container {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  display: flex; /* Override display:flex; from parent */
+  top: 10px;
+  z-index: 999; /* Adjust z-index if necessary */
+  gap: 10px;
+}

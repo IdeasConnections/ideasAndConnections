@@ -301,6 +301,26 @@ export function UserAuthContextProvider({ children }) {
     }
   }
 
+  async function updatePost (id, status){
+    let postToUpdate = doc(postRef, id);
+    try{
+      updateDoc(postToUpdate, {status})
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  async function deletePost (id) {
+    let postToDelete = doc(postRef,id)
+    try{
+      deleteDoc(postToDelete)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
       console.log("Auth", currentuser);
@@ -351,7 +371,9 @@ export function UserAuthContextProvider({ children }) {
         likePost,
         getLikesByUser,
         postComment,
-        getComments
+        getComments,
+        updatePost,
+        deletePost
       }}
     >
       {children}

@@ -9,11 +9,16 @@ export default function ModalPost({
   setStatus,
   status,
   sendStatus,
+  isEdit,
+  updateStatus
 }) {
   return (
     <Modal
       show={modalOpen}
-      onHide={() => setModalOpen(false)}
+      onHide={() => {
+        setModalOpen(false);
+        setStatus("");
+      }}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -21,10 +26,13 @@ export default function ModalPost({
     >
       <Modal.Header className="custom-modal-header">
         <Modal.Title id="contained-modal-title-vcenter">
-          Create a post
+         {isEdit? 'Edit post' : 'Create a post'} 
         </Modal.Title>
         <FaTimes
-          onClick={() => setModalOpen(false)}
+          onClick={() => {
+            setModalOpen(false);
+            setStatus("");
+          }}
           className="custom-button"
         />
       </Modal.Header>
@@ -40,10 +48,9 @@ export default function ModalPost({
         <Button
           className="post-btn"
           disabled={status.length > 0 ? false : true}
-          onClick={sendStatus}
+          onClick={isEdit? updateStatus : sendStatus}
         >
-          {" "}
-          Post{" "}
+         {isEdit? 'Update' : 'Post'}
         </Button>
       </Modal.Footer>
     </Modal>
