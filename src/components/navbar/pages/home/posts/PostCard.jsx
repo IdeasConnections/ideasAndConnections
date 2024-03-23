@@ -62,6 +62,9 @@ export default function PostCard({ posts, getEditData }) {
           </div>
           <p className="timestamp">{posts.timeStamp}</p>
           <p>{posts.status}</p>
+          <div className="posted-pic">
+            <img src={posts.postImage}/>
+          </div>
           <LikeButton userId={user?.uid} postId={posts.id} />
         </div>
       </CardBody>

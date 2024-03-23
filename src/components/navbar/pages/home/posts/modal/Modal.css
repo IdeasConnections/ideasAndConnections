@@ -52,3 +52,10 @@
     width: 100%;
     background-color: white;
 }
+.post-picture{
+    cursor: pointer;
+    color: #1973d3;
+}
+.preview-img{
+    width: 100%;
+}

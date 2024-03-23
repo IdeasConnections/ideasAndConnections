@@ -321,6 +321,28 @@ export function UserAuthContextProvider({ children }) {
     }
   }
 
+  async function uploadPostImage(file, setPostImage, setProgress) {
+    const postImagesRef = ref(storage, `postImages/${file.name}`);
+    const uploadTask = uploadBytesResumable(postImagesRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progress)
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((response) => {
+          setPostImage(response)
+        });
+      }
+    );
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
       console.log("Auth", currentuser);
@@ -373,7 +395,8 @@ export function UserAuthContextProvider({ children }) {
         postComment,
         getComments,
         updatePost,
-        deletePost
+        deletePost,
+        uploadPostImage
       }}
     >
       {children}

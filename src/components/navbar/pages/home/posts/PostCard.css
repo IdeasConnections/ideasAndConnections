@@ -38,3 +38,6 @@
   z-index: 999; /* Adjust z-index if necessary */
   gap: 10px;
 }
+.posted-pic{
+  margin-top: 5px;
+}
