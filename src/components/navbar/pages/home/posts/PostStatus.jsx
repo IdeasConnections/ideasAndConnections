@@ -9,12 +9,14 @@ import { getCurrentDateTimeStamp } from "../../../../helpers/useMoment";
 import { getUniqueID } from "../../../../helpers/getUniqueID";
 
 export default function PostStatus() {
-  const { postStatus, getStatus, user, updatePost } = useUserAuth();
+  const { postStatus, getStatus, user, updatePost, uploadPostImage } = useUserAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState("");
   const [allStatus, setAllStatus] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [currentPost, setCurrentPost] = useState({})
+  const [currentImage, setCurrentImage] = useState({})
+  const[postImage, setPostImage] = useState('')
   const userName = `${user?.firstName} ${user?.lastName}` || user?.displayName;
 
   console.log("from post status", user);
@@ -25,6 +27,7 @@ export default function PostStatus() {
       userName: userName,
       postID: getUniqueID(),
       userId: user?.uid,
+      postImage: postImage
     };
     await postStatus(obj);
     setModalOpen(false);
@@ -39,6 +42,7 @@ export default function PostStatus() {
     setStatus( posts?.status);
     setIsEdit(true);
   };
+  console.log(postImage)
 
   const updateStatus = () =>{
     console.log('postpost', currentPost)
@@ -74,6 +78,9 @@ export default function PostStatus() {
           setModalOpen={setModalOpen}
           isEdit={isEdit}
           updateStatus= {updateStatus}
+          uploadPostImage={uploadPostImage}
+          setPostImage={setPostImage}
+          postImage={postImage}
         />
       </Card>
       <div>
