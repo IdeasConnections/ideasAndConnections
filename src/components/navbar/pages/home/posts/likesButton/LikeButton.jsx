@@ -3,6 +3,7 @@ import "./LikeButton.css";
 import { AiOutlineLike, AiFillLike, AiOutlineComment } from "react-icons/ai";
 import { useUserAuth } from "../../../../../../context/UserAuthContext";
 import { getCurrentDateTimeStamp } from "../../../../../helpers/useMoment";
+import defaultProfile from '../../../../../../assets/profile.png'
 
 export default function LikeButton({ userId, postId }) {
   const {
@@ -123,7 +124,7 @@ export default function LikeButton({ userId, postId }) {
                   <div className="all-comments-inner">
                     <div className="comment-img-wrapper">
                       <img
-                        src={filteredImages[2] || defaultProfile}
+                        src={filteredImages[1] || defaultProfile}
                         className="comment-img"
                       />
                       <p className="name">{comment.userName}</p>

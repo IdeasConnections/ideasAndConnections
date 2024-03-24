@@ -16,6 +16,7 @@ export default function PostCard({ posts, getEditData }) {
       try {
         const allUsers = await getAllUsers();
         setUsersList(allUsers);
+        console.log('check all user', allUsers)
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -33,8 +34,9 @@ export default function PostCard({ posts, getEditData }) {
   console.log("uerwhdeid", posts?.userId);
 
   const filteredImages = usersList
-    .filter((item) => item.uid === posts.userId)
+    .filter((item) => item.id === posts.userId)
     .map((item) => item.imageLink);
+    console.log(filteredImages, 'from post card')
 
   console.log("post", posts);
   return (
@@ -55,7 +57,7 @@ export default function PostCard({ posts, getEditData }) {
               <></>
             )}
             <img
-              src={filteredImages[2] || defaultProfile}
+              src={filteredImages[0] || defaultProfile}
               className="post-img"
             />
             <p className="userName">{posts.userName}</p>
@@ -63,7 +65,7 @@ export default function PostCard({ posts, getEditData }) {
           <p className="timestamp">{posts.timeStamp}</p>
           <p>{posts.status}</p>
           <div className="posted-pic">
-            <img src={posts.postImage}/>
+            <img className="posted-img" src={posts.postImage}/>
           </div>
           <LikeButton userId={user?.uid} postId={posts.id} />
         </div>
