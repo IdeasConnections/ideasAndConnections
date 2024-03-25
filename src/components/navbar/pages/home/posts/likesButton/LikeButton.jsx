@@ -110,6 +110,7 @@ export default function LikeButton({ userId, postId }) {
             name="comment"
             value={comment}
           />
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <button
             className="add-comment-btn"
             onClick={addComment}
@@ -117,6 +118,7 @@ export default function LikeButton({ userId, postId }) {
           >
             Add Comment
           </button>
+          </div>
           {commentList.length > 0 ? (
             commentList.map((comment) => {
               return (
