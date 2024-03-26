@@ -59,9 +59,7 @@ getComments(postId, setCommentList, setCommentCount);
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        setUsersList(allUsers)
-        console.log(allUsers, 'allll userssss')
-       console.log(allUsers, 'from likeb')
+        setUsersList(allUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -70,12 +68,10 @@ getComments(postId, setCommentList, setCommentCount);
     fetchUsers();
   }, []);
 
-  console.log(commentList, usersList, 'comment List')
-
-  // const filteredImages = usersList
-  //   .filter((item,index) => item.id === commentList[index].useruid)
-  //   .map((item) => item.imageLink);
-  // console.log(filteredImages, "filterimaghe");
+  const filteredImages = usersList
+    .filter((item) => item.uid === commentList.userId)
+    .map((item) => item.imageLink);
+    console.log('comments checking',filteredImages)
 
   return (
     <div className="like-container">

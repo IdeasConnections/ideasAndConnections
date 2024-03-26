@@ -312,10 +312,10 @@ export function UserAuthContextProvider({ children }) {
     }
   }
 
-  async function updatePost (id, status){
+  async function updatePost (id, status, postImage){
     let postToUpdate = doc(postRef, id);
     try{
-      updateDoc(postToUpdate, {status})
+      updateDoc(postToUpdate, {status, postImage})
     }
     catch(err){
       console.log(err)
@@ -367,7 +367,6 @@ export function UserAuthContextProvider({ children }) {
           const userDocSnapshot = await getDoc(userDocRef);
           if (userDocSnapshot.exists()) {
             const userData = userDocSnapshot.data();
-            console.log("uuuuuu", userData);
             setUser((prevUser) => ({ ...prevUser, ...userData }));
           } else {
             console.log("User document does not exist in Firestore");

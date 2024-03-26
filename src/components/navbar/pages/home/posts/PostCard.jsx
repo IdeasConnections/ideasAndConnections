@@ -16,7 +16,6 @@ export default function PostCard({ posts, getEditData }) {
       try {
         const allUsers = await getAllUsers();
         setUsersList(allUsers);
-        console.log('check all user', allUsers)
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -30,15 +29,10 @@ export default function PostCard({ posts, getEditData }) {
     toast.success("Post deleted successfully");
   }
 
-  console.log("uaerrrid", user?.uid);
-  console.log("uerwhdeid", posts?.userId);
 
   const filteredImages = usersList
     .filter((item) => item.id === posts.userId)
     .map((item) => item.imageLink);
-    console.log(filteredImages, 'from post card')
-
-  console.log("post", posts);
   return (
     <Card className="posts-list">
       <CardBody>
