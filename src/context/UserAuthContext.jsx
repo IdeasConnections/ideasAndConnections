@@ -26,6 +26,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { isEqual } from "date-fns";
 
 const userAuthContext = createContext();
 
@@ -267,15 +268,17 @@ export function UserAuthContextProvider({ children }) {
       console.log(err);
     }
   }
-  async function postComment(postId, comment, timeStamp, userName, useruid) {
+  async function postComment(postId, comment, timeStamp, userName, useruid,userProfilePhoto) {
     try {
       addDoc(commentRef, {
         postId,
         comment,
         timeStamp,
         userName,
-        useruid
+        useruid,
+        userProfilePhoto
       });
+      console.log(postId, 'postId')
     } catch (err) {
       console.log(err);
     }
@@ -283,18 +286,26 @@ export function UserAuthContextProvider({ children }) {
 
   async function getComments(postId, setCommentList, setCommentCount) {
     try{
-      let singlePostQuery = query(commentRef, where('postId', '==', postId))
-      onSnapshot(singlePostQuery, (res)=> {
-        const comments = res.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data(),
+      console.log(postId, 'post id')
+      let comments
+      let singlePostQuery = await query(commentRef, where("postId", "==",  postId))
+      onSnapshot(singlePostQuery, async(res)=> {  
+         comments = res.docs.map((doc) => doc.data());
+      console.log(comments, 'commentsCange1')
+        // let newRes = await JSON.parse(res)
+        // res.docs.map((doc) => {
+        //  console.log(doc, 'doc')
+        //   return {
+        //     id: doc.id,
+        //     ...doc.data(),
            
-          }
-        })
+        //   }
+        // })
         setCommentList(comments);
         setCommentCount(comments.length); // Set the comment count
+      
       })
+      
     }
     catch(err) {
       console.log(err)
