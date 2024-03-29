@@ -25,7 +25,7 @@ export default function PostStatus() {
       status: status,
       timeStamp: getCurrentDateTimeStamp("LLL"),
       userName: userName,
-      postID: getUniqueID(),
+      postId: getUniqueID(),
       userId: user?.uid,
       postImage: postImage
     };

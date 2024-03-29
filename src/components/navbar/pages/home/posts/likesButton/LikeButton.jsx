@@ -31,7 +31,7 @@ export default function LikeButton({ userId, postId }) {
   };
 
   useEffect( () => {
-    // getLikesByUser(userId, postId, setLikesCount, setLiked);
+    getLikesByUser(userId, postId, setLikesCount, setLiked);
     getCommentListList()
   }, [userId, postId]);
 
