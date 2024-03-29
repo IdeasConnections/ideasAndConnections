@@ -23,8 +23,9 @@ export default function LikeButton({ userId, postId }) {
   const [commentList, setCommentList] = useState([]);
   const [usersList, setUsersList] = useState([]);
 
-  const userName = `${user?.firstName} ${user?.lastName}` || user?.displayName;
+  const userName = (user?.firstName && user?.lastName) ? `${user.firstName} ${user.lastName}` : user?.displayName;
   const useruid = user?.uid;
+  const userProfilePhoto = (user?.imageLink) ?  user.imageLink : defaultProfile;
   const handleLike = () => {
     likePost(userId, postId, liked);
   };
@@ -68,10 +69,10 @@ export default function LikeButton({ userId, postId }) {
     fetchUsers();
   }, [getAllUsers]);
 
-  const filteredImages = usersList
-    .filter((item) => item.uid === commentList.userId)
-    .map((item) => item.imageLink);
-  console.log(filteredImages, "filterimaghe");
+  // const filteredImages = usersList
+  //   .filter((item) => item.uid === commentList.userId)
+  //   .map((item) => item.imageLink);
+  // console.log(filteredImages, "filterimaghe");
 
   return (
     <div className="like-container">
@@ -126,7 +127,7 @@ export default function LikeButton({ userId, postId }) {
                   <div className="all-comments-inner">
                     <div className="comment-img-wrapper">
                       <img
-                        src={filteredImages[1] || defaultProfile}
+                        src={userProfilePhoto}
                         className="comment-img"
                       />
                       <p className="name">{comment.userName}</p>
