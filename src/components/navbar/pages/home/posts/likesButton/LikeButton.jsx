@@ -30,11 +30,15 @@ export default function LikeButton({ userId, postId }) {
     likePost(userId, postId, liked);
   };
 
-  useEffect(() => {
-    getLikesByUser(userId, postId, setLikesCount, setLiked);
-    getComments(postId, setCommentList, setCommentCount);
+  useEffect( () => {
+    // getLikesByUser(userId, postId, setLikesCount, setLiked);
+    getCommentListList()
   }, [userId, postId]);
 
+  const getCommentListList = () => {
+getComments(postId, setCommentList, setCommentCount);
+  
+  }
   const getComment = (event) => {
     setComment(event.target.value);
   };
@@ -45,7 +49,8 @@ export default function LikeButton({ userId, postId }) {
       comment,
       getCurrentDateTimeStamp("ll"),
       userName,
-      useruid
+      useruid,
+      userProfilePhoto
     );
     setComment("");
   };
@@ -54,23 +59,21 @@ export default function LikeButton({ userId, postId }) {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        setUsersList(allUsers);
-        console.log(
-          "testt",
-          usersList
-            .filter((item) => item.uid === commentList.useruid)
-            .map((item) => item.imageLink)
-        );
+        setUsersList(allUsers)
+        console.log(allUsers, 'allll userssss')
+       console.log(allUsers, 'from likeb')
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
     fetchUsers();
-  }, [getAllUsers]);
+  }, []);
+
+  console.log(commentList, usersList, 'comment List')
 
   // const filteredImages = usersList
-  //   .filter((item) => item.uid === commentList.userId)
+  //   .filter((item,index) => item.id === commentList[index].useruid)
   //   .map((item) => item.imageLink);
   // console.log(filteredImages, "filterimaghe");
 
@@ -121,13 +124,13 @@ export default function LikeButton({ userId, postId }) {
           </button>
           </div>
           {commentList.length > 0 ? (
-            commentList.map((comment) => {
+            commentList.map((comment,index) => {
               return (
-                <div className="all-comments">
+                <div className="all-comments"  key={index}>
                   <div className="all-comments-inner">
                     <div className="comment-img-wrapper">
                       <img
-                        src={userProfilePhoto}
+                        src={comment.userProfilePhoto || defaultProfile}
                         className="comment-img"
                       />
                       <p className="name">{comment.userName}</p>
