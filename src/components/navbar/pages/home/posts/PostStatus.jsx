@@ -17,7 +17,7 @@ export default function PostStatus() {
   const [currentPost, setCurrentPost] = useState({})
   const [currentImage, setCurrentImage] = useState({})
   const[postImage, setPostImage] = useState('')
-  const userName = `${user?.firstName} ${user?.lastName}` || user?.displayName;
+  const userName = (user?.firstName && user?.lastName) ? `${user.firstName} ${user.lastName}` : user?.displayName;
 
   console.log("from post status", user);
   const sendStatus = async () => {
