@@ -15,7 +15,6 @@ const ForgotPassword = () => {
     e.preventDefault();
     setError("");
     setSuccess("")
-    console.log("Email:", email); 
     try {
       await forgotPassword(email); // Passing email here
       setSuccess("Please check you mail")

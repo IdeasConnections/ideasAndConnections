@@ -17,7 +17,6 @@ import { toast, ToastContainer  } from 'react-toastify';
         console.error("Error fetching users:", error);
       }
     };
-    console.log('conn', user?.uid)
     fetchUsers();
   }, [getAllUsers]);
 
@@ -26,8 +25,6 @@ import { toast, ToastContainer  } from 'react-toastify';
     if (user) {
       addConnection(user.uid, id);
       toast.success("Connection added");
-      console.log(user.id);
-      console.log(id);
     } else {
       console.error("User not available");
     }

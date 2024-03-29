@@ -18,14 +18,14 @@ export default function PostStatus() {
   const [currentImage, setCurrentImage] = useState({})
   const[postImage, setPostImage] = useState('')
   const userName = (user?.firstName && user?.lastName) ? `${user.firstName} ${user.lastName}` : user?.displayName;
-
-  console.log("from post status", user);
+  console.log('cheking the use dara for the posts', user)
+  console.log('post username assignemt checking', userName)
   const sendStatus = async () => {
     let obj = {
       status: status,
       timeStamp: getCurrentDateTimeStamp("LLL"),
       userName: userName,
-      postID: getUniqueID(),
+      postId: getUniqueID(),
       userId: user?.uid,
       postImage: postImage
     };
@@ -42,11 +42,9 @@ export default function PostStatus() {
     setStatus( posts?.status);
     setIsEdit(true);
   };
-  console.log(postImage)
 
   const updateStatus = () =>{
-    console.log('postpost', currentPost)
-    updatePost(currentPost.id, status)
+    updatePost(currentPost.id, status,postImage)
     setModalOpen(false)
     toast.success("Post updated successfully.");
   }

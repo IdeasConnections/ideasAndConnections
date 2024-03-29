@@ -23,7 +23,6 @@ const Profile = () => {
     if (user) {
       setUserData(user); 
     }
-    console.log('data fromprofile', user)
   }, [user]);
 
   const getImage = (event) =>{
