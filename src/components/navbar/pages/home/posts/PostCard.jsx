@@ -11,6 +11,7 @@ export default function PostCard({ posts, getEditData }) {
   const { user, getAllUsers, deletePost } = useUserAuth();
   const [usersList, setUsersList] = useState([]);
 
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
