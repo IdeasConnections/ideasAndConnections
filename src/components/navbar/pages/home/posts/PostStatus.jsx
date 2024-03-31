@@ -48,6 +48,7 @@ export default function PostStatus() {
     setModalOpen(false)
     toast.success("Post updated successfully.");
   }
+  const sortedStatus = [...allStatus].sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
   useMemo(() => {
     getStatus(setAllStatus);
   }, [getStatus]);
@@ -82,14 +83,10 @@ export default function PostStatus() {
         />
       </Card>
       <div>
-        {allStatus.map((posts, index) => {
-          return (
-            <>
-              <PostCard key={index} posts={posts} getEditData={getEditData} />
-            </>
-          );
-        })}
-      </div>
+      {sortedStatus.map((posts, index) => (
+        <PostCard key={index} posts={posts} getEditData={getEditData} />
+      ))}
+    </div>
 
       <ToastContainer />
     </>

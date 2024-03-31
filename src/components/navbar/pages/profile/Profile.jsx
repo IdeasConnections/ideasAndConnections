@@ -14,6 +14,7 @@ const Profile = () => {
   const [currentImage, setCurrentImage] = useState({})
   const [progress, setProgress] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
+  const userName = (user?.firstName && user?.lastName) ? `${user.firstName} ${user.lastName}` : user?.displayName;
 
   const toggleEdit = () => {
     setIsEdit(!isEdit);
@@ -59,8 +60,8 @@ const uploadImageTostorage = () =>{
              <div className='profile-info'>
             <div>
                <div style={{display:'flex', gap:'4px'}}>
-                   <h3 className='user-name'>{userData.firstName}</h3>
-                   <h3 className='user-name'>{userData.lastName}</h3>
+                   <h3 className='user-name'>{userName}</h3>
+                   {/* <h3 className='user-name'>{userData.lastName}</h3> */}
                 </div>
                    <p className='headline'>{userData.headline}</p>
                    <div style={{display: 'flex', gap:'4px'}}>
