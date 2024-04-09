@@ -1,9 +1,6 @@
 .home{
     background-color: whitesmoke;
     color: black;
-    min-height: 100vh;
-    min-width: 80vw;
-    border: 1px solid #000;
     padding-top: 10px;
     
 }
