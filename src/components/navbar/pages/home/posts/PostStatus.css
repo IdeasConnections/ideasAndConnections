@@ -1,5 +1,5 @@
 .post-status-main {
-    width: 30%; /* Adjust the width as needed */
+    width: 100%; /* Adjust the width as needed */
     margin: auto; /* Add this line to center the element horizontally */
     display: flex;
     justify-content: center;

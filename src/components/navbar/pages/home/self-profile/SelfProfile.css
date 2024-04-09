@@ -1,0 +1,50 @@
+.self-profile{
+   height: 500px;
+   width: 300px;
+   margin-left: 100px;
+}
+.cover-photo-container-p {
+    position: relative;
+    width: 100%;
+    height: 100px; 
+    overflow: hidden;
+}
+
+.cover-photo-p {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-img-p {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #cacaca;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 300px;
+    left: calc(66% - 125px); /* Half of the image width */
+    z-index: 1;
+}
+.user-info-div{
+ margin-top: 100px;
+ /* margin-left: 50px; */
+ display: flex;
+ flex-direction: column;
+ align-items: center; /* aligns items along the cross-axis (vertically) */
+ text-align: center; 
+}
+.user-name-p{
+    font-weight: bold;
+    font-size: 20px;
+    color: 0000;
+}
+.headline-p{
+    font-size: 16px;
+    margin-top: 8px;
+    font-weight: 400px;
+    width: 300px;
+    line-height: 20px;
+}
