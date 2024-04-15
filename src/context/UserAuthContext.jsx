@@ -312,15 +312,19 @@ export function UserAuthContextProvider({ children }) {
     }
   }
 
-  async function updatePost (id, status, postImage){
+  async function updatePost(id, status, postImage) {
     let postToUpdate = doc(postRef, id);
-    try{
-      updateDoc(postToUpdate, {status, postImage})
-    }
-    catch(err){
-      console.log(err)
+    try {
+      if (postImage) {
+        await updateDoc(postToUpdate, { status, postImage });
+      } else {
+        await updateDoc(postToUpdate, { status });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
+  
 
   async function deletePost (id) {
     let postToDelete = doc(postRef,id)

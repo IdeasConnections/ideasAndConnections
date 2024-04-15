@@ -40,6 +40,7 @@ export default function PostStatus() {
     setModalOpen(true);
     setCurrentPost(posts)
     setStatus( posts?.status);
+    setPostImage(posts?.postImage)
     setIsEdit(true);
   };
 
@@ -49,6 +50,7 @@ export default function PostStatus() {
     toast.success("Post updated successfully.");
   }
   const sortedStatus = [...allStatus].sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
+  console.log('sssss', sortedStatus)
   useMemo(() => {
     getStatus(setAllStatus);
   }, [getStatus]);

@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import './Connections.css'
 import {useUserAuth} from '../../../../context/UserAuthContext'
 import { toast, ToastContainer  } from 'react-toastify';
+import defaultProfile from '../../../../assets/profile.png'
 
  const Connections = () => {
   const {getAllUsers, addConnection, user} = useUserAuth();
@@ -41,6 +42,11 @@ import { toast, ToastContainer  } from 'react-toastify';
         .map(users => (
           <li key={users.id} className='connection-item'>
             <div className='connection-name' >
+              <div style={{display:'flex', alignItems: 'center', gap:'3px'}}>
+              <img
+              src={users.imageLink || defaultProfile}
+              className="conn-img"
+            />
              {users.firstName && users.lastName ? (
               <>{users.firstName} {users.lastName}</>
              ):(
@@ -48,6 +54,9 @@ import { toast, ToastContainer  } from 'react-toastify';
               {users.displayName}
               </>   
              )} 
+              </div>
+            
+             
              <p>{users.headline}</p>
             </div>
             <button className='connect-button' onClick={()=>{getCurrentUser(users.id)}}>Connect</button>
