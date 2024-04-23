@@ -144,6 +144,7 @@ export function UserAuthContextProvider({ children }) {
     setDarkMode((prevMode) => !prevMode);
   }
 
+ 
   async function editProfile(userID, payload) {
     let userToEdit = doc(userRef, userID);
     await updateDoc(userToEdit, payload)

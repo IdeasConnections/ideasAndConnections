@@ -23,6 +23,12 @@ export default function SelfProfile() {
                    <h3 className='user-name-p'>{userName}</h3>
                    <p className='headline-p'>{user?.headline}</p>         
          </div>
+         <hr/>
+        <div className="view-count-main">
+        
+          <p>Profile Viewers</p>
+          <h1 className="view-count">0</h1>
+          </div>
         </Card.Body>
       </Card>
     </>
