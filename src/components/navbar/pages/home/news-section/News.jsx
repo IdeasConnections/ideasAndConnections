@@ -12,23 +12,32 @@ export default function News() {
     apikey;
 
   const [articles, setArticles] = useState([]);
+  const fetchArticles = async () => {
+    const apikey = "0edd1cdec288d3587627f6838f4f3dea";
+    const category = "general";
+    const url =
+      "https://gnews.io/api/v4/top-headlines?category=" +
+      category +
+      "&lang=en&country=us&max=10&apikey=" +
+      apikey;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setArticles(data.articles);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-         url
-        );
-        const data = await response.json();
-        console.log(data, 'data')
-        setArticles(data.articles);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    fetchArticles(); 
+    const intervalId = setInterval(() => {
+      fetchArticles();
+    }, 3600000 );
 
-    fetchData();
-  }, []);
+    return () => clearInterval(intervalId);
+  }, []); 
   return (
     <>
       <Card className="news">
