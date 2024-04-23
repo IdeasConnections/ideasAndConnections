@@ -1,5 +1,21 @@
 .news{
-    width: 200px;
+    width: 300px;
     margin-right: 100px;
+    margin-left: 10px;
  }
 
+ ul.article-list {
+    list-style-type: disc;
+    margin-left: 8px;
+  }
+  .article-list li {
+    margin-bottom: 10px; /* Adjust this value to control the gap between list items */
+  }
+  .article-list li:hover {
+    background-color: #cdcdcd;
+  }
+  .heading{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
