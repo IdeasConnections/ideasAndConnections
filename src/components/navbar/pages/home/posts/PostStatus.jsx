@@ -3,6 +3,7 @@ import "./PostStatus.css";
 import { Card, CardBody } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import ModalPost from "./modal/ModalPost";
+import { AiOutlinePicture, AiOutlineEdit} from "react-icons/ai";
 import { useUserAuth } from "../../../../../context/UserAuthContext";
 import PostCard from "./PostCard";
 import { getCurrentDateTimeStamp } from "../../../../helpers/useMoment";
@@ -71,6 +72,17 @@ export default function PostStatus() {
             </button>
           </div>
         </Card.Body>
+        <div className="outer-container">
+        <AiOutlinePicture size={30} className="post-picture" onClick={() => {
+          setModalOpen(true)
+          setIsEdit(false)
+        }}/>{"Media"}
+         <AiOutlineEdit size={30} className="post-picture" onClick={() => {
+          setModalOpen(true)
+          setIsEdit(false)
+        }}/>{"Write article"}
+        </div>
+       
         <ModalPost
           sendStatus={sendStatus}
           setStatus={setStatus}

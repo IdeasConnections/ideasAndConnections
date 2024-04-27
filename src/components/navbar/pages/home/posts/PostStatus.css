@@ -34,4 +34,9 @@
   .posted-img{
     width: 100%;
   }
+  .outer-container{
+    display: flex;
+    gap: 5px;
+    margin-left: 10px;
+  }
   
