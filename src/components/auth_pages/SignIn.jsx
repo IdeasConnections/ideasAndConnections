@@ -4,7 +4,8 @@ import { Form, Alert } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { useUserAuth } from "../../context/UserAuthContext";
 import logo from '../../assets/logo.png';
-
+import { isMobile, isTablet } from 'react-device-detect';
+import { LiaToolsSolid } from "react-icons/lia";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -44,6 +45,44 @@ const SignIn = () => {
     }
   };
 
+  if (isMobile || isTablet) {
+    return (
+      <div className="background">
+        <div className="p-4  signin-container">
+        <div className="mb-2 flex justify-center">
+                <img width="100" src={logo} />
+              
+          </div>
+   
+        <div className="mb-4 flex justify-center" style={{ display: 'flex' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '12px', color: '#2cf851' }}>
+                  Grab your gig regardless of your experience
+              </span>
+          </div>
+          <div className="mb-1 flex justify-center" style={{ display: 'flex' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '15px', color: 'white' }}>
+              <h1 style={{color:'white'}}>Please use a desktop for</h1>
+              </span>
+             
+          </div>
+          <div className="mb-4 flex justify-center" style={{ display: 'flex' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '15px', color: 'white' }}>
+              <h1 style={{color:'white'}}> better experience</h1>
+              </span>
+             
+          </div>
+          <div className="mb-4 flex justify-center" style={{ display: 'flex' }}>
+              <span style={{ fontSize: '12px', color: 'white', display:'flex' , gap: '5px'}}>
+              <h1 style={{color:'white'}}>Mobile version is under contruction</h1>
+              <LiaToolsSolid size={15} />
+              </span>
+             
+          </div>
+        
+        </div>
+      </div>
+    );
+  }
 
   return (
    <div className="background">
