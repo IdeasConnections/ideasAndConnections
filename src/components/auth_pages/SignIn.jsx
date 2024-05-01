@@ -73,7 +73,7 @@ const SignIn = () => {
           </div>
           <div className="mb-4 flex justify-center" style={{ display: 'flex' }}>
               <span style={{ fontSize: '12px', color: 'white', display:'flex' , gap: '5px'}}>
-              <h1 style={{color:'white'}}>Mobile version is under contruction</h1>
+              <h1 style={{color:'white'}}>Mobile version is under construction</h1>
               <LiaToolsSolid size={15} />
               </span>
              
