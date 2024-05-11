@@ -68,10 +68,6 @@ getComments(postId, setCommentList, setCommentCount);
     fetchUsers();
   }, []);
 
-  const filteredImages = usersList
-    .filter((item) => item.uid === commentList.userId)
-    .map((item) => item.imageLink);
-    console.log('comments checking',filteredImages)
 
   return (
     <div className="like-container">

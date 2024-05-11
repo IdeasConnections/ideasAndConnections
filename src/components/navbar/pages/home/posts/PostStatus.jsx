@@ -19,8 +19,6 @@ export default function PostStatus() {
   const [currentImage, setCurrentImage] = useState({})
   const[postImage, setPostImage] = useState('')
   const userName = (user?.firstName && user?.lastName) ? `${user.firstName} ${user.lastName}` : user?.displayName;
-  console.log('cheking the use dara for the posts', user)
-  console.log('post username assignemt checking', userName)
   const sendStatus = async () => {
     let obj = {
       status: status,
@@ -51,7 +49,6 @@ export default function PostStatus() {
     toast.success("Post updated successfully.");
   }
   const sortedStatus = [...allStatus].sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
-  console.log('sssss', sortedStatus)
   useMemo(() => {
     getStatus(setAllStatus);
   }, [getStatus]);
