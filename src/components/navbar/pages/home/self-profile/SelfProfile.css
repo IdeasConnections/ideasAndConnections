@@ -1,5 +1,5 @@
 .self-profile{
-   height: 500px;
+   height: 600px;
    width: 250px;
    margin-left: 150px;
 }
@@ -24,7 +24,7 @@
     padding: 5px;
     cursor: pointer;
     position: absolute;
-    bottom: 300px;
+    bottom: 400px;
     left: calc(71% - 125px); /* Half of the image width */
     z-index: 1;
 }
@@ -58,9 +58,27 @@
     margin-top: 5px;
     gap: 100px;
     color: #474646bb;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 400;
 }
 .view-count{
     color: rgb(96, 140, 237);
+}
+.rc-heading{  
+    margin-top: 5px;
+    margin-bottom: 10px;
+    gap: 100px;
+    color: #474646bb;
+    font-size: 15px;
+    font-weight: 400;
+}
+.rc-date{
+    color: black;
+    font-size: 14px;
+}
+.rc-list{
+    color: rgb(96, 140, 237);
+    font-size: 12px;
+    list-style-type: disc;
+    margin-left: 8px;
 }

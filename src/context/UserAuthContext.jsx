@@ -24,6 +24,7 @@ import {
   query,
   where,
   deleteDoc,
+  Timestamp 
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { isEqual } from "date-fns";
@@ -41,6 +42,7 @@ export function UserAuthContextProvider({ children }) {
   const postRef = collection(db, "posts");
   const likeRef = collection(db, "likes");
   const commentRef = collection(db, "comments");
+  const recentActivityRef = collection(db, 'recent_activities');
 
   async function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password).then(
@@ -151,8 +153,10 @@ export function UserAuthContextProvider({ children }) {
       .then(() => {
         console.log("profile updated");
         setUser((prevUser) => ({ ...prevUser, ...payload }));
+       
       })
       .catch((err) => console.log(err));
+     await addRecentActivity(userID, 'profile_details',null);
   }
 
   async function uploadImage(file, id, setModalOpen, setProgress) {
@@ -176,6 +180,7 @@ export function UserAuthContextProvider({ children }) {
         });
       }
     );
+
   }
 
   async function uploadCoverPhoto(file, id, setModalOpen, setProgress) {
@@ -250,7 +255,9 @@ export function UserAuthContextProvider({ children }) {
         deleteDoc(docToLike);
       } else {
         setDoc(docToLike, { userId, postId });
+        await addRecentActivity(userId, 'like',postId);
       }
+     
     } catch (err) {
       console.log(err);
     }
@@ -280,6 +287,7 @@ export function UserAuthContextProvider({ children }) {
         userProfilePhoto
       });
       console.log(postId, 'postId')
+      await addRecentActivity(useruid, 'comment',postId);
     } catch (err) {
       console.log(err);
     }
@@ -359,6 +367,51 @@ export function UserAuthContextProvider({ children }) {
     );
   }
 
+  async function addRecentActivity(userId, activityType, postId=null) {
+    try {
+        const timestamp = Timestamp.now();
+        await addDoc(recentActivityRef, {
+            userId,
+            activityType,
+            timestamp,
+            postId
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function getRecentActivity(userId) {
+  try { 
+      const q = query(recentActivityRef, where("userId", "==", userId));   
+      const querySnapshot = await getDocs(q);
+      const recentActivities = [];
+      for (const docSnapshot of querySnapshot.docs) {
+          const activity = {
+              activityType: docSnapshot.data().activityType,
+              postId: docSnapshot.data().postId,
+              timestamp: docSnapshot.data().timestamp.toDate(),
+          };
+          const postDocRef = doc(postRef, activity.postId); 
+          const postDocSnapshot = await getDoc(postDocRef);
+          if (postDocSnapshot.exists()) { 
+              const postData = postDocSnapshot.data();
+              activity.postUsername = postData.userName; 
+          }
+          recentActivities.push(activity);
+      }
+
+      console.log(recentActivities);
+
+      return recentActivities;
+  } catch (err) {
+      console.log(err);
+      return [];
+  }
+}
+
+
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
       console.log("Auth", currentuser);
@@ -411,7 +464,8 @@ export function UserAuthContextProvider({ children }) {
         getComments,
         updatePost,
         deletePost,
-        uploadPostImage
+        uploadPostImage,
+        getRecentActivity
       }}
     >
       {children}

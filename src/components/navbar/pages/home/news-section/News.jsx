@@ -37,7 +37,7 @@ export default function News() {
         <Card.Body>
           <p className="heading">Top News</p>
           <ul className="article-list">
-            {articles.map((article, index) => (
+            {articles?.map((article, index) => (
               <li key={index}>
                 <h3>
                   <a
