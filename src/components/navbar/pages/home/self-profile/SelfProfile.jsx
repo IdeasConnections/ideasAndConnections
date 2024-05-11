@@ -7,6 +7,7 @@ import { useUserAuth } from "../../../../../context/UserAuthContext";
 export default function SelfProfile() {
   const { user } = useUserAuth();
   const userName = (user?.firstName && user?.lastName) ? `${user.firstName} ${user.lastName}` : user?.displayName;
+  const profileView = user?.profileCount?.length
   return (
     <>
       <Card className="self-profile">
@@ -27,7 +28,7 @@ export default function SelfProfile() {
         <div className="view-count-main">
         
           <p>Profile Viewers</p>
-          <h1 className="view-count">0</h1>
+          <h1 className="view-count">{profileView}</h1>
           </div>
         </Card.Body>
       </Card>
