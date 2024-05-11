@@ -17,7 +17,12 @@ import SearchUsers from "./pages/searchUsers/SearchUsers";
 import defaultProfile from "../../assets/profile.png";
 
 const Navbar = () => {
-  const { logOut, darkMode, toggleDarkMode, getAllUsers } = useUserAuth();
+  const { logOut, darkMode, user, toggleDarkMode, getAllUsers, editProfile } = useUserAuth();
+  const [editInputs, setEditInputs] = useState({
+    
+    profileCount:user?.profileCount || [],
+    
+})
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [usersList, setUsersList] = useState([]);
@@ -70,6 +75,17 @@ const Navbar = () => {
       console.log(error.message);
     }
   };
+
+
+  const handleResultClick = (users) =>{
+    if(user?.uid !== users.id ) {
+      const updatedInputs =  user?.uid ;
+      const profileIds = { ...editInputs, profileCount: editInputs.profileCount.includes(updatedInputs) 
+        ? [...editInputs.profileCount]
+        : [...editInputs.profileCount, updatedInputs]  };
+      editProfile(users?.id, profileIds);
+    }
+  }
 
   const goToRouter = (route) => {
     navigate(route);
@@ -139,17 +155,17 @@ const Navbar = () => {
           {filteredUsers.length === 0 ? (
             <div className="search-inner">No Data</div>
           ):
-         ( filteredUsers.map((users) => (
-            <div className="search-inner" >
-              <img src={users.imageLink || defaultProfile} />
-              {users.firstName && users.lastName ? (
-                <>
-                  {users.firstName} {users.lastName}
-                </>
-              ) : (
-                <>{users.displayName}</>
-              )}
-            </div>
+         ( filteredUsers.map((users, index) => (
+          <div className="search-inner" key={index} onClick={() => handleResultClick(users)}>
+          <img src={users.imageLink || defaultProfile} alt="User Profile" />
+          {users.firstName && users.lastName ? (
+            <>
+              {users.firstName} {users.lastName}
+            </>
+          ) : (
+            <>{users.displayName}</>
+          )}
+        </div>
           )))
           }
        
