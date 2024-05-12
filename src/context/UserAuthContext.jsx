@@ -24,7 +24,9 @@ import {
   query,
   where,
   deleteDoc,
-  Timestamp 
+  Timestamp,
+  or,
+  and
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { isEqual } from "date-fns";
@@ -36,7 +38,7 @@ export function UserAuthContextProvider({ children }) {
 
   const [user, setUser] = useState({});
   const [darkMode, setDarkMode] = useState(false);
-
+  
   const userRef = collection(db, "users");
   const connectionRef = collection(db, "connections");
   const postRef = collection(db, "posts");
@@ -206,14 +208,53 @@ export function UserAuthContextProvider({ children }) {
     );
   }
 
-  async function getAllUsers() {
+
+  async function getAllUsers(userId, setUsersList) {
     try {
       const usersSnapshot = await getDocs(userRef);
+      //var singleconnection = await query(connectionRef, where("userId", "==", userId), where("flag", "==", "Pending"))
+      
+      var reqconnection;
+      
+      console.log(userId, "jdjabdjbasjdbasjdbjadbjasbdjsbdj")
+      var singleconnection = await query(connectionRef, and(where("userId", "==", userId), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
       const users = [];
-      usersSnapshot.forEach((doc) => {
-        users.push({ id: doc.id, ...doc.data() });
-      });
-      return users;
+      onSnapshot(singleconnection, async (res) => {
+        var userconnection = [];
+        reqconnection = res.docs.map((doc) => doc.data());
+          for (var i = 0; i < reqconnection.length; i++) {
+            var newData = reqconnection[i]['targetId'];
+            userconnection.push(newData);
+            console.log(userconnection)
+           // return userconnection;
+           usersSnapshot.forEach((doc) => {
+            console.log(doc);
+            const isIdPresent = users.some(user => user.id === doc.id);
+            if (!isIdPresent) {
+              users.push({ id: doc.id, ...doc.data() });
+          } 
+            //users.push({ id: doc.id, ...doc.data() });
+          });
+    
+          console.log(users, "userlist");
+          for (let i = 0; i < users.length; i++) {
+            console.log(userconnection,"bcbxbchxbchxb");
+            for (let j = 0; j < userconnection.length; j++) {
+              if (users[i].id === userconnection[j]) {
+                users.splice(i, 1);
+                break;
+              }
+            }
+          }
+          setUsersList(users);
+          }
+        })
+
+      // singleconnection.forEach((doc) => {
+      //   connection.push({ id: doc.id, ...doc.data() });
+      // });
+      
+      
     } catch (error) {
       console.error("Error fetching users:", error);
       throw error;

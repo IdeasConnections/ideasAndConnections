@@ -13,8 +13,7 @@ import defaultProfile from '../../../../assets/profile.png'
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const allUsers = await getAllUsers();
-        setUsersList(allUsers);
+        const allUsers = await getAllUsers(user.uid, setUsersList);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -55,20 +54,20 @@ import defaultProfile from '../../../../assets/profile.png'
               <div className='connection-name'>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                   <img
-                    src={user.name.imageLink || defaultProfile}
+                    src={user?.name?.imageLink || defaultProfile}
                     className="conn-img"
                   />
-                  {user.name.firstName && user.name.lastName ? (
-                    <>{user.name.firstName} {user.name.lastName}</>
+                  {user?.name?.firstName && user?.name?.lastName ? (
+                    <>{user?.name?.firstName} {user?.name?.lastName}</>
                   ) : (
                     <>
-                      {user.name.displayName}
+                      {user?.name?.displayName}
                     </>
                   )}
                 </div>
-                <p>{user.name.headline}</p>
+                <p>{user?.name?.headline}</p>
               </div>
-              <button className='connect-button'>{user.flag}</button>
+              <button className='connect-button'>{user?.flag}</button>
             </li>
           ))
         ))}
