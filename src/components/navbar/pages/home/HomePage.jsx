@@ -17,9 +17,9 @@ export default function HomePage() {
             <Col>
               <PostStatus />
             </Col>
-            <Col>
+            {/* <Col>
               <News />
-            </Col>
+            </Col> */}
           </Row>
         </Card.Body>
       </Card>
