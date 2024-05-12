@@ -220,14 +220,69 @@ export function UserAuthContextProvider({ children }) {
     }
   }
 
-  async function addConnection(userId, targetId) {
+  async function addConnection(userId, targetId, flag) {
     try {
       let userToConnect = doc(connectionRef, `${userId}_${targetId}`);
-      setDoc(userToConnect, { userId, targetId });
+      setDoc(userToConnect, { userId, targetId, flag });
     } catch (err) {
       console.log(err);
     }
   }
+
+  async function getConnection(userId, setconnectionsList) {
+    try {
+        console.log(userId, "useiisdhi")
+
+        var reqconnection;
+        var recvconnection;
+        var connection = [];
+        var singleconnection = await query(connectionRef, where("userId", "==", userId), where("flag", "==", "Pending"))
+
+        onSnapshot(singleconnection, async (res) => {
+            reqconnection = res.docs.map((doc) => doc.data());
+            for (var i = 0; i < reqconnection.length; i++) {
+              var newData = reqconnection[i];
+              console.log(newData)
+              const userDocRef = doc(userRef, reqconnection[i]['targetId']);
+              const userDocSnapshot = await getDoc(userDocRef);
+              if (userDocSnapshot.exists()) {
+                  const userData = userDocSnapshot.data();
+                  newData['name'] = userData
+              }
+              connection.push({"reqconnection" : reqconnection});
+              
+              console.log(connection)
+              setconnectionsList(connection);
+             // setconnectionsList(connection);
+            }
+        })
+
+        //var reqconnection;
+        var reqsingleconnection = await query(connectionRef, where("targetId", "==", userId))
+
+        onSnapshot(reqsingleconnection, async (res) => {
+            recvconnection = res.docs.map((doc) => doc.data());
+            for (var i = 0; i < recvconnection.length; i++) {
+              var newData = recvconnection[i];
+              console.log(newData)
+              const userDocRef = doc(userRef, recvconnection[i]['userId']);
+              const userDocSnapshot = await getDoc(userDocRef);
+              if (userDocSnapshot.exists()) {
+                  const userData = userDocSnapshot.data();
+                  newData['name'] = userData
+              }
+              connection.push({"recvconnection" : recvconnection});
+             // connection.push(recvconnection);
+              
+              console.log(connection)
+              setconnectionsList(connection);
+            
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
 
   async function postStatus(obj) {
     addDoc(postRef, obj)
@@ -463,6 +518,7 @@ async function getRecentActivity(userId) {
         postComment,
         getComments,
         updatePost,
+        getConnection,
         deletePost,
         uploadPostImage,
         getRecentActivity
