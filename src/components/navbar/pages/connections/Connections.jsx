@@ -14,7 +14,7 @@ import defaultProfile from '../../../../assets/profile.png'
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers(user.uid, setUsersList);
-        setUsersList(allUsers)
+        //setUsersList(allUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
       }

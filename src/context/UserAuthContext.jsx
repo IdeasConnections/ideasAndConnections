@@ -209,55 +209,62 @@ export function UserAuthContextProvider({ children }) {
   }
 
 
-  async function getAllUsers(userId, setUsersList) {
+  async function getAllUsers(userId = null, setUsersList) {
     try {
       const usersSnapshot = await getDocs(userRef);
       //var singleconnection = await query(connectionRef, where("userId", "==", userId), where("flag", "==", "Pending"))
       const users = [];
-      var reqconnection;
-      if(userId==null){
+      console.log(userId, "bdhsdbsdbhsbdhsbdhsbdhbshdbshdbh")
+      if(userId == null || userId == "") {
         usersSnapshot.forEach((doc) => {
           users.push({ id: doc.id, ...doc.data() });
         });
-        setUsersList(users);
-      }
-      else{
-        console.log(userId, "jdjabdjbasjdbasjdbjadbjasbdjsbdj")
-        var singleconnection = await query(connectionRef, and(where("userId", "==", userId), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
+        console.log(users);
+        //setUsersList(users); 
+        return users;
+      } else {
+        var reqconnection;
       
-        onSnapshot(singleconnection, async (res) => {
-          var userconnection = [];
-          reqconnection = res.docs.map((doc) => doc.data());
-            for (var i = 0; i < reqconnection.length; i++) {
-              var newData = reqconnection[i]['targetId'];
-              userconnection.push(newData);
-              console.log(userconnection)
-             // return userconnection;
-             usersSnapshot.forEach((doc) => {
-              console.log(doc);
-              const isIdPresent = users.some(user => user.id === doc.id);
-              if (!isIdPresent) {
-                users.push({ id: doc.id, ...doc.data() });
-            } 
-              //users.push({ id: doc.id, ...doc.data() });
-            });
+      console.log(userId, "jdjabdjbasjdbasjdbjadbjasbdjsbdj")
+      var singleconnection = await query(connectionRef, and(or(where("userId", "==", userId), (where("targetId", "==", userId) )), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
       
-            console.log(users, "userlist");
-            for (let i = 0; i < users.length; i++) {
-              console.log(userconnection,"bcbxbchxbchxb");
-              for (let j = 0; j < userconnection.length; j++) {
-                if (users[i].id === userconnection[j]) {
-                  users.splice(i, 1);
-                  break;
-                }
+      onSnapshot(singleconnection, async (res) => {
+        var userconnection = [];
+        reqconnection = res.docs.map((doc) => doc.data());
+          for (var i = 0; i < reqconnection.length; i++) {
+            var newData = reqconnection[i]['targetId'];
+            userconnection.push(newData);
+            console.log(userconnection)
+           // return userconnection;
+           usersSnapshot.forEach((doc) => {
+            console.log(doc);
+            const isIdPresent = users.some(user => user.id === doc.id);
+            if (!isIdPresent) {
+              users.push({ id: doc.id, ...doc.data() });
+          } 
+            //users.push({ id: doc.id, ...doc.data() });
+          });
+    
+          console.log(users, "userlist");
+          for (let i = 0; i < users.length; i++) {
+            console.log(userconnection,"bcbxbchxbchxb");
+            for (let j = 0; j < userconnection.length; j++) {
+              if (users[i].id === userconnection[j]) {
+                users.splice(i, 1);
+                break;
               }
             }
-            setUsersList(users);
-            }
-          })
+          }
+          console.log(users)
+          setUsersList(users);
+          //return users;  
+          }
+        })
+        //setUsersList(users);
+        return users;
       }
+      //return users;
       
-    
 
       // singleconnection.forEach((doc) => {
       //   connection.push({ id: doc.id, ...doc.data() });
@@ -272,7 +279,11 @@ export function UserAuthContextProvider({ children }) {
 
   async function addConnection(userId, targetId, flag) {
     try {
-      let userToConnect = doc(connectionRef, `${userId}_${targetId}`);
+      if(flag == "Accept") {
+        var userToConnect = doc(connectionRef, `${targetId}_${userId}`);
+      } else {
+        var userToConnect = doc(connectionRef, `${userId}_${targetId}`);
+      }
       setDoc(userToConnect, { userId, targetId, flag });
     } catch (err) {
       console.log(err);
