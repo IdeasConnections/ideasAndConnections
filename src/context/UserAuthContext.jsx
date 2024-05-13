@@ -213,42 +213,51 @@ export function UserAuthContextProvider({ children }) {
     try {
       const usersSnapshot = await getDocs(userRef);
       //var singleconnection = await query(connectionRef, where("userId", "==", userId), where("flag", "==", "Pending"))
-      
-      var reqconnection;
-      
-      console.log(userId, "jdjabdjbasjdbasjdbjadbjasbdjsbdj")
-      var singleconnection = await query(connectionRef, and(where("userId", "==", userId), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
       const users = [];
-      onSnapshot(singleconnection, async (res) => {
-        var userconnection = [];
-        reqconnection = res.docs.map((doc) => doc.data());
-          for (var i = 0; i < reqconnection.length; i++) {
-            var newData = reqconnection[i]['targetId'];
-            userconnection.push(newData);
-            console.log(userconnection)
-           // return userconnection;
-           usersSnapshot.forEach((doc) => {
-            console.log(doc);
-            const isIdPresent = users.some(user => user.id === doc.id);
-            if (!isIdPresent) {
-              users.push({ id: doc.id, ...doc.data() });
-          } 
-            //users.push({ id: doc.id, ...doc.data() });
-          });
-    
-          console.log(users, "userlist");
-          for (let i = 0; i < users.length; i++) {
-            console.log(userconnection,"bcbxbchxbchxb");
-            for (let j = 0; j < userconnection.length; j++) {
-              if (users[i].id === userconnection[j]) {
-                users.splice(i, 1);
-                break;
+      var reqconnection;
+      if(userId==null){
+        usersSnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+        setUsersList(users);
+      }
+      else{
+        console.log(userId, "jdjabdjbasjdbasjdbjadbjasbdjsbdj")
+        var singleconnection = await query(connectionRef, and(where("userId", "==", userId), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
+      
+        onSnapshot(singleconnection, async (res) => {
+          var userconnection = [];
+          reqconnection = res.docs.map((doc) => doc.data());
+            for (var i = 0; i < reqconnection.length; i++) {
+              var newData = reqconnection[i]['targetId'];
+              userconnection.push(newData);
+              console.log(userconnection)
+             // return userconnection;
+             usersSnapshot.forEach((doc) => {
+              console.log(doc);
+              const isIdPresent = users.some(user => user.id === doc.id);
+              if (!isIdPresent) {
+                users.push({ id: doc.id, ...doc.data() });
+            } 
+              //users.push({ id: doc.id, ...doc.data() });
+            });
+      
+            console.log(users, "userlist");
+            for (let i = 0; i < users.length; i++) {
+              console.log(userconnection,"bcbxbchxbchxb");
+              for (let j = 0; j < userconnection.length; j++) {
+                if (users[i].id === userconnection[j]) {
+                  users.splice(i, 1);
+                  break;
+                }
               }
             }
-          }
-          setUsersList(users);
-          }
-        })
+            setUsersList(users);
+            }
+          })
+      }
+      
+    
 
       // singleconnection.forEach((doc) => {
       //   connection.push({ id: doc.id, ...doc.data() });

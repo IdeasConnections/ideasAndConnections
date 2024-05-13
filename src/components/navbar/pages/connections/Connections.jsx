@@ -14,6 +14,7 @@ import defaultProfile from '../../../../assets/profile.png'
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers(user.uid, setUsersList);
+        setUsersList(allUsers)
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -108,7 +109,7 @@ import defaultProfile from '../../../../assets/profile.png'
       <Card className={`connections`}>
         <Card.Body>
         <ul>
-        {usersList
+        {usersList && usersList
         .filter(users=> users.id !== user?.uid )
         .map(users => (
           <li key={users.id} className='connection-item'>
