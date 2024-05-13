@@ -209,16 +209,25 @@ export function UserAuthContextProvider({ children }) {
   }
 
 
-  async function getAllUsers(userId, setUsersList) {
+  async function getAllUsers(userId = null, setUsersList) {
     try {
       const usersSnapshot = await getDocs(userRef);
       //var singleconnection = await query(connectionRef, where("userId", "==", userId), where("flag", "==", "Pending"))
-      
-      var reqconnection;
+      const users = [];
+      console.log(userId, "bdhsdbsdbhsbdhsbdhsbdhbshdbshdbh")
+      if(userId == null || userId == "") {
+        usersSnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+        console.log(users);
+        //setUsersList(users); 
+        return users;
+      } else {
+        var reqconnection;
       
       console.log(userId, "jdjabdjbasjdbasjdbjadbjasbdjsbdj")
-      var singleconnection = await query(connectionRef, and(where("userId", "==", userId), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
-      const users = [];
+      var singleconnection = await query(connectionRef, and(or(where("userId", "==", userId), (where("targetId", "==", userId) )), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
+      
       onSnapshot(singleconnection, async (res) => {
         var userconnection = [];
         reqconnection = res.docs.map((doc) => doc.data());
@@ -246,9 +255,16 @@ export function UserAuthContextProvider({ children }) {
               }
             }
           }
+          console.log(users)
           setUsersList(users);
+          //return users;  
           }
         })
+        //setUsersList(users);
+        return users;
+      }
+      //return users;
+      
 
       // singleconnection.forEach((doc) => {
       //   connection.push({ id: doc.id, ...doc.data() });
@@ -263,7 +279,11 @@ export function UserAuthContextProvider({ children }) {
 
   async function addConnection(userId, targetId, flag) {
     try {
-      let userToConnect = doc(connectionRef, `${userId}_${targetId}`);
+      if(flag == "Accept") {
+        var userToConnect = doc(connectionRef, `${targetId}_${userId}`);
+      } else {
+        var userToConnect = doc(connectionRef, `${userId}_${targetId}`);
+      }
       setDoc(userToConnect, { userId, targetId, flag });
     } catch (err) {
       console.log(err);
