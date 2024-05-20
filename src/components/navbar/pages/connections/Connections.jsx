@@ -4,6 +4,7 @@ import "./Connections.css";
 import { useUserAuth } from "../../../../context/UserAuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import defaultProfile from "../../../../assets/profile.png";
+import { Users2Icon } from "lucide-react";
 
 const Connections = () => {
   const { getAllUsers, addConnection, user, getConnection } = useUserAuth();
@@ -51,6 +52,7 @@ const Connections = () => {
         <Card className={`connections`}>
           <Card.Body>
             <CardTitle>Your request</CardTitle>
+            <hr />
             <ul>
               {connectionsList.map((connection) =>
                 connection?.reqconnection?.map((user) => (
@@ -68,15 +70,19 @@ const Connections = () => {
                             src={user?.name?.imageLink || defaultProfile}
                             className="conn-img"
                           />
-                          {user?.name?.firstName && user?.name?.lastName ? (
-                            <>
-                              {user?.name?.firstName} {user?.name?.lastName}
-                            </>
-                          ) : (
-                            <>{user?.name?.displayName}</>
-                          )}
+                          <div className="ml-2">
+                            {user?.name?.firstName && user?.name?.lastName ? (
+                              <>
+                                {user?.name?.firstName} {user?.name?.lastName}
+                              </>
+                            ) : (
+                              <>{user?.name?.displayName}</>
+                            )}
+                            <p className="conn-headline">
+                              {user?.name?.headline}
+                            </p>
+                          </div>
                         </div>
-                        <p>{user?.name?.headline}</p>
                       </div>
                       <div className="col mr-2">
                         <div className="row">
@@ -97,6 +103,7 @@ const Connections = () => {
         <Card className={`connections`}>
           <CardBody>
             <CardTitle>Invitations</CardTitle>
+            <hr />
             <div>
               <ul>
                 {connectionsList.map((connection) =>
@@ -115,15 +122,19 @@ const Connections = () => {
                               src={user.name.imageLink || defaultProfile}
                               className="conn-img"
                             />
-                            {user.name.firstName && user.name.lastName ? (
-                              <>
-                                {user.name.firstName} {user.name.lastName}
-                              </>
-                            ) : (
-                              <>{user.name.displayName}</>
-                            )}
+                            <div className="ml-2">
+                              {user.name.firstName && user.name.lastName ? (
+                                <>
+                                  {user.name.firstName} {user.name.lastName}
+                                </>
+                              ) : (
+                                <>{user.name.displayName}</>
+                              )}
+                              <p className="conn-headline">
+                                {user.name.headline}
+                              </p>
+                            </div>
                           </div>
-                          <p>{user.name.headline}</p>
                         </div>
                         <div className="col mr-2">
                           <div className="row">
@@ -159,11 +170,37 @@ const Connections = () => {
         <Card className={`connections`}>
           <Card.Body>
             <CardTitle>People you may know</CardTitle>
+            <hr />
             <ul>
               {usersList
-                .filter((users) => users.id !== user?.uid)
+                .filter((users) => users?.id !== user?.uid)
                 .map((users) => (
-                  <li key={users.id} className="connection-item">
+                  <li key={users?.id} className="connection-item">
+                    {/* <div className="card" >
+                      <img
+                        src={Users2Icon?.name?.imageLink || defaultProfile}
+                        className="conn-img"
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">
+                          {users?.name?.firstName && users?.name?.lastName ? (
+                            <>
+                              {users?.name?.firstName} {users?.name?.lastName}
+                            </>
+                          ) : (
+                            <>{users?.name?.displayName}</>
+                          )}
+                        </h5>
+                        <div className="card-text">
+                          <p className="conn-headline">
+                            {users?.name?.headline}
+                          </p>
+                        </div>
+                        <button className="connect-button col ">
+                          {users?.flag}
+                        </button>
+                      </div>
+                    </div> */}
                     <div className="row">
                       <div className="connection-name col-10">
                         <div
@@ -177,16 +214,17 @@ const Connections = () => {
                             src={users.imageLink || defaultProfile}
                             className="conn-img"
                           />
-                          {users.firstName && users.lastName ? (
-                            <>
-                              {users.firstName} {users.lastName}
-                            </>
-                          ) : (
-                            <>{users.displayName}</>
-                          )}
+                          <div className="ml-2">
+                            {users.firstName && users.lastName ? (
+                              <>
+                                {users.firstName} {users.lastName}
+                              </>
+                            ) : (
+                              <>{users.displayName}</>
+                            )}
+                            <p>{users.headline}</p>
+                          </div>
                         </div>
-
-                        <p>{users.headline}</p>
                       </div>
                       <div className="col mr-2">
                         <div className="row">

@@ -1,7 +1,6 @@
 .connections{
     background-color: white;
     color: black;
-    min-height: 30vh;
     min-width: 80vw;
     margin-top: 10px;
     overflow-y: auto;
@@ -10,6 +9,10 @@
 .connections-card-container{
     background-color: white;
     
+}
+.card-body hr {
+  margin-top: 1rem;  /* Adjust margin as needed */
+  margin-bottom: 1rem;
 }
 .connection-item {
     border: 1px solid #ccc; /* Add border to each user item */
@@ -41,4 +44,7 @@
     object-fit: contain;
     height: 45px;
     border: 1px solid rgb(168, 167, 167);
+  }
+  .conn-headline{
+    margin-top: 2px;
   }
