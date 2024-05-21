@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./PostStatus.css";
-import { Card, CardBody } from "react-bootstrap";
+import { Card, CardBody, Container } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import ModalPost from "./modal/ModalPost";
-import { AiOutlinePicture, AiOutlineEdit} from "react-icons/ai";
+import { AiOutlinePicture, AiOutlineEdit } from "react-icons/ai";
 import { useUserAuth } from "../../../../../context/UserAuthContext";
 import PostCard from "./PostCard";
 import { getCurrentDateTimeStamp } from "../../../../helpers/useMoment";
@@ -17,7 +17,7 @@ export default function PostStatus() {
   const [isEdit, setIsEdit] = useState(false);
   const [currentPost, setCurrentPost] = useState({})
   const [currentImage, setCurrentImage] = useState({})
-  const[postImage, setPostImage] = useState('')
+  const [postImage, setPostImage] = useState('')
   const userName = (user?.firstName && user?.lastName) ? `${user.firstName} ${user.lastName}` : user?.displayName;
   const sendStatus = async () => {
     let obj = {
@@ -38,13 +38,13 @@ export default function PostStatus() {
   const getEditData = (posts) => {
     setModalOpen(true);
     setCurrentPost(posts)
-    setStatus( posts?.status);
+    setStatus(posts?.status);
     setPostImage(posts?.postImage)
     setIsEdit(true);
   };
 
-  const updateStatus = () =>{
-    updatePost(currentPost.id, status,postImage)
+  const updateStatus = () => {
+    updatePost(currentPost.id, status, postImage)
     setModalOpen(false)
     toast.success("Post updated successfully.");
   }
@@ -70,16 +70,16 @@ export default function PostStatus() {
           </div>
         </Card.Body>
         <div className="outer-container">
-        <AiOutlinePicture size={30} className="post-picture" onClick={() => {
-          setModalOpen(true)
-          setIsEdit(false)
-        }}/>{"Media"}
-         <AiOutlineEdit size={30} className="post-picture" onClick={() => {
-          setModalOpen(true)
-          setIsEdit(false)
-        }}/>{"Write article"}
+          <AiOutlinePicture size={30} className="post-picture" onClick={() => {
+            setModalOpen(true)
+            setIsEdit(false)
+          }} />{"Media"}
+          <AiOutlineEdit size={30} className="post-picture" onClick={() => {
+            setModalOpen(true)
+            setIsEdit(false)
+          }} />{"Write article"}
         </div>
-       
+
         <ModalPost
           sendStatus={sendStatus}
           setStatus={setStatus}
@@ -87,17 +87,17 @@ export default function PostStatus() {
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           isEdit={isEdit}
-          updateStatus= {updateStatus}
+          updateStatus={updateStatus}
           uploadPostImage={uploadPostImage}
           setPostImage={setPostImage}
           postImage={postImage}
         />
       </Card>
-      <div>
+
       {sortedStatus.map((posts, index) => (
         <PostCard key={index} posts={posts} getEditData={getEditData} />
       ))}
-    </div>
+
 
       <ToastContainer />
     </>

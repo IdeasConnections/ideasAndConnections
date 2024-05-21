@@ -1,7 +1,6 @@
 .self-profile{
    height: 600px;
-   width: 250px;
-   margin-left: 150px;
+   margin-left: 15px;
 }
 .cover-photo-container-p {
     position: relative;
@@ -56,7 +55,7 @@
     align-items: center; /* aligns items along the cross-axis (vertically) */
     text-align: center; 
     margin-top: 5px;
-    gap: 100px;
+    gap: 40px;
     color: #474646bb;
     font-size: 15px;
     font-weight: 400;
