@@ -15,7 +15,7 @@ const Connections = () => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers(user.uid, setUsersList);
-        console.log("the all users", allUsers);
+        //setUsersList(allUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
