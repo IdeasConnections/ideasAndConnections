@@ -1,8 +1,8 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
-import {getAuth} from 'firebase/auth'
-import {getFirestore} from 'firebase/firestore'
-import {getStorage} from 'firebase/storage'
+import { getAuth } from "firebase/auth";
+import { collection, getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCgodMJZ53j9eVSG40xvAU0MUOF9_1n48g",
@@ -14,8 +14,15 @@ const firebaseConfig = {
   measurementId: "G-XBSZRZ2441",
 };
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app)
-export const db = getFirestore(app)
-export const storage = getStorage(app)
-export default app
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+// Define collection references
+export const usersCollection = collection(db, "users");
+export const connectionsCollection = collection(db, "connections");
+export const postsCollection = collection(db, "posts");
+export const likesCollection = collection(db, "likes");
+export const commentsCollection = collection(db, "comments");
+export const recentActivityCollections = collection(db, "recent_activities");
 
+export default app;

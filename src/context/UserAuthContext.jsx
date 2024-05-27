@@ -1,35 +1,36 @@
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import {
+  Timestamp,
+  addDoc,
+  and,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  or,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  GoogleAuthProvider,
-  signInWithPopup,
-  FacebookAuthProvider,
-  sendPasswordResetEmail,
-  sendEmailVerification,
-} from "firebase/auth";
-import { auth, db, storage } from "../firebase";
-import {
-  collection,
-  doc,
-  setDoc,
-  updateDoc,
-  getDoc,
-  getDocs,
-  addDoc,
-  onSnapshot,
-  query,
-  where,
-  deleteDoc,
-  Timestamp,
-  or,
-  and
-} from "firebase/firestore";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { isEqual } from "date-fns";
+  auth,
+  commentsCollection,
+  connectionsCollection,
+  likesCollection,
+  recentActivityCollections,
+  storage,
+  usersCollection,
+} from "../firebase";
 
 const userAuthContext = createContext();
 
@@ -38,25 +39,6 @@ export function UserAuthContextProvider({ children }) {
 
   const [user, setUser] = useState({});
   const [darkMode, setDarkMode] = useState(false);
-  
-  const userRef = collection(db, "users");
-  const connectionRef = collection(db, "connections");
-  const postRef = collection(db, "posts");
-  const likeRef = collection(db, "likes");
-  const commentRef = collection(db, "comments");
-  const recentActivityRef = collection(db, 'recent_activities');
-
-  async function logIn(email, password) {
-    return signInWithEmailAndPassword(auth, email, password).then(
-      (userCredential) => {
-        if (userCredential.user.emailVerified) {
-          return userCredential;
-        } else {
-          throw new Error("Email not verified");
-        }
-      }
-    );
-  }
 
   async function signUp(
     email,
@@ -75,7 +57,7 @@ export function UserAuthContextProvider({ children }) {
       const user = userCredential.user;
       await sendEmailVerification(auth.currentUser);
       try {
-        await setDoc(doc(userRef, user.uid), {
+        await setDoc(doc(usersCollection, user.uid), {
           email,
           firstName,
           lastName,
@@ -93,52 +75,6 @@ export function UserAuthContextProvider({ children }) {
     }
   }
 
-  function logOut() {
-    return signOut(auth);
-  }
-  async function googleSignIn() {
-    const googleAuthProvider = new GoogleAuthProvider();
-
-    try {
-      const result = await signInWithPopup(auth, googleAuthProvider);
-      const user = result.user;
-
-      const userDocRef = doc(userRef, user.uid);
-
-      // Check if the user document exists in Firestore before writing data
-      try {
-        const userDocSnapshot = await getDoc(userDocRef);
-
-        if (!userDocSnapshot.exists()) {
-          // User document doesn't exist, create it with extracted data
-          await setDoc(userDocRef, {
-            displayName: user.displayName,
-            email: user.email,
-            // Add any other relevant user data you want to store
-          });
-        } else {
-          console.log(
-            "User document already exists in Firestore, data not re-written."
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching user document:", error);
-        throw error; // Re-throw the error to be handled appropriately
-      }
-
-      return result;
-    } catch (error) {
-      // Handle Google sign-in errors here
-      console.error("Google sign-in error:", error);
-      throw error; // Re-throw the error for centralized handling
-    }
-  }
-
-  function facebookSignIn() {
-    const facebookAuthProvider = new FacebookAuthProvider();
-    return signInWithPopup(auth, facebookAuthProvider);
-  }
-
   function forgotPassword(email) {
     return sendPasswordResetEmail(auth, email);
   }
@@ -148,17 +84,15 @@ export function UserAuthContextProvider({ children }) {
     setDarkMode((prevMode) => !prevMode);
   }
 
- 
   async function editProfile(userID, payload) {
-    let userToEdit = doc(userRef, userID);
+    let userToEdit = doc(usersCollection, userID);
     await updateDoc(userToEdit, payload)
       .then(() => {
         console.log("profile updated");
         setUser((prevUser) => ({ ...prevUser, ...payload }));
-       
       })
       .catch((err) => console.log(err));
-     await addRecentActivity(userID, 'profile_details',null);
+    await addRecentActivity(userID, "profile_details", null);
   }
 
   async function uploadImage(file, id, setModalOpen, setProgress) {
@@ -182,7 +116,6 @@ export function UserAuthContextProvider({ children }) {
         });
       }
     );
-
   }
 
   async function uploadCoverPhoto(file, id, setModalOpen, setProgress) {
@@ -208,69 +141,69 @@ export function UserAuthContextProvider({ children }) {
     );
   }
 
-
   async function getAllUsers(userId = null, setUsersList) {
     try {
-      const usersSnapshot = await getDocs(userRef);
-      //var singleconnection = await query(connectionRef, where("userId", "==", userId), where("flag", "==", "Pending"))
+      const usersSnapshot = await getDocs(usersCollection);
+      //var singleconnection = await query(connectionsCollection, where("userId", "==", userId), where("flag", "==", "Pending"))
       const users = [];
-      console.log(userId, "bdhsdbsdbhsbdhsbdhsbdhbshdbshdbh")
-      if(userId == null || userId == "") {
+
+      if (userId == null || userId == "") {
         usersSnapshot.forEach((doc) => {
           users.push({ id: doc.id, ...doc.data() });
         });
         console.log(users);
-        //setUsersList(users); 
+        //setUsersList(users);
         return users;
       } else {
         var reqconnection;
-      
-      console.log(userId, "jdjabdjbasjdbasjdbjadbjasbdjsbdj")
-      var singleconnection = await query(connectionRef, and(or(where("userId", "==", userId), (where("targetId", "==", userId) )), or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))));
-      
-      onSnapshot(singleconnection, async (res) => {
-        var userconnection = [];
-        reqconnection = res.docs.map((doc) => doc.data());
+        var singleconnection = query(
+          connectionsCollection,
+          and(
+            or(where("userId", "==", userId), where("targetId", "==", userId)),
+            or(where("flag", "==", "Pending"), where("flag", "==", "Accept"))
+          )
+        );
+
+        onSnapshot(singleconnection, async (res) => {
+          var userconnection = [];
+          reqconnection = res.docs.map((doc) => doc.data());
           for (var i = 0; i < reqconnection.length; i++) {
-            var newData = reqconnection[i]['targetId'];
+            var newData = reqconnection[i]["targetId"];
             userconnection.push(newData);
-            console.log(userconnection)
-           // return userconnection;
-           usersSnapshot.forEach((doc) => {
-            console.log(doc);
-            const isIdPresent = users.some(user => user.id === doc.id);
-            if (!isIdPresent) {
-              users.push({ id: doc.id, ...doc.data() });
-          } 
-            //users.push({ id: doc.id, ...doc.data() });
-          });
-    
-          console.log(users, "userlist");
-          for (let i = 0; i < users.length; i++) {
-            console.log(userconnection,"bcbxbchxbchxb");
-            for (let j = 0; j < userconnection.length; j++) {
-              if (users[i].id === userconnection[j]) {
-                users.splice(i, 1);
-                break;
+            console.log(userconnection);
+            // return userconnection;
+            usersSnapshot.forEach((doc) => {
+              console.log(doc);
+              const isIdPresent = users.some((user) => user.id === doc.id);
+              if (!isIdPresent) {
+                users.push({ id: doc.id, ...doc.data() });
+              }
+              //users.push({ id: doc.id, ...doc.data() });
+            });
+
+            console.log(users, "userlist");
+            for (let i = 0; i < users.length; i++) {
+              console.log(userconnection, "bcbxbchxbchxb");
+              for (let j = 0; j < userconnection.length; j++) {
+                if (users[i].id === userconnection[j]) {
+                  users.splice(i, 1);
+                  break;
+                }
               }
             }
+            console.log(users);
+            setUsersList(users);
+            //return users;
           }
-          console.log(users)
-          setUsersList(users);
-          //return users;  
-          }
-        })
+        });
         //setUsersList(users);
         return users;
       }
       //return users;
-      
 
       // singleconnection.forEach((doc) => {
       //   connection.push({ id: doc.id, ...doc.data() });
       // });
-      
-      
     } catch (error) {
       console.error("Error fetching users:", error);
       throw error;
@@ -279,10 +212,10 @@ export function UserAuthContextProvider({ children }) {
 
   async function addConnection(userId, targetId, flag) {
     try {
-      if(flag == "Accept") {
-        var userToConnect = doc(connectionRef, `${targetId}_${userId}`);
+      if (flag == "Accept") {
+        var userToConnect = doc(connectionsCollection, `${targetId}_${userId}`);
       } else {
-        var userToConnect = doc(connectionRef, `${userId}_${targetId}`);
+        var userToConnect = doc(connectionsCollection, `${userId}_${targetId}`);
       }
       setDoc(userToConnect, { userId, targetId, flag });
     } catch (err) {
@@ -292,61 +225,67 @@ export function UserAuthContextProvider({ children }) {
 
   async function getConnection(userId, setconnectionsList) {
     try {
-        console.log(userId, "useiisdhi")
+      console.log(userId, "useiisdhi");
 
-        var reqconnection;
-        var recvconnection;
-        var connection = [];
-        var singleconnection = await query(connectionRef, where("userId", "==", userId), where("flag", "==", "Pending"))
+      var reqconnection;
+      var recvconnection;
+      var connection = [];
+      var singleconnection = query(
+        connectionsCollection,
+        where("userId", "==", userId),
+        where("flag", "==", "Pending")
+      );
 
-        onSnapshot(singleconnection, async (res) => {
-            reqconnection = res.docs.map((doc) => doc.data());
-            for (var i = 0; i < reqconnection.length; i++) {
-              var newData = reqconnection[i];
-              console.log(newData)
-              const userDocRef = doc(userRef, reqconnection[i]['targetId']);
-              const userDocSnapshot = await getDoc(userDocRef);
-              if (userDocSnapshot.exists()) {
-                  const userData = userDocSnapshot.data();
-                  newData['name'] = userData
-              }
-              connection.push({"reqconnection" : reqconnection});
-              
-              console.log(connection)
-              setconnectionsList(connection);
-             // setconnectionsList(connection);
-            }
-        })
+      onSnapshot(singleconnection, async (res) => {
+        reqconnection = res.docs.map((doc) => doc.data());
+        for (var i = 0; i < reqconnection.length; i++) {
+          var newData = reqconnection[i];
+          console.log(newData);
+          const userDocRef = doc(usersCollection, reqconnection[i]["targetId"]);
+          const userDocSnapshot = await getDoc(userDocRef);
+          if (userDocSnapshot.exists()) {
+            const userData = userDocSnapshot.data();
+            newData["name"] = userData;
+          }
+          connection.push({ reqconnection: reqconnection });
 
-        //var reqconnection;
-        var reqsingleconnection = await query(connectionRef, where("targetId", "==", userId))
+          console.log(connection);
+          setconnectionsList(connection);
+          // setconnectionsList(connection);
+        }
+      });
 
-        onSnapshot(reqsingleconnection, async (res) => {
-            recvconnection = res.docs.map((doc) => doc.data());
-            for (var i = 0; i < recvconnection.length; i++) {
-              var newData = recvconnection[i];
-              console.log(newData)
-              const userDocRef = doc(userRef, recvconnection[i]['userId']);
-              const userDocSnapshot = await getDoc(userDocRef);
-              if (userDocSnapshot.exists()) {
-                  const userData = userDocSnapshot.data();
-                  newData['name'] = userData
-              }
-              connection.push({"recvconnection" : recvconnection});
-             // connection.push(recvconnection);
-              
-              console.log(connection)
-              setconnectionsList(connection);
-            
-            }
-        })
+      //var reqconnection;
+      var reqsingleconnection = query(
+        connectionsCollection,
+        where("targetId", "==", userId)
+      );
+
+      onSnapshot(reqsingleconnection, async (res) => {
+        recvconnection = res.docs.map((doc) => doc.data());
+        for (var i = 0; i < recvconnection.length; i++) {
+          var newData = recvconnection[i];
+          console.log(newData);
+          const userDocRef = doc(usersCollection, recvconnection[i]["userId"]);
+          const userDocSnapshot = await getDoc(userDocRef);
+          if (userDocSnapshot.exists()) {
+            const userData = userDocSnapshot.data();
+            newData["name"] = userData;
+          }
+          connection.push({ recvconnection: recvconnection });
+          // connection.push(recvconnection);
+
+          console.log(connection);
+          setconnectionsList(connection);
+        }
+      });
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-}
+  }
 
   async function postStatus(obj) {
-    addDoc(postRef, obj)
+    addDoc(postsCollection, obj)
       .then((res) => {
         console.log("Document added");
       })
@@ -356,7 +295,7 @@ export function UserAuthContextProvider({ children }) {
   }
 
   async function getStatus(setAllStatus) {
-    onSnapshot(postRef, (response) => {
+    onSnapshot(postsCollection, (response) => {
       setAllStatus(
         response.docs.map((docs) => {
           return { ...docs.data(), id: docs.id };
@@ -366,21 +305,20 @@ export function UserAuthContextProvider({ children }) {
   }
   async function likePost(userId, postId, liked) {
     try {
-      let docToLike = doc(likeRef, `${userId}_${postId}`);
+      let docToLike = doc(likesCollection, `${userId}_${postId}`);
       if (liked) {
         deleteDoc(docToLike);
       } else {
         setDoc(docToLike, { userId, postId });
-        await addRecentActivity(userId, 'like',postId);
+        await addRecentActivity(userId, "like", postId);
       }
-     
     } catch (err) {
       console.log(err);
     }
   }
   async function getLikesByUser(userId, postId, setLikesCount, setLiked) {
     try {
-      let likeQuery = query(likeRef, where("postId", "==", postId));
+      let likeQuery = query(likesCollection, where("postId", "==", postId));
       onSnapshot(likeQuery, (res) => {
         let likes = res.docs.map((doc) => doc.data());
         let likesCount = likes?.length;
@@ -392,53 +330,60 @@ export function UserAuthContextProvider({ children }) {
       console.log(err);
     }
   }
-  async function postComment(postId, comment, timeStamp, userName, useruid,userProfilePhoto) {
+  async function postComment(
+    postId,
+    comment,
+    timeStamp,
+    userName,
+    useruid,
+    userProfilePhoto
+  ) {
     try {
-      addDoc(commentRef, {
+      addDoc(commentsCollection, {
         postId,
         comment,
         timeStamp,
         userName,
         useruid,
-        userProfilePhoto
+        userProfilePhoto,
       });
-      console.log(postId, 'postId')
-      await addRecentActivity(useruid, 'comment',postId);
+      console.log(postId, "postId");
+      await addRecentActivity(useruid, "comment", postId);
     } catch (err) {
       console.log(err);
     }
   }
 
   async function getComments(postId, setCommentList, setCommentCount) {
-    try{
-      console.log(postId, 'post id')
-      let comments
-      let singlePostQuery = await query(commentRef, where("postId", "==",  postId))
-      onSnapshot(singlePostQuery, async(res)=> {  
-         comments = res.docs.map((doc) => doc.data());
-      console.log(comments, 'commentsCange1')
+    try {
+      console.log(postId, "post id");
+      let comments;
+      let singlePostQuery = query(
+        commentsCollection,
+        where("postId", "==", postId)
+      );
+      onSnapshot(singlePostQuery, async (res) => {
+        comments = res.docs.map((doc) => doc.data());
+        console.log(comments, "commentsCange1");
         // let newRes = await JSON.parse(res)
         // res.docs.map((doc) => {
         //  console.log(doc, 'doc')
         //   return {
         //     id: doc.id,
         //     ...doc.data(),
-           
+
         //   }
         // })
         setCommentList(comments);
         setCommentCount(comments.length); // Set the comment count
-      
-      })
-      
-    }
-    catch(err) {
-      console.log(err)
+      });
+    } catch (err) {
+      console.log(err);
     }
   }
 
   async function updatePost(id, status, postImage) {
-    let postToUpdate = doc(postRef, id);
+    let postToUpdate = doc(postsCollection, id);
     try {
       if (postImage) {
         await updateDoc(postToUpdate, { status, postImage });
@@ -449,15 +394,13 @@ export function UserAuthContextProvider({ children }) {
       console.log(err);
     }
   }
-  
 
-  async function deletePost (id) {
-    let postToDelete = doc(postRef,id)
-    try{
-      deleteDoc(postToDelete)
-    }
-    catch(err){
-      console.log(err)
+  async function deletePost(id) {
+    let postToDelete = doc(postsCollection, id);
+    try {
+      deleteDoc(postToDelete);
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -470,63 +413,61 @@ export function UserAuthContextProvider({ children }) {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        setProgress(progress)
+        setProgress(progress);
       },
       (error) => {
         alert(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((response) => {
-          setPostImage(response)
+          setPostImage(response);
         });
       }
     );
   }
 
-  async function addRecentActivity(userId, activityType, postId=null) {
+  async function addRecentActivity(userId, activityType, postId = null) {
     try {
-        const timestamp = Timestamp.now();
-        await addDoc(recentActivityRef, {
-            userId,
-            activityType,
-            timestamp,
-            postId
-        });
+      const timestamp = Timestamp.now();
+      await addDoc(recentActivityCollections, {
+        userId,
+        activityType,
+        timestamp,
+        postId,
+      });
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-}
+  }
 
-async function getRecentActivity(userId) {
-  try { 
-      const q = query(recentActivityRef, where("userId", "==", userId));   
+  async function getRecentActivity(userId) {
+    try {
+      const q = query(recentActivityCollections, where("userId", "==", userId));
       const querySnapshot = await getDocs(q);
       const recentActivities = [];
       for (const docSnapshot of querySnapshot.docs) {
-          const activity = {
-              activityType: docSnapshot.data().activityType,
-              postId: docSnapshot.data().postId,
-              timestamp: docSnapshot.data().timestamp.toDate(),
-          };
-          const postDocRef = doc(postRef, activity.postId); 
-          const postDocSnapshot = await getDoc(postDocRef);
-          if (postDocSnapshot.exists()) { 
-              const postData = postDocSnapshot.data();
-              activity.postUsername = postData.userName; 
-          }
-          recentActivities.push(activity);
+        const activity = {
+          activityType: docSnapshot.data().activityType,
+          postId: docSnapshot.data().postId,
+          timestamp: docSnapshot.data().timestamp.toDate(),
+        };
+        const postDocRef = doc(postsCollection, activity.postId);
+        const postDocSnapshot = await getDoc(postDocRef);
+        if (postDocSnapshot.exists()) {
+          const postData = postDocSnapshot.data();
+          activity.postUsername = postData.userName;
+        }
+        recentActivities.push(activity);
       }
 
       console.log(recentActivities);
 
       return recentActivities;
-  } catch (err) {
+    } catch (err) {
       console.log(err);
       return [];
+    }
   }
-}
-
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
@@ -536,7 +477,7 @@ async function getRecentActivity(userId) {
         navigate("/");
       }
       if (currentuser) {
-        const userDocRef = doc(userRef, currentuser.uid);
+        const userDocRef = doc(usersCollection, currentuser.uid);
         try {
           const userDocSnapshot = await getDoc(userDocRef);
           if (userDocSnapshot.exists()) {
@@ -559,11 +500,8 @@ async function getRecentActivity(userId) {
     <userAuthContext.Provider
       value={{
         user,
-        logIn,
         signUp,
-        logOut,
-        googleSignIn,
-        facebookSignIn,
+
         forgotPassword,
         darkMode,
         toggleDarkMode,
@@ -582,7 +520,7 @@ async function getRecentActivity(userId) {
         getConnection,
         deletePost,
         uploadPostImage,
-        getRecentActivity
+        getRecentActivity,
       }}
     >
       {children}

@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from "react";
-import "./Navbar.css";
-import { useUserAuth } from "../../context/UserAuthContext";
-import logo from "../../assets/logo.png";
-import { useNavigate } from "react-router-dom";
-import {
-  AiOutlineHome,
-  AiOutlineUser,
-  AiOutlinePoweroff,
-} from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { AiOutlineHome, AiOutlinePoweroff } from "react-icons/ai";
+import { FaMoon, FaRegUser, FaSun } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
-import { MdOutlineNotifications } from "react-icons/md";
+import { MdOutlineMessage, MdOutlineNotifications } from "react-icons/md";
 import { PiSuitcaseSimpleLight } from "react-icons/pi";
-import { MdOutlineMessage } from "react-icons/md";
-import { FaRegUser, FaMoon, FaSun } from "react-icons/fa";
-import SearchUsers from "./pages/searchUsers/SearchUsers";
+import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.png";
 import defaultProfile from "../../assets/profile.png";
+import { useUserAuth } from "../../context/UserAuthContext";
+import { logOut } from "../../context/signin";
+import "./Navbar.css";
+import SearchUsers from "./pages/searchUsers/SearchUsers";
 
 const Navbar = () => {
-  const { logOut, darkMode, user, toggleDarkMode, getAllUsers, editProfile } = useUserAuth();
+  const { darkMode, user, toggleDarkMode, getAllUsers, editProfile } =
+    useUserAuth();
   const [editInputs, setEditInputs] = useState({
-    
-    profileCount:user?.profileCount || [],
-    
-})
+    profileCount: user?.profileCount || [],
+  });
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [usersList, setUsersList] = useState([]);
@@ -33,6 +28,7 @@ const Navbar = () => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
+        console.log("loading users", allUsers);
         setUsersList(allUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -76,16 +72,18 @@ const Navbar = () => {
     }
   };
 
-
-  const handleResultClick = (users) =>{
-    if(user?.uid !== users.id ) {
-      const updatedInputs =  user?.uid ;
-      const profileIds = { ...editInputs, profileCount: editInputs.profileCount.includes(updatedInputs) 
-        ? [...editInputs.profileCount]
-        : [...editInputs.profileCount, updatedInputs]  };
+  const handleResultClick = (users) => {
+    if (user?.uid !== users.id) {
+      const updatedInputs = user?.uid;
+      const profileIds = {
+        ...editInputs,
+        profileCount: editInputs.profileCount.includes(updatedInputs)
+          ? [...editInputs.profileCount]
+          : [...editInputs.profileCount, updatedInputs],
+      };
       editProfile(users?.id, profileIds);
     }
-  }
+  };
 
   const goToRouter = (route) => {
     navigate(route);
@@ -102,45 +100,48 @@ const Navbar = () => {
         <SearchUsers setSearchInput={setSearchInput} />
       </div>
 
-      <div className="menu" onClick={toggleMenu}>
+      <div className='menu' onClick={toggleMenu}>
         <span></span>
         <span></span>
         <span></span>
       </div>
       <ul className={menuOpen ? "open" : ""}>
-        <li className="icon-with-text" onClick={() => goToRouter("/home")}>
+        <li className='icon-with-text' onClick={() => goToRouter("/home")}>
           <AiOutlineHome size={20} />
           <p>Home</p>
         </li>
-        <li className="icon-with-text" onClick={() => goToRouter("/connections")} > 
+        <li
+          className='icon-with-text'
+          onClick={() => goToRouter("/connections")}
+        >
           <FiUsers size={20} />
           <p>Connections</p>
         </li>
-        <li className="icon-with-text">
+        <li className='icon-with-text'>
           <PiSuitcaseSimpleLight size={20} />
           <p>Jobs</p>
         </li>
-        <li className="icon-with-text">
+        <li className='icon-with-text'>
           <MdOutlineMessage size={20} />
           <p>Messages</p>
         </li>
-        <li className="icon-with-text">
+        <li className='icon-with-text'>
           <MdOutlineNotifications size={20} />
           <p>Notifications</p>
         </li>
-        <li className="icon-with-text" onClick={() => goToRouter("/profile")}>
+        <li className='icon-with-text' onClick={() => goToRouter("/profile")}>
           <FaRegUser size={20} />
           <p>My Profile</p>
         </li>
 
-        <li className="icon-with-text" onClick={handleLogout}>
+        <li className='icon-with-text' onClick={handleLogout}>
           <AiOutlinePoweroff size={20} />
           <p>Log out</p>
         </li>
         <li>
-          <button className="dark-mode-toggle" onClick={toggleDarkMode}>
+          <button className='dark-mode-toggle' onClick={toggleDarkMode}>
             {darkMode ? (
-              <FaSun size={20} color="#ffffff" />
+              <FaSun size={20} color='#ffffff' />
             ) : (
               <FaMoon size={20} />
             )}
@@ -151,24 +152,30 @@ const Navbar = () => {
       {searchInput.length === 0 ? (
         <></>
       ) : (
-        <div className="search-results">
+        <div className='search-results'>
           {filteredUsers.length === 0 ? (
-            <div className="search-inner">No Data</div>
-          ):
-         ( filteredUsers.map((users, index) => (
-          <div className="search-inner" key={index} onClick={() => handleResultClick(users)}>
-          <img src={users.imageLink || defaultProfile} alt="User Profile" />
-          {users.firstName && users.lastName ? (
-            <>
-              {users.firstName} {users.lastName}
-            </>
+            <div className='search-inner'>No Data</div>
           ) : (
-            <>{users.displayName}</>
+            filteredUsers.map((users, index) => (
+              <div
+                className='search-inner'
+                key={index}
+                onClick={() => handleResultClick(users)}
+              >
+                <img
+                  src={users.imageLink || defaultProfile}
+                  alt='User Profile'
+                />
+                {users.firstName && users.lastName ? (
+                  <>
+                    {users.firstName} {users.lastName}
+                  </>
+                ) : (
+                  <>{users.displayName}</>
+                )}
+              </div>
+            ))
           )}
-        </div>
-          )))
-          }
-       
         </div>
       )}
     </nav>
