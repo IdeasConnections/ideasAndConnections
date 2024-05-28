@@ -65,3 +65,41 @@ export async function logIn(email, password) {
 export async function logOut() {
   return signOut(auth);
 }
+export async function signUp(
+  email,
+  password,
+  firstName,
+  lastName,
+  fullPhoneNumber,
+  country
+) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    await sendEmailVerification(auth.currentUser);
+    try {
+      await setDoc(doc(usersCollection, user.uid), {
+        email,
+        firstName,
+        lastName,
+        phoneNumber: fullPhoneNumber,
+        country,
+      });
+    } catch (error) {
+      console.error("Error adding user data to Firestore:", error);
+      // Additional error handling, e.g., displaying an error message to the user
+    }
+
+    return userCredential;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export function forgotPassword(email) {
+  return sendPasswordResetEmail(auth, email);
+}

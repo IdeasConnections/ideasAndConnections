@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { Alert, Button, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useUserAuth } from "../../context/UserAuthContext.jsx";
+import { forgotPassword } from "../../context/userAuth.js";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { forgotPassword } = useUserAuth();
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();

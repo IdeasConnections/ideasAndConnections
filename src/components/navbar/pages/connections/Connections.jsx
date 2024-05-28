@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardBody, CardTitle } from "react-bootstrap";
-import "./Connections.css";
-import { useUserAuth } from "../../../../context/UserAuthContext";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import defaultProfile from "../../../../assets/profile.png";
-import { Users2Icon } from "lucide-react";
+import { useUserAuth } from "../../../../context/UserContext";
+import "./Connections.css";
 
 const Connections = () => {
   const { getAllUsers, addConnection, user, getConnection } = useUserAuth();
@@ -27,7 +26,6 @@ const Connections = () => {
           user.uid,
           setconnectionsList
         );
-        console.log(connectionsList, "All connections");
       } catch (error) {
         console.log("Error fetching connection:");
       }
@@ -48,7 +46,7 @@ const Connections = () => {
 
   return (
     <>
-      <div className="connections-card-container d-flex flex-column  align-items-center ">
+      <div className='connections-card-container d-flex flex-column  align-items-center '>
         <Card className={`connections`}>
           <Card.Body>
             <CardTitle>Your request</CardTitle>
@@ -56,9 +54,9 @@ const Connections = () => {
             <ul>
               {connectionsList.map((connection) =>
                 connection?.reqconnection?.map((user) => (
-                  <li key={user.userId} className="connection-item">
-                    <div className="row">
-                      <div className="connection-name col-10">
+                  <li key={user.userId} className='connection-item'>
+                    <div className='row'>
+                      <div className='connection-name col-10'>
                         <div
                           style={{
                             display: "flex",
@@ -68,9 +66,9 @@ const Connections = () => {
                         >
                           <img
                             src={user?.name?.imageLink || defaultProfile}
-                            className="conn-img"
+                            className='conn-img'
                           />
-                          <div className="ml-2">
+                          <div className='ml-2'>
                             {user?.name?.firstName && user?.name?.lastName ? (
                               <>
                                 {user?.name?.firstName} {user?.name?.lastName}
@@ -78,15 +76,15 @@ const Connections = () => {
                             ) : (
                               <>{user?.name?.displayName}</>
                             )}
-                            <p className="conn-headline">
+                            <p className='conn-headline'>
                               {user?.name?.headline}
                             </p>
                           </div>
                         </div>
                       </div>
-                      <div className="col mr-2">
-                        <div className="row">
-                          <button className="connect-button col ">
+                      <div className='col mr-2'>
+                        <div className='row'>
+                          <button className='connect-button col '>
                             {user?.flag}
                           </button>
                         </div>
@@ -99,7 +97,7 @@ const Connections = () => {
           </Card.Body>
         </Card>
       </div>
-      <div className="connections-card-container d-flex flex-column justify-content-center align-items-center flex ">
+      <div className='connections-card-container d-flex flex-column justify-content-center align-items-center flex '>
         <Card className={`connections`}>
           <CardBody>
             <CardTitle>Invitations</CardTitle>
@@ -108,9 +106,9 @@ const Connections = () => {
               <ul>
                 {connectionsList.map((connection) =>
                   connection?.recvconnection?.map((user) => (
-                    <li key={user.userId} className="connection-item">
-                      <div className="row">
-                        <div className="connection-name col-10">
+                    <li key={user.userId} className='connection-item'>
+                      <div className='row'>
+                        <div className='connection-name col-10'>
                           <div
                             style={{
                               display: "flex",
@@ -120,9 +118,9 @@ const Connections = () => {
                           >
                             <img
                               src={user.name.imageLink || defaultProfile}
-                              className="conn-img"
+                              className='conn-img'
                             />
-                            <div className="ml-2">
+                            <div className='ml-2'>
                               {user.name.firstName && user.name.lastName ? (
                                 <>
                                   {user.name.firstName} {user.name.lastName}
@@ -130,16 +128,16 @@ const Connections = () => {
                               ) : (
                                 <>{user.name.displayName}</>
                               )}
-                              <p className="conn-headline">
+                              <p className='conn-headline'>
                                 {user.name.headline}
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className="col mr-2">
-                          <div className="row">
+                        <div className='col mr-2'>
+                          <div className='row'>
                             <button
-                              className="accept-button col"
+                              className='accept-button col'
                               onClick={() => {
                                 getCurrentUser(user.userId, "Accept");
                               }}
@@ -147,7 +145,7 @@ const Connections = () => {
                               Accept
                             </button>
                             <button
-                              className="ignore-button col"
+                              className='ignore-button col'
                               onClick={() => {
                                 getCurrentUser(user.userId, "Ignore");
                               }}
@@ -166,7 +164,7 @@ const Connections = () => {
         </Card>
       </div>
 
-      <div className="connections-card-container d-flex flex-column justify-content-center align-items-center flex ">
+      <div className='connections-card-container d-flex flex-column justify-content-center align-items-center flex '>
         <Card className={`connections`}>
           <Card.Body>
             <CardTitle>People you may know</CardTitle>
@@ -175,7 +173,7 @@ const Connections = () => {
               {usersList
                 .filter((users) => users?.id !== user?.uid)
                 .map((users) => (
-                  <li key={users?.id} className="connection-item">
+                  <li key={users?.id} className='connection-item'>
                     {/* <div className="card" >
                       <img
                         src={Users2Icon?.name?.imageLink || defaultProfile}
@@ -201,8 +199,8 @@ const Connections = () => {
                         </button>
                       </div>
                     </div> */}
-                    <div className="row">
-                      <div className="connection-name col-10">
+                    <div className='row'>
+                      <div className='connection-name col-10'>
                         <div
                           style={{
                             display: "flex",
@@ -212,9 +210,9 @@ const Connections = () => {
                         >
                           <img
                             src={users.imageLink || defaultProfile}
-                            className="conn-img"
+                            className='conn-img'
                           />
-                          <div className="ml-2">
+                          <div className='ml-2'>
                             {users.firstName && users.lastName ? (
                               <>
                                 {users.firstName} {users.lastName}
@@ -226,10 +224,10 @@ const Connections = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col mr-2">
-                        <div className="row">
+                      <div className='col mr-2'>
+                        <div className='row'>
                           <button
-                            className="connect-button "
+                            className='connect-button '
                             onClick={() => {
                               getCurrentUser(users.id, "Pending");
                             }}

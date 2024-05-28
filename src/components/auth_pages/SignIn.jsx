@@ -4,7 +4,7 @@ import { isMobile, isTablet } from "react-device-detect";
 import { LiaToolsSolid } from "react-icons/lia";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { facebookSignIn, googleSignIn, logIn } from "../../context/signin";
+import { facebookSignIn, googleSignIn, logIn } from "../../context/userAuth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

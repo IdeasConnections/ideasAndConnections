@@ -3,7 +3,7 @@ import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { countries } from "../../assets/countries.js";
 import logo from "../../assets/logo.png";
-import { useUserAuth } from "../../context/UserAuthContext.jsx";
+import { signUp } from "../../context/userAuth.js";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
-  const { signUp } = useUserAuth();
+
   let navigate = useNavigate();
 
   const handleSubmit = async (e) => {

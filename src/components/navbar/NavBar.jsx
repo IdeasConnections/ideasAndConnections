@@ -7,14 +7,15 @@ import { PiSuitcaseSimpleLight } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import defaultProfile from "../../assets/profile.png";
-import { useUserAuth } from "../../context/UserAuthContext";
-import { logOut } from "../../context/signin";
+import { useUserAuth } from "../../context/UserContext";
+
+import { editProfile } from "../../context/profile";
+
 import "./Navbar.css";
 import SearchUsers from "./pages/searchUsers/SearchUsers";
 
 const Navbar = () => {
-  const { darkMode, user, toggleDarkMode, getAllUsers, editProfile } =
-    useUserAuth();
+  const { darkMode, user, toggleDarkMode, getAllUsers } = useUserAuth();
   const [editInputs, setEditInputs] = useState({
     profileCount: user?.profileCount || [],
   });
@@ -28,7 +29,7 @@ const Navbar = () => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        console.log("loading users", allUsers);
+
         setUsersList(allUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
