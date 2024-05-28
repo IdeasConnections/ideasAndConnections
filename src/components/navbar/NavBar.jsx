@@ -41,11 +41,11 @@ const Navbar = () => {
   const handleSearch = () => {
     if (searchInput !== "") {
       let searched = usersList.filter((user) => {
-        return Object.values(user)
-          .join("")
-          .toLocaleLowerCase()
+        return user?.displayName
+          ?.toLocaleLowerCase()
           .includes(searchInput.toLocaleLowerCase());
       });
+      console.log("filtered user", searchInput);
       setfilteredUsers(searched);
     } else {
       setfilteredUsers(usersList);

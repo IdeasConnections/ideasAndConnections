@@ -10,7 +10,7 @@ import PostCard from "./PostCard";
 import "./PostStatus.css";
 
 export default function PostStatus() {
-  const { postStatus, user, updatePost, uploadPostImage } = useUserAuth();
+  const { user } = useUserAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState("");
   const [allStatus, setAllStatus] = useState([]);
@@ -95,7 +95,7 @@ export default function PostStatus() {
           {"Write article"}
         </div>
 
-        <ModalPost
+        {/* <ModalPost
           sendStatus={sendStatus}
           setStatus={setStatus}
           status={status}
@@ -106,7 +106,7 @@ export default function PostStatus() {
           uploadPostImage={uploadPostImage}
           setPostImage={setPostImage}
           postImage={postImage}
-        />
+        /> */}
       </Card>
 
       {sortedStatus.map((posts, index) => (

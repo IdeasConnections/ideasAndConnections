@@ -9,7 +9,7 @@ import NavBar from "./components/navbar/NavBar";
 import Connections from "./components/navbar/pages/connections/Connections";
 import HomePage from "./components/navbar/pages/home/HomePage";
 import Profile from "./components/navbar/pages/profile/Profile";
-import { UserAuthContextProvider } from "./context/UserAuthContext";
+import { UserAuthContextProvider } from "./context/UserContext";
 
 function App() {
   return (
